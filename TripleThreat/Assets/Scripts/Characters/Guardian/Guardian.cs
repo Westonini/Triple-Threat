@@ -15,9 +15,17 @@ public class Guardian : PlayerCharacter //Inherits from PlayerCharacter
         base.Movement();
     }
 
+    //Guardian takes 0 additional damage when hurt.
+    //Guardian's knockback power is 200.
+    public override void TakeDamage(int damageReceived, Vector3 hitFrom)
+    {
+        knockbackPower = 750;
+        base.TakeDamage(damageReceived, hitFrom);
+    }
+
     //Guardian's action
     //Hold left click to bring up your shield. As long as you're facing the direction that you're getting hit at with your shield up, you won't take any damage.
-    protected override void Action<T>(T component)
+    public override void DealDamage<T>(T component)
     {
         //Set actionScript to equal the component passed in as a parameter, in this case it was the GuardianAction script.
         GuardianAction actionScript = component as GuardianAction;

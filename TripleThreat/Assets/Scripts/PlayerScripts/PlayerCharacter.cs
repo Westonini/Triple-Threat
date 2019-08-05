@@ -7,7 +7,7 @@ public abstract class PlayerCharacter : MonoBehaviour
 {
     private Rigidbody rb;
     protected float walkSpeed;
-    private Vector3 movement;
+    protected int knockbackPower;
 
     private Camera mainCam;
 
@@ -15,11 +15,17 @@ public abstract class PlayerCharacter : MonoBehaviour
 
     private LayerMask aimArea;
 
+    [HideInInspector]
+    public bool isInvincible;
+    private bool isGettingKnockedback;
+
     public delegate void PlayerControl();
     public static event PlayerControl PlayerControls;
 
+    public static bool gameOver;
+
     //Happens when a character gets enabled
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         rb = GetComponent<Rigidbody>();
         mainCam = Camera.main;
@@ -40,6 +46,12 @@ public abstract class PlayerCharacter : MonoBehaviour
         PlayerControls -= Aim;
     }
 
+    void Start()
+    {
+        //Reset the static variable, playerHealth, at the start of each scene
+        playerHealth = 10;
+    }
+
     void Update()
     {
         //Calls all the functions subscribed to the PlayerControls event every frame.
@@ -54,7 +66,12 @@ public abstract class PlayerCharacter : MonoBehaviour
         float moveVertical = Input.GetAxisRaw("Vertical");
 
         //Changes the velocity of the character depending on their move direction multiplied by their speed.
-        rb.velocity = new Vector3(moveHorizontal, 0, moveVertical).normalized * walkSpeed;
+        //Disable player-controlled movement while they're getting knockedback
+        if (!isGettingKnockedback)
+        {
+            rb.velocity = new Vector3(moveHorizontal, 0, moveVertical).normalized * walkSpeed;
+        }
+
 
         //Ground Check
         if (!GroundCheck.playerIsTouchingGround)
@@ -80,17 +97,43 @@ public abstract class PlayerCharacter : MonoBehaviour
 
     //TakeDamage is to be called in Enemy classes for when they hit a player.
     //Character takes more or less damage depending on which character they are.
-    protected virtual void TakeDamage(int damageReceived)
+    //Takes in parameters "damageReceived" which is how much damage is coming in, and "hitFrom" which is the position the enemy is getting hitfrom to calculate the knockback direction
+    public virtual void TakeDamage(int damageReceived, Vector3 hitFrom)
     {
         playerHealth -= damageReceived;
 
-        //Knock player back
+        //Kill the player and restart scene if their health is <= 0
+        if (playerHealth <= 0)
+        {
+            //Sets gameOver to true, destroying all objects tagged "Player" and restarting the scene within the SceneRestart gameobject.
+            gameOver = true;
+        }
+        else
+        {
+            //Knock player back
+            rb.AddForce((transform.position - hitFrom).normalized * knockbackPower, ForceMode.Acceleration);
 
-        //Play sound fx
+            //Short invincibility after getting hit
+            StartCoroutine("Invincibility");
 
-        //Show player getting hurt and show health being lost
+            //Play sound fx
+
+            //Show player getting hurt and show health being lost
+        }
     }
 
-    //Each character can perform a different action.
-    protected abstract void Action <T>(T component) where T : Component;
+    //Short invincibility after getting hit
+    //Also sets isGettingKnockedback to true for a short duration to prevent player from moving during knockback
+    private IEnumerator Invincibility()
+    {
+        isGettingKnockedback = true;
+        isInvincible = true;
+        yield return new WaitForSeconds(0.15f);
+        isGettingKnockedback = false;
+        yield return new WaitForSeconds(0.10f);
+        isInvincible = false;
+    }
+
+    //Abstract function used to deal damage to an enemy. In the child classes it'll take in an EnemyCharacter script.
+    public abstract void DealDamage <T>(T component) where T : Component;
 }

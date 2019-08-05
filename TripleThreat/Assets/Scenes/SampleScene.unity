@@ -516,6 +516,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90d23e889cd31c0489ab99ca9b3b821a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvincible: 0
 --- !u!1 &161058209
 GameObject:
   m_ObjectHideFlags: 0
@@ -561,7 +562,7 @@ GameObject:
   - component: {fileID: 361403688}
   m_Layer: 0
   m_Name: GroundCheck
-  m_TagString: Player
+  m_TagString: PlayerGC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1087,6 +1088,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d90ee0d051f13a9469811c55f7dd6299, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvincible: 0
 --- !u!1 &880497101
 GameObject:
   m_ObjectHideFlags: 0
@@ -1099,6 +1101,7 @@ GameObject:
   - component: {fileID: 880497105}
   - component: {fileID: 880497104}
   - component: {fileID: 880497103}
+  - component: {fileID: 880497106}
   m_Layer: 0
   m_Name: AttackCollider
   m_TagString: Untagged
@@ -1179,6 +1182,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &880497106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880497101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62eee5c7bf76f84459b221d126956e72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHit: {fileID: 0}
 --- !u!1 &907608833
 GameObject:
   m_ObjectHideFlags: 0
@@ -1285,6 +1301,7 @@ GameObject:
   - component: {fileID: 963194229}
   - component: {fileID: 963194230}
   - component: {fileID: 963194231}
+  - component: {fileID: 963194232}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1473,6 +1490,18 @@ MonoBehaviour:
   - {fileID: 1248926925}
   - {fileID: 1665470407}
   - {fileID: 35121930}
+--- !u!114 &963194232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7afa4ddf418c494ba3878d3714a04e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &968149619
 GameObject:
   m_ObjectHideFlags: 0
@@ -1599,6 +1628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba7671e7ba723e64687f1027e909449f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvincible: 0
 --- !u!1 &975002169
 GameObject:
   m_ObjectHideFlags: 0
@@ -1705,7 +1735,7 @@ GameObject:
   - component: {fileID: 981065494}
   m_Layer: 0
   m_Name: GroundCheck
-  m_TagString: Player
+  m_TagString: PlayerGC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2109,8 +2139,10 @@ GameObject:
   - component: {fileID: 1459206061}
   - component: {fileID: 1459206060}
   - component: {fileID: 1459206059}
+  - component: {fileID: 1459206062}
+  - component: {fileID: 1459206063}
   m_Layer: 0
-  m_Name: AttackCollider
+  m_Name: Sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2123,13 +2155,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1459206057}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 1.47}
-  m_LocalScale: {x: 2, y: 2, z: 3}
+  m_LocalRotation: {x: -0, y: 0.9131971, z: -0, w: 0.40751836}
+  m_LocalPosition: {x: 1.27, y: 0, z: 1.23}
+  m_LocalScale: {x: 2.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 968149624}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 131.90201, z: 0}
 --- !u!65 &1459206059
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2139,7 +2171,7 @@ BoxCollider:
   m_GameObject: {fileID: 1459206057}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -2189,6 +2221,38 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!95 &1459206062
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459206057}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7b380f9fbb45c3748a891fca03070efc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1459206063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459206057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8eb6d178da2ffde439ab40868f7a51e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyHit: {fileID: 0}
 --- !u!1 &1553214586
 GameObject:
   m_ObjectHideFlags: 0
@@ -2514,6 +2578,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 220e396156c7bbb4e82c0f166462ec2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvincible: 0
 --- !u!1 &2103221008
 GameObject:
   m_ObjectHideFlags: 0
@@ -2528,7 +2593,7 @@ GameObject:
   - component: {fileID: 2103221010}
   m_Layer: 0
   m_Name: GroundCheck
-  m_TagString: Enemy
+  m_TagString: EnemyGC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2603,7 +2668,7 @@ GameObject:
   - component: {fileID: 2105487383}
   m_Layer: 0
   m_Name: GroundCheck
-  m_TagString: Player
+  m_TagString: PlayerGC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

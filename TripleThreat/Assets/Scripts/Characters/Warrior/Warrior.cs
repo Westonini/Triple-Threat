@@ -16,16 +16,25 @@ public class Warrior : PlayerCharacter //Inherits from PlayerCharacter
     }
 
     //Warrior takes 1 additional damage when hurt.
-    protected override void TakeDamage(int damageReceived)
+    //Warrior's knockback power is 300.
+    public override void TakeDamage(int damageReceived, Vector3 hitFrom)
     {
-        base.TakeDamage(damageReceived + 1);
+        knockbackPower = 1000;
+        base.TakeDamage(damageReceived + 1, hitFrom);
     }
 
-    //Warrior's action
-    //Left click to swing your sword and hit all enemies caught in the sweep.
-    protected override void Action<T>(T component)
+    //Gets called from the WarriorAction script. Deals damage to and knocksback the target while also doing a sword sound effect.
+    public override void DealDamage<T>(T component)
     {
-        //Set actionScript to equal the component passed in as a parameter, in this case it was the WarriorAction script.
-        WarriorAction actionScript = component as WarriorAction;
+        //Set enemyScript to equal the component passed in as a parameter, taken from the EnemyCharacter script
+        EnemyCharacter enemyScript = component as EnemyCharacter;
+
+        //Sword Sound Fx
+
+        //Deal damage to enemy as long as the enemy isn't currently invincible
+        if (!enemyScript.isInvincible)
+        {
+            enemyScript.TakeDamage(2, transform.position);
+        }
     }
 }
