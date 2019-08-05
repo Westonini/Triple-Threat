@@ -23,11 +23,18 @@ public class Archer : PlayerCharacter //Inherits from PlayerCharacter
         base.TakeDamage(damageReceived + 2, hitFrom);
     }
 
-    //Archer's action
-    //Hold left click to charge an arrow, once fully charged let go of left click to fire.
+    //Gets called from the ArcherAction script. The arrow deals damage and knocks back the enemy when it connects
     public override void DealDamage<T>(T component)
     {
-        //Set actionScript to equal the component passed in as a parameter, in this case it was the ArcherAction script.
-        ArcherAction actionScript = component as ArcherAction;
+        //Set enemyScript to equal the component passed in as a parameter, taken from the EnemyCharacter script
+        EnemyCharacter enemyScript = component as EnemyCharacter;
+
+        //Arrow hit Sound Fx
+
+        //Deal damage to enemy as long as the enemy isn't currently invincible
+        if (!enemyScript.isInvincible)
+        {
+            enemyScript.TakeDamage(2, transform.position, 500);
+        }
     }
 }

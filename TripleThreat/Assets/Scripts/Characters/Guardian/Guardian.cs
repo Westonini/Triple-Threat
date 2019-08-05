@@ -23,11 +23,18 @@ public class Guardian : PlayerCharacter //Inherits from PlayerCharacter
         base.TakeDamage(damageReceived, hitFrom);
     }
 
-    //Guardian's action
-    //Hold left click to bring up your shield. As long as you're facing the direction that you're getting hit at with your shield up, you won't take any damage.
+    //Gets called from the GuardianAction script. Deals 0 damage but knocks enemies back.
     public override void DealDamage<T>(T component)
     {
-        //Set actionScript to equal the component passed in as a parameter, in this case it was the GuardianAction script.
-        GuardianAction actionScript = component as GuardianAction;
+        //Set enemyScript to equal the component passed in as a parameter, taken from the EnemyCharacter script
+        EnemyCharacter enemyScript = component as EnemyCharacter;
+
+        //Shield block Sound Fx
+
+        //Deal damage to enemy as long as the enemy isn't currently invincible
+        if (!enemyScript.isInvincible)
+        {
+            enemyScript.TakeDamage(0, transform.position, 450);
+        }
     }
 }

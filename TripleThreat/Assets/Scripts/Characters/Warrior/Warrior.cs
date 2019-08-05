@@ -34,7 +34,7 @@ public class Warrior : PlayerCharacter //Inherits from PlayerCharacter
         //Deal damage to enemy as long as the enemy isn't currently invincible
         if (!enemyScript.isInvincible)
         {
-            enemyScript.TakeDamage(2, transform.position);
+            enemyScript.TakeDamage(2, transform.position, 400);
         }
     }
 }

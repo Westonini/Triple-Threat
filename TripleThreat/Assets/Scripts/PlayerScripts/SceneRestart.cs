@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 //This script starts the RestartScene() Coroutine when the gameOver boolean gets set to true from the PlayerCharacter script
 public class SceneRestart : MonoBehaviour
 {
+    [HideInInspector]
+    public bool sceneCurrentlyRestarting;
+
     private void Update()
     {
         //If gameOver gets set to true within the PlayerCharacter script, call the RestartScene Coroutine and set gameOver to false.
@@ -18,6 +21,8 @@ public class SceneRestart : MonoBehaviour
 
     private IEnumerator RestartScene()
     {
+        sceneCurrentlyRestarting = true;
+
         //Find all the playerCharacters and add them to an array.
         GameObject[] playerCharacters = GameObject.FindGameObjectsWithTag("Player");
 

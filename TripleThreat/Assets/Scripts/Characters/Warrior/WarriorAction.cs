@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Perform a melee hit which damages all enemies caught in the sweep
 public class WarriorAction : MonoBehaviour
 {
     Warrior warriorScript;
@@ -18,10 +19,19 @@ public class WarriorAction : MonoBehaviour
         swordAnim = GetComponent<Animator>();
 
         warriorScript = GetComponentInParent<Warrior>();
+
+        swordAnim.keepAnimatorControllerStateOnDisable = true;
+    }
+
+    private void OnDisable()
+    {
+        swordAnim.ResetTrigger("Attack");
+        swordCollider.enabled = false;
     }
 
     private void Update()
     {
+        //If the player presses the "Fire1" key, stop then start the WarriorAttack coroutine
         if (Input.GetButtonDown("Fire1"))
         {
             StopCoroutine("WarriorAttack");
@@ -29,6 +39,7 @@ public class WarriorAction : MonoBehaviour
         }
     }
 
+    //If the sword touched an enemy, set that enemy's gameobject to enemyHit and  call DealDamage with enemyHit as the parameter passed in.
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Enemy")
@@ -38,6 +49,7 @@ public class WarriorAction : MonoBehaviour
         }
     }
 
+    //Enable the sword's collider and play the sword swing animation
     public IEnumerator WarriorAttack()
     {
         swordCollider.enabled = true;

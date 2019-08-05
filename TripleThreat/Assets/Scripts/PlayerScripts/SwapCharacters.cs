@@ -15,32 +15,41 @@ public class SwapCharacters : MonoBehaviour
 
     public static Transform currentPlayerPosition;
 
+    SceneRestart SR;
+
     void Start()
     {
         //Start the level with character1
         currentCharacter = character1;
         currentPlayerPosition = currentCharacter.transform;
+
         //Start the level with character1's camera active
         cameraList[0].SetActive(true);
+
+        SR = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<SceneRestart>();
     }
 
     //Calls the Swap function to swap between characters
     void Update()
     {
-        //If the player presses the "Chraracter1" Key and is not currently character 1, swap to character1.
-        if (Input.GetButtonDown("Character1") && currentCharacter != character1)
+        //If the scene isn't currently restarting and if the player isn't currently invincible..
+        if (!SR.sceneCurrentlyRestarting && !PlayerCharacter.isInvincible)
         {
-            Swap(ref character1, cameraList[0]);
-        }
-        //If the player presses the "Chraracter2" Key and is not currently character 2, swap to character2.
-        if (Input.GetButtonDown("Character2") && currentCharacter != character2)
-        {
-            Swap(ref character2, cameraList[1]);
-        }
-        //If the player presses the "Chraracter3" Key and is not currently character 3, swap to character3.
-        if (Input.GetButtonDown("Character3") && currentCharacter != character3)
-        {
-            Swap(ref character3, cameraList[2]);
+            //If the player presses the "Chraracter1" Key and is not currently character 1, swap to character1.
+            if (Input.GetButtonDown("Character1") && currentCharacter != character1 && !PlayerCharacter.isInvincible)
+            {
+                Swap(ref character1, cameraList[0]);
+            }
+            //If the player presses the "Chraracter2" Key and is not currently character 2, swap to character2.
+            if (Input.GetButtonDown("Character2") && currentCharacter != character2 && !PlayerCharacter.isInvincible)
+            {
+                Swap(ref character2, cameraList[1]);
+            }
+            //If the player presses the "Chraracter3" Key and is not currently character 3, swap to character3.
+            if (Input.GetButtonDown("Character3") && currentCharacter != character3 && !PlayerCharacter.isInvincible)
+            {
+                Swap(ref character3, cameraList[2]);
+            }
         }
 
         //Gets the current player position for the enemies to track.

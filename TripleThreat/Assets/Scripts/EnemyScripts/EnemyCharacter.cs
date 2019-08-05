@@ -10,6 +10,7 @@ public abstract class EnemyCharacter : MonoBehaviour
     protected int enemyHealth;
     protected int defense;
     protected int knockbackPower;
+    protected int knockbackResistance;
 
     private GroundCheck groundCheck;
 
@@ -55,7 +56,7 @@ public abstract class EnemyCharacter : MonoBehaviour
     //TakeDamage is to be called in player classes for when they hit an enemy.
     //Enemies takes more or less damage depending on their defense.
     //Takes in parameters "damageReceived" which is how much damage is coming in, and "hitFrom" which is the position the enemy is getting hitfrom to calculate the knockback direction
-    public virtual void TakeDamage(int damageReceived, Vector3 hitFrom)
+    public virtual void TakeDamage(int damageReceived, Vector3 hitFrom, int knockbackPower)
     {
         //Will be used to hold the value of damage to be dealt to the enemy
         int damageToDeal;
@@ -81,7 +82,8 @@ public abstract class EnemyCharacter : MonoBehaviour
         }
 
         //Knock enemy back
-        rb.AddForce((transform.position - hitFrom).normalized * knockbackPower, ForceMode.Acceleration);
+        //The knockbackPower is passed in as a parameter by a player character during an attack and some of it can be mitigated by the enemy's knockback resistance.
+        rb.AddForce((transform.position - hitFrom).normalized * (knockbackPower - knockbackResistance), ForceMode.Acceleration);
 
         //Short invincibility after getting hit
         StartCoroutine("Invincibility");

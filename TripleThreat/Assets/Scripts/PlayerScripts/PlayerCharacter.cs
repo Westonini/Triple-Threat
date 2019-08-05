@@ -16,7 +16,7 @@ public abstract class PlayerCharacter : MonoBehaviour
     private LayerMask aimArea;
 
     [HideInInspector]
-    public bool isInvincible;
+    public static bool isInvincible;
     private bool isGettingKnockedback;
 
     public delegate void PlayerControl();
@@ -50,6 +50,8 @@ public abstract class PlayerCharacter : MonoBehaviour
     {
         //Reset the static variable, playerHealth, at the start of each scene
         playerHealth = 10;
+
+        isInvincible = false;
     }
 
     void Update()

@@ -18,13 +18,6 @@ public class Grunt : EnemyCharacter
         base.Movement();
     }
 
-    //Set knockbackPower then call parent TakeDamage()
-    public override void TakeDamage(int damageReceived, Vector3 hitFrom)
-    {
-        knockbackPower = 400;
-        base.TakeDamage(damageReceived, hitFrom);
-    }
-
     //Gets called from the GruntAction script. Deals damage to and knocksback the target while also doing a hit sound effect.
     public override void DealDamage<T>(T component)
     {
@@ -34,7 +27,7 @@ public class Grunt : EnemyCharacter
         //Hit Sound Fx
 
         //Deal damage to player as long as the player isn't currently invincible
-        if (!playerScript.isInvincible)
+        if (!PlayerCharacter.isInvincible)
         {
             playerScript.TakeDamage(1, transform.position);
         }
