@@ -12,10 +12,10 @@ public class SceneRestart : MonoBehaviour
     private void Update()
     {
         //If gameOver gets set to true within the PlayerCharacter script, call the RestartScene Coroutine and set gameOver to false.
-        if (PlayerCharacter.gameOver)
+        if (PlayerHealth.gameOver)
         {
             StartCoroutine("RestartScene");
-            PlayerCharacter.gameOver = false;
+            PlayerHealth.gameOver = false;
         }
     }
 

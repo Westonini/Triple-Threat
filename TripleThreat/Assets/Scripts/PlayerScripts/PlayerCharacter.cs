@@ -11,8 +11,6 @@ public abstract class PlayerCharacter : MonoBehaviour
 
     private Camera mainCam;
 
-    public static int playerHealth = 10;
-
     private LayerMask aimArea;
 
     [HideInInspector]
@@ -21,8 +19,6 @@ public abstract class PlayerCharacter : MonoBehaviour
 
     public delegate void PlayerControl();
     public static event PlayerControl PlayerControls;
-
-    public static bool gameOver;
 
     //Happens when a character gets enabled
     protected virtual void OnEnable()
@@ -48,9 +44,7 @@ public abstract class PlayerCharacter : MonoBehaviour
 
     void Start()
     {
-        //Reset the static variable, playerHealth, at the start of each scene
-        playerHealth = 10;
-
+        //Reset at start of every round since it's a static variable
         isInvincible = false;
     }
 
@@ -73,7 +67,6 @@ public abstract class PlayerCharacter : MonoBehaviour
         {
             rb.velocity = new Vector3(moveHorizontal, 0, moveVertical).normalized * walkSpeed;
         }
-
 
         //Ground Check
         if (!GroundCheck.playerIsTouchingGround)
@@ -102,15 +95,11 @@ public abstract class PlayerCharacter : MonoBehaviour
     //Takes in parameters "damageReceived" which is how much damage is coming in, and "hitFrom" which is the position the enemy is getting hitfrom to calculate the knockback direction
     public virtual void TakeDamage(int damageReceived, Vector3 hitFrom)
     {
-        playerHealth -= damageReceived;
-
-        //Kill the player and restart scene if their health is <= 0
-        if (playerHealth <= 0)
-        {
-            //Sets gameOver to true, destroying all objects tagged "Player" and restarting the scene within the SceneRestart gameobject.
-            gameOver = true;
-        }
-        else
+        //Subtract player health by the damage received
+        PlayerHealth.playerHealth -= damageReceived;
+        
+        //Do the following only if player is still alive
+        if (PlayerHealth.playerHealth > 0)
         {
             //Knock player back
             rb.AddForce((transform.position - hitFrom).normalized * knockbackPower, ForceMode.Acceleration);
