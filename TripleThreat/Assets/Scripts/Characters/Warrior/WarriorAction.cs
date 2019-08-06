@@ -13,6 +13,11 @@ public class WarriorAction : MonoBehaviour
     [HideInInspector]
     public EnemyCharacter enemyHit;
 
+    [HideInInspector]
+    public bool currentlyAttacking;
+
+    private bool currentlyOnCooldown;
+
     private void Start()
     {
         swordCollider = GetComponent<BoxCollider>();
@@ -23,16 +28,23 @@ public class WarriorAction : MonoBehaviour
         swordAnim.keepAnimatorControllerStateOnDisable = true;
     }
 
+    //Reset these things when the player swaps out of this character.
     private void OnDisable()
     {
+        StopCoroutine("WarriorAttack");
+        StopCoroutine("AttackCooldown");
+
         swordAnim.ResetTrigger("Attack");
         swordCollider.enabled = false;
+        currentlyAttacking = false;
+        currentlyOnCooldown = false;
     }
 
     private void Update()
     {
         //If the player presses the "Fire1" key, stop then start the WarriorAttack coroutine
-        if (Input.GetButtonDown("Fire1"))
+        //Can only attack if attack isn't currently on cooldown
+        if (Input.GetButtonDown("Fire1") && !currentlyOnCooldown)
         {
             StopCoroutine("WarriorAttack");
             StartCoroutine("WarriorAttack");
@@ -50,11 +62,26 @@ public class WarriorAction : MonoBehaviour
     }
 
     //Enable the sword's collider and play the sword swing animation
-    public IEnumerator WarriorAttack()
+    private IEnumerator WarriorAttack()
     {
         swordCollider.enabled = true;
         swordAnim.SetTrigger("Attack");
+
+        currentlyAttacking = true;
+
+        StartCoroutine("AttackCooldown");
+
         yield return new WaitForSeconds(0.15f);
         swordCollider.enabled = false;
+        currentlyAttacking = false;
+    }
+
+    //Stops player from attacking momentarily.
+    private IEnumerator AttackCooldown()
+    {
+        currentlyOnCooldown = true;
+        yield return new WaitForSeconds(0.45f);
+        currentlyOnCooldown = false;
+
     }
 }

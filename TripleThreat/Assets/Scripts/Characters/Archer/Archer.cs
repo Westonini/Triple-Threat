@@ -5,13 +5,31 @@ using UnityEngine;
 public class Archer : PlayerCharacter //Inherits from PlayerCharacter
 {
     //Archer Stats:
-    //Long Ranged Decent Damage; takes 2 additional damage when hit; slow speed (4)
+    //Long Ranged Good Damage; takes 2 additional damage when hit; below-average speed (4)
 
 
-    //Archer's walk speed is set to 4 (slow speed)
+    ArcherAction AA;
+
+    private void Awake()
+    {
+        //Get the ArcherAction script from the child object.
+        AA = GetComponentInChildren<ArcherAction>();
+    }
+
+    //Archer's walk speed gets changed within this override function.
     protected override void Movement()
     {
-        walkSpeed = 4;
+        //If the player currently isn't charging an arrow set walkSpeed to 4 (below-average speed)
+        if (!AA.currentlyCharging)
+        {
+            walkSpeed = 4f;
+        }
+        //If the player currently is charging an arrow set walkSpeed to 2 (very slow speed)
+        else
+        {
+            walkSpeed = 2f;
+        }
+
         base.Movement();
     }
 
@@ -34,7 +52,7 @@ public class Archer : PlayerCharacter //Inherits from PlayerCharacter
         //Deal damage to enemy as long as the enemy isn't currently invincible
         if (!enemyScript.isInvincible)
         {
-            enemyScript.TakeDamage(2, transform.position, 500);
+            enemyScript.TakeDamage(2, transform.position, 550);
         }
     }
 }

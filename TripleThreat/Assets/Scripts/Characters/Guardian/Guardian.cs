@@ -5,13 +5,30 @@ using UnityEngine;
 public class Guardian : PlayerCharacter //Inherits from PlayerCharacter
 {
     //Guardian Stats:
-    //Can't deal damage but can block all damage; takes no additonal damage when hit; really slow speed (2.5)
+    //Can't deal damage but can block all damage; takes no additonal damage when hit; slow speed (2.5)
 
+    GuardianAction GA;
 
-    //Guardians's walk speed is set to 2.5 (very slow speed)
+    private void Awake()
+    {
+        //Get the GuardianAction script from the child object.
+        GA = GetComponentInChildren<GuardianAction>();
+    }
+
+    //Guardians's walk speed gets changed within this override function.
     protected override void Movement()
     {
-        walkSpeed = 2.5f;
+        //If the player currently isn't blocking set walkSpeed to 2.5 (slow speed)
+        if (!GA.currentlyBlocking)
+        {
+            walkSpeed = 2.5f;
+        }
+        //If the player currently is blocking set walkSpeed to 1.5 (very slow speed)
+        else
+        {
+            walkSpeed = 1.5f;
+        }
+
         base.Movement();
     }
 

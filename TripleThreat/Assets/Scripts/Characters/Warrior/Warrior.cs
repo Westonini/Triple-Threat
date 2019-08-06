@@ -8,10 +8,27 @@ public class Warrior : PlayerCharacter //Inherits from PlayerCharacter
     //Close Ranged Good Damage; takes 1 additional damage when hit; average speed (5)
 
 
-    //Warrior's walk speed is set to 5 (average speed)
+    WarriorAction WA;
+
+    private void Awake()
+    {
+        //Get the WarriorAction script from the child object.
+        WA = GetComponentInChildren<WarriorAction>();
+    }
+
+    //Warrior's walk speed gets changed within this override function.
     protected override void Movement()
     {
-        walkSpeed = 5;
+        //If the player currently isn't attacking set walkSpeed to 5 (average speed)
+        if (!WA.currentlyAttacking)
+        {
+            walkSpeed = 5f;
+        }
+        //If the player currently is attacking set walkSpeed to 3 (below-average speed)
+        else
+        {
+            walkSpeed = 3f;
+        }
         base.Movement();
     }
 
@@ -34,7 +51,7 @@ public class Warrior : PlayerCharacter //Inherits from PlayerCharacter
         //Deal damage to enemy as long as the enemy isn't currently invincible
         if (!enemyScript.isInvincible)
         {
-            enemyScript.TakeDamage(2, transform.position, 400);
+            enemyScript.TakeDamage(2, transform.position, 300);
         }
     }
 }
