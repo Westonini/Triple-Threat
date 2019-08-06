@@ -11,11 +11,13 @@ public class GuardianAction : MonoBehaviour
     private Animator shieldAnim;
     private MeshRenderer shieldRenderer;
 
-    [HideInInspector]
-    public EnemyCharacter enemyHit;
+    [HideInInspector] public EnemyCharacter enemyHit;
 
-    [HideInInspector]
-    public bool currentlyBlocking;
+    [HideInInspector] public bool currentlyBlocking;
+
+    [HideInInspector] public static int shieldHealth = 10;
+    private bool shieldHealthInvincibility;
+    private bool shieldIsBroken;
 
     private void Start()
     {
@@ -33,13 +35,16 @@ public class GuardianAction : MonoBehaviour
         shieldCollider.enabled = false;
         shieldRenderer.enabled = false;
         currentlyBlocking = false;
+
+        shieldHealthInvincibility = false;
+        StopCoroutine("SubtractShieldHealthCooldown");
     }
 
     void Update()
     {
         //When the player holds the Fire1 key, enable the shield's renderer and collider.
         //Play shield push animation as well
-        if (Input.GetButton("Fire1"))
+        if (Input.GetButton("Fire1") && !shieldIsBroken)
         {
             shieldCollider.enabled = true;
             shieldRenderer.enabled = true;
@@ -53,6 +58,23 @@ public class GuardianAction : MonoBehaviour
             shieldRenderer.enabled = false;
             currentlyBlocking = false;
         }
+
+
+        //If the shield's hp drops under 0, the shieldIsBroken boolean sets to true and the shield becomes unusable until repaired.
+        if (shieldHealth <= 0 && !shieldIsBroken)
+        {
+            shieldIsBroken = true;
+
+            shieldCollider.enabled = false;
+            shieldRenderer.enabled = false;
+            currentlyBlocking = false;
+
+            //Play shield break sound
+        }
+        else
+        {
+            shieldIsBroken = false;
+        }
     }
 
     //If the shield touches an enemy, pass their gameobject in as a parameter in DealDamage in order to deal knockback
@@ -62,6 +84,19 @@ public class GuardianAction : MonoBehaviour
         {
             enemyHit = collision.gameObject.GetComponent<EnemyCharacter>();
             guardianScript.DealDamage(enemyHit);
+
+            if (!shieldHealthInvincibility)
+            {
+                shieldHealth -= 1;
+                StartCoroutine("SubtractShieldHealthCooldown");
+            }
         }
+    }
+
+    IEnumerator SubtractShieldHealthCooldown()
+    {
+        shieldHealthInvincibility = true;
+        yield return new WaitForSeconds(0.1f);
+        shieldHealthInvincibility = false;
     }
 }
