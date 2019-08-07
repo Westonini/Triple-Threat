@@ -20,14 +20,19 @@ public class Archer : PlayerCharacter //Inherits from PlayerCharacter
     protected override void Movement()
     {
         //If the player currently isn't charging an arrow set walkSpeed to 4 (below-average speed)
-        if (!AA.currentlyCharging)
+        if (!AA.currentlyCharging && !AA.currentlyAiming)
         {
             walkSpeed = 4f;
         }
-        //If the player currently is charging an arrow set walkSpeed to 2 (very slow speed)
-        else
+        //If the player currently is drawing an arrow set walkSpeed to 2 (slow speed)
+        else if (AA.currentlyCharging)
         {
             walkSpeed = 2f;
+        }
+        //If the player currently is aiming an arrow set walkSpeed to 1.5 (very slow speed)
+        else if (AA.currentlyAiming)
+        {
+            walkSpeed = 1.5f;
         }
 
         base.Movement();

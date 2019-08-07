@@ -14,6 +14,7 @@ public class PlayerHealth : MonoBehaviour
     {
         //Reset the static variable, playerHealth, at the start of each scene
         playerHealth = 10;
+        gameOver = false;
 
         healthText = GetComponent<TextMeshProUGUI>();
     }

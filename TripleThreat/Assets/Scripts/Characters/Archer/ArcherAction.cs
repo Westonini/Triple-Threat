@@ -7,19 +7,23 @@ using TMPro;
 public class ArcherAction : MonoBehaviour
 {
     public Rigidbody arrowPrefab;
+    public Animator bowAnim;
+    public GameObject arrow;
 
     private Transform shootPosition;
 
     bool arrowCharged;
     [HideInInspector] public bool currentlyCharging;
+    [HideInInspector] public bool currentlyAiming;
     bool arrowShot;
 
     public TextMeshProUGUI textAboveHead;
 
-    // Start is called before the first frame update
     void Start()
     {
         shootPosition = gameObject.transform;
+
+        bowAnim.keepAnimatorControllerStateOnDisable = true;
     }
 
     void OnDisable()
@@ -27,8 +31,10 @@ public class ArcherAction : MonoBehaviour
         //Reset everything when character gets swapped
         StopCoroutine("Charge");
         currentlyCharging = false;
+        currentlyAiming = false;
         arrowCharged = false;
         textAboveHead.text = "";
+        arrow.SetActive(false);
     }
 
     // Update is called once per frame
@@ -66,15 +72,24 @@ public class ArcherAction : MonoBehaviour
     IEnumerator Charge()
     {
         currentlyCharging = true;
-        textAboveHead.text = "CHARGING";
+        textAboveHead.text = "DRAWING";
+
         yield return new WaitForSeconds(1f);
+
         arrowCharged = true;
         currentlyCharging = false;
-        textAboveHead.text = "CHARGED";
+        currentlyAiming = true;
+        arrow.SetActive(true);
+        textAboveHead.text = "";
     }
 
     void Shoot()
     {
+        //Play shoot animation
+        bowAnim.SetTrigger("Shoot");
+        //Disable the arrow that was laying on the bow
+        arrow.SetActive(false);
+
         //Create the arrow instance
         Rigidbody arrowInstance;
 
@@ -85,6 +100,7 @@ public class ArcherAction : MonoBehaviour
 
         arrowShot = true;
         arrowCharged = false;
-        textAboveHead.text = "";
+
+        currentlyAiming = false;
     }
 }

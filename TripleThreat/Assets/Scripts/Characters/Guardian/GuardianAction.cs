@@ -21,7 +21,7 @@ public class GuardianAction : MonoBehaviour
 
     private void Start()
     {
-        shieldCollider = GetComponent<BoxCollider>();
+        shieldCollider = GetComponent<Collider>();
         shieldAnim = GetComponent<Animator>();
         shieldRenderer = GetComponent<MeshRenderer>();
 

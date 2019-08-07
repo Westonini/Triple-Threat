@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//Perform a melee hit which damages all enemies caught in the sweep
+//Perform a melee swing which will damage any enemies caught in the attack.
 public class WarriorAction : MonoBehaviour
 {
     Warrior warriorScript;
@@ -20,7 +20,7 @@ public class WarriorAction : MonoBehaviour
 
     private void Start()
     {
-        swordCollider = GetComponent<BoxCollider>();
+        swordCollider = GetComponent<Collider>();
         swordAnim = GetComponent<Animator>();
 
         warriorScript = GetComponentInParent<Warrior>();
@@ -71,7 +71,7 @@ public class WarriorAction : MonoBehaviour
 
         StartCoroutine("AttackCooldown");
 
-        yield return new WaitForSeconds(0.15f);
+        yield return new WaitForSeconds(0.10f);
         swordCollider.enabled = false;
         currentlyAttacking = false;
     }
@@ -80,7 +80,7 @@ public class WarriorAction : MonoBehaviour
     private IEnumerator AttackCooldown()
     {
         currentlyOnCooldown = true;
-        yield return new WaitForSeconds(0.45f);
+        yield return new WaitForSeconds(0.35f);
         currentlyOnCooldown = false;
 
     }
