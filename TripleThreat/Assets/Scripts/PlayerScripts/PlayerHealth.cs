@@ -35,17 +35,17 @@ public class PlayerHealth : MonoBehaviour
         if (playerHealth >= 6)
         {
             //Green health color
-            healthText.color = new Color32(0, 255, 0, 255);
+            healthText.color = new Color32(0, 255, 0, 200);
         }
         else if (playerHealth < 6 && playerHealth >= 3)
         {
             //Yellow health color
-            healthText.color = new Color32(255, 255, 0, 255);
+            healthText.color = new Color32(255, 255, 0, 200);
         }
         else
         {
             //Red health color
-            healthText.color = new Color32(255, 0, 0, 255);
+            healthText.color = new Color32(255, 0, 0, 200);
         }
 
 

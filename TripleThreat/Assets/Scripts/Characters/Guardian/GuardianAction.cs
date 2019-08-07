@@ -32,8 +32,6 @@ public class GuardianAction : MonoBehaviour
 
     private void OnDisable()
     {
-        shieldCollider.enabled = false;
-        shieldRenderer.enabled = false;
         currentlyBlocking = false;
 
         shieldHealthInvincibility = false;
@@ -42,20 +40,16 @@ public class GuardianAction : MonoBehaviour
 
     void Update()
     {
-        //When the player holds the Fire1 key, enable the shield's renderer and collider.
-        //Play shield push animation as well
+        //When the player holds the Fire1 key play the shield bash animation and set the currentlyblocking boolean to true
         if (Input.GetButton("Fire1") && !shieldIsBroken)
         {
-            shieldCollider.enabled = true;
-            shieldRenderer.enabled = true;
             shieldAnim.SetTrigger("Bash");
             currentlyBlocking = true;
         }
-        //When the player releases the Fire1 key, disable the shield's renderer and collider.
+        //When the player releases the Fire1 key stop the shield bash animation and set the currentlyblocking boolean to false
         if (Input.GetButtonUp("Fire1"))
         {
-            shieldCollider.enabled = false;
-            shieldRenderer.enabled = false;
+            shieldAnim.ResetTrigger("Bash");
             currentlyBlocking = false;
         }
 
@@ -65,15 +59,18 @@ public class GuardianAction : MonoBehaviour
         {
             shieldIsBroken = true;
 
+            shieldAnim.ResetTrigger("Bash");
             shieldCollider.enabled = false;
             shieldRenderer.enabled = false;
             currentlyBlocking = false;
 
             //Play shield break sound
         }
-        else
+        else if (shieldHealth > 0 && shieldIsBroken)
         {
             shieldIsBroken = false;
+            shieldCollider.enabled = true;
+            shieldRenderer.enabled = true;
         }
     }
 

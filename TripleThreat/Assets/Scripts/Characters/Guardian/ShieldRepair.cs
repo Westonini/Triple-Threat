@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 //This script is for repairing the shield's health.
 //The shield can be repaired no matter what character you're using by holding down the Spacebar key.
@@ -12,10 +13,18 @@ public class ShieldRepair : MonoBehaviour
     public GameObject shieldRepairingText;
     public GameObject shieldRepairedText;
 
+    private float shieldRepairTime = 3f;
+
+    public GameObject shieldImage;
+    public TextMeshProUGUI shieldDurabilityText;
+    SwapCharacters SCscript;
+
     void Start()
     {
         //Start the scene with shieldHealth at 10.
         GuardianAction.shieldHealth = 10;
+
+        SCscript = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<SwapCharacters>();
     }
 
     void Update()
@@ -32,7 +41,7 @@ public class ShieldRepair : MonoBehaviour
 
 
         //If the player holds down the "Repair" key, repair the shield after 2.5 seconds
-        if (Input.GetButton("Repair") && GuardianAction.shieldHealth < 10 && !currentlyRepairing)
+        if (Input.GetButton("Repair") && GuardianAction.shieldHealth <= 0 && !currentlyRepairing)
         {
             StartCoroutine("Repair");
             shieldRepairingText.SetActive(true);
@@ -44,6 +53,12 @@ public class ShieldRepair : MonoBehaviour
             currentlyRepairing = false;
             shieldRepairingText.SetActive(false);
         }
+
+        if (SCscript.character1.name == "Guardian" || SCscript.character2.name == "Guardian" || SCscript.character3.name == "Guardian")
+        {
+            shieldImage.SetActive(true);
+            shieldDurabilityText.text = "Shield Durability:" + "\n" + GuardianAction.shieldHealth.ToString() + " / 10";
+        }
     }
 
     //When initially called set currentlyRepairing to true to prevent this IEnumerator from being called multiple times.
@@ -53,7 +68,7 @@ public class ShieldRepair : MonoBehaviour
         shieldRepairedText.SetActive(false);
         currentlyRepairing = true;
 
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(shieldRepairTime);
 
         currentlyRepairing = false;
         GuardianAction.shieldHealth = 10;

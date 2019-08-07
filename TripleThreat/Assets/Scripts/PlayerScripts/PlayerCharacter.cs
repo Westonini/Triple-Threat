@@ -66,6 +66,12 @@ public abstract class PlayerCharacter : MonoBehaviour
         if (!isGettingKnockedback)
         {
             rb.velocity = new Vector3(moveHorizontal, 0, moveVertical).normalized * walkSpeed;
+        }     
+
+        if (moveHorizontal != 0 || moveVertical != 0 && !isGettingKnockedback)
+        {
+            //Make weapon bounce
+            //Put an animation on this script and make it call the PlayerWalk trigger, then be sure to have an animator on every player character which has a trigger and animation for that
         }
 
         //Ground Check
