@@ -29,7 +29,7 @@ public abstract class EnemyCharacter : MonoBehaviour
         groundCheck = GetComponentInChildren<GroundCheck>();
     }
 
-    void Update()
+    protected virtual void Update()
     {
         Movement();
     }
@@ -93,9 +93,14 @@ public abstract class EnemyCharacter : MonoBehaviour
             Destroy(gameObject);
         }
 
-        //Knock enemy back
-        //The knockbackPower is passed in as a parameter by a player character during an attack and some of it can be mitigated by the enemy's knockback resistance.
-        rb.AddForce((transform.position - hitFrom).normalized * (knockbackPower - knockbackResistance), ForceMode.Acceleration);
+        //Knockback
+        //The knockbackPower is passed in as a parameter by a player character during an attack.
+        //The knockback resistance differs with each enemy and is calculated as percentage. For example: knockback power is 200, knockback resistance is 50% so they'll only get knocked back by 100 instead of 200.
+        float calculatedKnockbackResistance = ((knockbackPower * knockbackResistance) / 100);
+        float calculatedKnockback = knockbackPower - calculatedKnockbackResistance;
+
+        //Adds the knockback direction and amount
+        rb.AddForce((transform.position - hitFrom).normalized * calculatedKnockback, ForceMode.Acceleration);
 
         //Short invincibility after getting hit
         StartCoroutine("Invincibility");

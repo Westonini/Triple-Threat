@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 721caf8b35050894488a7391aa281a34
+guid: 3a909db6837c3fd4296253b4913a398d
 ModelImporter:
   serializedVersion: 26
   internalIDToNameTable: []
@@ -7,18 +7,33 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Beige
-    second: {fileID: 2100000, guid: f97cf87082539ae4a87f16ec2c7c49fe, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
       name: _defaultMat
-    second: {fileID: 2100000, guid: 6e118de6c2bad4340a45ce94c17f6874, type: 2}
+    second: {fileID: 2100000, guid: 9f66a6052b65dd647a0bcb917b2010d3, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: blade
-    second: {fileID: 2100000, guid: e626589c7d1ad754aae9977101f25315, type: 2}
+      name: customMaterial0
+    second: {fileID: 2100000, guid: 7e425531e9f8b164a846313850669cc3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: customMaterial2
+    second: {fileID: 2100000, guid: a3c621a2f3c08ba4d84cb9f606fe8684, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: customMaterial3
+    second: {fileID: 2100000, guid: bb63a62bf7363af42b9d2588c2bd0e7a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: customMaterial4
+    second: {fileID: 2100000, guid: e72d5a95973ad4f4e83070b8389007d3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: darkStone
+    second: {fileID: 2100000, guid: 9b37f2589656bc44a95dbec049cea78d, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

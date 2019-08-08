@@ -32,6 +32,23 @@ public class CurrentCharactersUI : MonoBehaviour
         ShowCurrentCharacters();
     }
 
+    private void Update()
+    {
+        //if the character currently being used is x, call the function to brighten x's sprite
+        if (SCscript.currentCharacter.name == character1)
+        {
+            BrightenCurrentlySelectedCharacterSprite(character1Image);
+        }
+        if (SCscript.currentCharacter.name == character2)
+        {
+            BrightenCurrentlySelectedCharacterSprite(character2Image);
+        }
+        if (SCscript.currentCharacter.name == character3)
+        {
+            BrightenCurrentlySelectedCharacterSprite(character3Image);
+        }
+    }
+
     //Updates and shows current character names and pictures
     public void ShowCurrentCharacters()
     {
@@ -73,5 +90,15 @@ public class CurrentCharactersUI : MonoBehaviour
                 Debug.Log("Character not found");
                 break;
         }
+    }
+
+    //Brightens the sprite of the currently active character and dims all others.
+    void BrightenCurrentlySelectedCharacterSprite(Image characterImage)
+    {
+        character1Image.color = new Color32(255, 255, 255, 150);
+        character2Image.color = new Color32(255, 255, 255, 150);
+        character3Image.color = new Color32(255, 255, 255, 150);
+
+        characterImage.color = new Color32(255, 255, 255, 255);
     }
 }

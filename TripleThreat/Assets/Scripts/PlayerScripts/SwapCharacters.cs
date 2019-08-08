@@ -11,7 +11,7 @@ public class SwapCharacters : MonoBehaviour
 
     public GameObject[] cameraList;
 
-    private GameObject currentCharacter;
+    [HideInInspector] public GameObject currentCharacter;
     private Vector3 currentPosition;
 
     public static Transform currentPlayerPosition;

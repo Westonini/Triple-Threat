@@ -74,7 +74,7 @@ public class ArcherAction : MonoBehaviour
         currentlyCharging = true;
         textAboveHead.text = "DRAWING";
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
 
         arrowCharged = true;
         currentlyCharging = false;

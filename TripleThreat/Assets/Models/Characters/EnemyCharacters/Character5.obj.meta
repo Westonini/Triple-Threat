@@ -1,9 +1,39 @@
 fileFormatVersion: 2
-guid: 3a909db6837c3fd4296253b4913a398d
+guid: 0d508ff64f76b7a4799939ff92dda666
 ModelImporter:
   serializedVersion: 26
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: _defaultMat
+    second: {fileID: 2100000, guid: 76c8b62f8e092a44ba66bb6c36d40f6e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: customMaterial0
+    second: {fileID: 2100000, guid: df94e58e6df29d44f90adaf05650bcfe, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: customMaterial3
+    second: {fileID: 2100000, guid: 608069e2e6e969c46892f7e4bfa9df43, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: customMaterial8
+    second: {fileID: 2100000, guid: 6b21eae138dcea145909925c53324f53, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: customMaterial9
+    second: {fileID: 2100000, guid: de8adc2a9fed91b4c97dff31ad2e0fc2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: golfBorder
+    second: {fileID: 2100000, guid: 88052fd1156d2aa45b44d35fe786ec0e, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

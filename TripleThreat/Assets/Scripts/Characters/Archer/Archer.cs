@@ -6,7 +6,7 @@ using UnityEngine;
 public class Archer : PlayerCharacter //Inherits from PlayerCharacter
 {
     //Archer Stats:
-    //Long Ranged Good Damage; takes 2 additional damage when hit; below-average speed (4)
+    //Long Ranged Great Damage; takes 2 additional damage when hit; below-average speed (4)
 
 
     ArcherAction AA;
@@ -58,7 +58,7 @@ public class Archer : PlayerCharacter //Inherits from PlayerCharacter
         //Deal damage to enemy as long as the enemy isn't currently invincible
         if (!enemyScript.isInvincible)
         {
-            enemyScript.TakeDamage(2, transform.position, 550);
+            enemyScript.TakeDamage(3, transform.position, 500);
         }
     }
 }
