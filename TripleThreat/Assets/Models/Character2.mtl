@@ -1,30 +1,42 @@
 # Made using Asset Forge (www.assetforge.io) version 1.3 
 
-newmtl customMaterial4
+newmtl customMaterial4 (Instance)
 Ka 0.000000 0.000000 0.000000 
 Kd 0.044 0.127 0.324 
 Ks 0.330000 0.330000 0.330000 
-map_Kd Textures/customMaterial4.png
+map_Kd Textures/customMaterial4 (Instance).png
 
-newmtl customMaterial3
+newmtl customMaterial3 (Instance)
 Ka 0.000000 0.000000 0.000000 
 Kd 0.075 0.224 0.576 
 Ks 0.330000 0.330000 0.330000 
-map_Kd Textures/customMaterial3.png
+map_Kd Textures/customMaterial3 (Instance).png
 
-newmtl customMaterial2
+newmtl customMaterial2 (Instance)
 Ka 0.000000 0.000000 0.000000 
 Kd 0.49 0.439 0.439 
 Ks 0.330000 0.330000 0.330000 
-map_Kd Textures/customMaterial2.png
+map_Kd Textures/customMaterial2 (Instance).png
 
-newmtl _defaultMat (Instance)
+newmtl _defaultMat (Instance) (Instance)
 Ka 0.000000 0.000000 0.000000 
 Kd 0 0 0 
 Ks 0.330000 0.330000 0.330000 
 
-newmtl customMaterial0
+newmtl customMaterial2 (Instance) (Instance) (Instance)
+Ka 0.000000 0.000000 0.000000 
+Kd 0.49 0.439 0.439 
+Ks 0.330000 0.330000 0.330000 
+map_Kd Textures/customMaterial2 (Instance) (Instance) (Instance).png
+
+newmtl customMaterial0 (Instance)
 Ka 0.000000 0.000000 0.000000 
 Kd 0.28 0.178 0.144 
 Ks 0.330000 0.330000 0.330000 
+
+newmtl customMaterial2 (Instance) (Instance)
+Ka 0.000000 0.000000 0.000000 
+Kd 0.49 0.439 0.439 
+Ks 0.330000 0.330000 0.330000 
+map_Kd Textures/customMaterial2 (Instance) (Instance).png
 
