@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//Hold left mouse button to block attacks and push attackers back. The initial mouse click will also push back enemies
+//Hold left mouse button to block attacks and push attackers back. 
 public class GuardianAction : MonoBehaviour
 {
     Guardian guardianScript;

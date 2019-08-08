@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//This script is attached to the Guardian gameobject and is main script for the character.
 public class Guardian : PlayerCharacter //Inherits from PlayerCharacter
 {
     //Guardian Stats:
@@ -33,7 +34,7 @@ public class Guardian : PlayerCharacter //Inherits from PlayerCharacter
     }
 
     //Guardian takes 0 additional damage when hurt.
-    //Guardian's knockback power is 200.
+    //Guardian's knockback power is set here.
     public override void TakeDamage(int damageReceived, Vector3 hitFrom)
     {
         knockbackPower = 750;

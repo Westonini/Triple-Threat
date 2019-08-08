@@ -20,6 +20,8 @@ public abstract class PlayerCharacter : MonoBehaviour
     public delegate void PlayerControl();
     public static event PlayerControl PlayerControls;
 
+    private Animator anim;
+
     //Happens when a character gets enabled
     protected virtual void OnEnable()
     {
@@ -46,6 +48,9 @@ public abstract class PlayerCharacter : MonoBehaviour
     {
         //Reset at start of every round since it's a static variable
         isInvincible = false;
+
+        //Get animator component from the object this script is attached to.
+        anim = GetComponent<Animator>();
     }
 
     void Update()
@@ -68,10 +73,16 @@ public abstract class PlayerCharacter : MonoBehaviour
             rb.velocity = new Vector3(moveHorizontal, 0, moveVertical).normalized * walkSpeed;
         }     
 
+        //Walk/Idle animations
+        //If the player is currently moving and not getting knocked back, do walk animation
         if (moveHorizontal != 0 || moveVertical != 0 && !isGettingKnockedback)
         {
-            //Make weapon bounce
-            //Put an animation on this script and make it call the PlayerWalk trigger, then be sure to have an animator on every player character which has a trigger and animation for that
+            anim.SetTrigger("Walk");
+        }
+        //Else stop the trigger.
+        else
+        {
+            anim.ResetTrigger("Walk");
         }
 
         //Ground Check

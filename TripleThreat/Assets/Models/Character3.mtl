@@ -1,0 +1,36 @@
+# Made using Asset Forge (www.assetforge.io) version 1.3 
+
+newmtl customMaterial0
+Ka 0.000000 0.000000 0.000000 
+Kd 0.047 0.239 0.047 
+Ks 0.330000 0.330000 0.330000 
+map_Kd Textures/customMaterial0.png
+
+newmtl _defaultMat (Instance)
+Ka 0.000000 0.000000 0.000000 
+Kd 0.042 0.042 0.042 
+Ks 0.330000 0.330000 0.330000 
+
+newmtl darkStone (Instance)
+Ka 0.000000 0.000000 0.000000 
+Kd 0.444 0.3 0.252 
+Ks 0.330000 0.330000 0.330000 
+map_Kd Textures/darkStone (Instance).png
+
+newmtl customMaterial3
+Ka 0.000000 0.000000 0.000000 
+Kd 0.86 0.745 0.652 
+Ks 0.330000 0.330000 0.330000 
+
+newmtl customMaterial4
+Ka 0.000000 0.000000 0.000000 
+Kd 0.286 0.192 0.161 
+Ks 0.330000 0.330000 0.330000 
+map_Kd Textures/customMaterial4.png
+
+newmtl customMaterial2
+Ka 0.000000 0.000000 0.000000 
+Kd 0.082 0.391 0.082 
+Ks 0.330000 0.330000 0.330000 
+map_Kd Textures/customMaterial2.png
+

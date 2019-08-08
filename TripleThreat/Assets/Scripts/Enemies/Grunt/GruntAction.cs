@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Grunt will attack any player character if within close enough range.
 public class GruntAction : MonoBehaviour
 {
     Grunt gruntScript;
@@ -12,11 +13,14 @@ public class GruntAction : MonoBehaviour
 
     void Start()
     {
+        //Get the collider of the hit area.
         hitCollider = GetComponent<BoxCollider>();
 
+        //Get the grunt's script in the parent object.
         gruntScript = GetComponentInParent<Grunt>();
     }
 
+    //If the grunt touches a player, call the grunt's DealDamage function and pass in the player's PlayerCharacter script.
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")

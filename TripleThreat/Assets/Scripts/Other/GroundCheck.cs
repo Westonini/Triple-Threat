@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//This script is attached to a gameobject below every player and enemy character. It checks if the character is touching an object with the Ground layer.
 public class GroundCheck : MonoBehaviour
 {
     public static bool playerIsTouchingGround;

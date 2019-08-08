@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grunt : EnemyCharacter
+//This script is attached to the Grunt gameobject and is main script for the character.
+public class Grunt : EnemyCharacter //Inherits from EnemyCharacter
 {
-    //Set health them call parent Start()
+    //Set health then call parent Start()
     protected override void Start()
     {
         enemyHealth = 3;

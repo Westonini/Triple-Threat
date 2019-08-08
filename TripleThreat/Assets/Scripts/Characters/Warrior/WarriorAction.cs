@@ -20,11 +20,14 @@ public class WarriorAction : MonoBehaviour
 
     private void Start()
     {
+        //Get the sword's collider and animator
         swordCollider = GetComponent<Collider>();
         swordAnim = GetComponent<Animator>();
 
+        //Get the Warrior script from the parent object
         warriorScript = GetComponentInParent<Warrior>();
 
+        //Added so that the animations don't bug.
         swordAnim.keepAnimatorControllerStateOnDisable = true;
     }
 
@@ -80,7 +83,7 @@ public class WarriorAction : MonoBehaviour
     private IEnumerator AttackCooldown()
     {
         currentlyOnCooldown = true;
-        yield return new WaitForSeconds(0.35f);
+        yield return new WaitForSeconds(0.325f);
         currentlyOnCooldown = false;
 
     }

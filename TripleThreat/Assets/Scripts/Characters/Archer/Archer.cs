@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//This script is attached to the Archer gameobject and is main script for the character.
 public class Archer : PlayerCharacter //Inherits from PlayerCharacter
 {
     //Archer Stats:
@@ -39,7 +40,7 @@ public class Archer : PlayerCharacter //Inherits from PlayerCharacter
     }
 
     //Archer takes 2 additional damage when hurt.
-    //Archer's knockback power is 350.
+    //Archer's knockback power is set here.
     public override void TakeDamage(int damageReceived, Vector3 hitFrom)
     {
         knockbackPower = 1150;

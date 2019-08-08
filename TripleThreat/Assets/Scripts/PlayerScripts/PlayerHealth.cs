@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+//This script keeps track of the player health and updates the player health text accordingly
 public class PlayerHealth : MonoBehaviour
 {
     TextMeshProUGUI healthText;
@@ -21,15 +22,29 @@ public class PlayerHealth : MonoBehaviour
 
     void Update()
     {
+        //Calls the HealthText function every frame
+        HealthText();
+
         //If playerHealth drops below 0 set it to 0
         if (playerHealth < 0)
         {
             playerHealth = 0;
         }
 
+        //Kill the player and restart scene if their health is <= 0
+        if (playerHealth <= 0)
+        {
+            //Sets gameOver to true, destroying all objects tagged "Player" and restarting the scene within the SceneRestart gameobject.
+            gameOver = true;
+        }
+    }
 
-        //HealthText update
+    //Updates the healthtext's number and color depending on the player's health
+    void HealthText()
+    {
+        //HealthText value update
         healthText.text = "HP: " + playerHealth.ToString() + " / 10";
+
 
         //HealthText color
         if (playerHealth >= 6)
@@ -46,14 +61,6 @@ public class PlayerHealth : MonoBehaviour
         {
             //Red health color
             healthText.color = new Color32(255, 0, 0, 200);
-        }
-
-
-        //Kill the player and restart scene if their health is <= 0
-        if (playerHealth <= 0)
-        {
-            //Sets gameOver to true, destroying all objects tagged "Player" and restarting the scene within the SceneRestart gameobject.
-            gameOver = true;
         }
     }
 }

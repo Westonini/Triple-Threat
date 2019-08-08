@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//This script is used to swap between the three currently selected characters
 public class SwapCharacters : MonoBehaviour
 {
     public GameObject character1;
@@ -23,14 +24,18 @@ public class SwapCharacters : MonoBehaviour
 
     void Start()
     {
-        //Start the level with character1
+        //Start the level with character1.
+        character1.SetActive(true);
+        character2.SetActive(false);
+        character3.SetActive(false);
+
         currentCharacter = character1;
         currentPlayerPosition = currentCharacter.transform;
 
-        //Start the level with character1's camera active
+        //Start the level with character1's camera active.
         cameraList[0].SetActive(true);
 
-        //Get the SceneRestart script from the Main Camera object
+        //Get the SceneRestart script from the Main Camera object.
         SR = GetComponent<SceneRestart>();
 
         //Set resetSwapCooldownTimer to swapCooldownTimer to reset the value later.
@@ -40,31 +45,38 @@ public class SwapCharacters : MonoBehaviour
     //Calls the Swap function to swap between characters
     void Update()
     {
-        //If the scene isn't currently restarting, the player isn't currently invincible, and swap currently isn't on cooldown..
-        if (!SR.sceneCurrentlyRestarting && !PlayerCharacter.isInvincible)
-        {
-            //If the player presses the "Chraracter1" Key and is not currently character 1, swap to character1.
-            if (Input.GetButtonDown("Character1") && currentCharacter != character1 && !PlayerCharacter.isInvincible && !swapOnCooldown)
-            {
-                Swap(ref character1, cameraList[0]);
-            }
-            //If the player presses the "Chraracter2" Key and is not currently character 2, swap to character2.
-            if (Input.GetButtonDown("Character2") && currentCharacter != character2 && !PlayerCharacter.isInvincible && !swapOnCooldown)
-            {
-                Swap(ref character2, cameraList[1]);
-            }
-            //If the player presses the "Chraracter3" Key and is not currently character 3, swap to character3.
-            if (Input.GetButtonDown("Character3") && currentCharacter != character3 && !PlayerCharacter.isInvincible && !swapOnCooldown)
-            {
-                Swap(ref character3, cameraList[2]);
-            }
-        }
+        //function that gets player input.
+        SwapInput();
 
         //Gets the current player position for the enemies to track.
         currentPlayerPosition = currentCharacter.transform;
 
-        //Swap cooldown function
+        //Swap cooldown function.
         SwapCooldown();
+    }
+
+    //If/else statements for checking which character to switch to and if it's possible.
+    void SwapInput()
+    {
+        //If the scene isn't currently restarting, the player isn't currently invincible, and swap currently isn't on cooldown..
+        if (!SR.sceneCurrentlyRestarting && !PlayerCharacter.isInvincible && !swapOnCooldown)
+        {
+            //If the player presses the "Chraracter1" Key and is not currently character 1, swap to character1.
+            if (Input.GetButtonDown("Character1") && currentCharacter != character1)
+            {
+                Swap(ref character1, cameraList[0]);
+            }
+            //If the player presses the "Chraracter2" Key and is not currently character 2, swap to character2.
+            if (Input.GetButtonDown("Character2") && currentCharacter != character2)
+            {
+                Swap(ref character2, cameraList[1]);
+            }
+            //If the player presses the "Chraracter3" Key and is not currently character 3, swap to character3.
+            if (Input.GetButtonDown("Character3") && currentCharacter != character3)
+            {
+                Swap(ref character3, cameraList[2]);
+            }
+        }
     }
 
     //Quickly sets all characters inactive before swapping to desired character.

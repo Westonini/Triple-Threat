@@ -17,9 +17,13 @@ public abstract class EnemyCharacter : MonoBehaviour
     [HideInInspector]
     public bool isInvincible;
 
+    private Animator anim;
+
     protected virtual void Start()
     {
+        //Get rigidbody and animator components from the object this script is attached to.
         rb = GetComponent<Rigidbody>();
+        anim = GetComponent<Animator>();
 
         //Get a reference to this object's GroundCheck script by getting the component from its children.
         groundCheck = GetComponentInChildren<GroundCheck>();
@@ -40,16 +44,24 @@ public abstract class EnemyCharacter : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, SwapCharacters.currentPlayerPosition.position, step);
 
         //Look at the player
-        if (SwapCharacters.currentPlayerPosition.position.y == transform.position.y)
-        {
-            transform.LookAt(SwapCharacters.currentPlayerPosition.position);
-        }
+        transform.LookAt(new Vector3(SwapCharacters.currentPlayerPosition.position.x, this.transform.position.y, SwapCharacters.currentPlayerPosition.position.z));
 
         //Ground Check
         if (!groundCheck.enemyIsTouchingGround)
         {
             //Add downward force while not touching ground so that the enemy falls.
             rb.AddForce(Vector3.down * 3, ForceMode.Acceleration);
+        }
+
+        //Walk/Idle animations
+        //If enemy just got hit, stop walk animation while invincible.
+        if (!isInvincible)
+        {
+            anim.SetTrigger("Walk");
+        }
+        else
+        {
+            anim.ResetTrigger("Walk");
         }
     }
 

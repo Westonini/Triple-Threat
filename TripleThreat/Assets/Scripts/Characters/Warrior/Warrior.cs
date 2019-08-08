@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//This script is attached to the Warrior gameobject and is main script for the character.
 public class Warrior : PlayerCharacter //Inherits from PlayerCharacter
 {
     //Warrior Stats:
@@ -33,7 +34,7 @@ public class Warrior : PlayerCharacter //Inherits from PlayerCharacter
     }
 
     //Warrior takes 1 additional damage when hurt.
-    //Warrior's knockback power is 300.
+    //Warrior's knockback power is set here.
     public override void TakeDamage(int damageReceived, Vector3 hitFrom)
     {
         knockbackPower = 1000;
