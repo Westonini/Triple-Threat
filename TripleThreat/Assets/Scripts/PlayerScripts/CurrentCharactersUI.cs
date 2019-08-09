@@ -37,15 +37,15 @@ public class CurrentCharactersUI : MonoBehaviour
         //if the character currently being used is x, call the function to brighten x's sprite
         if (SCscript.currentCharacter.name == character1)
         {
-            BrightenCurrentlySelectedCharacterSprite(character1Image);
+            BrightenCurrentlySelectedCharacterSprite(character1Image, character1Name);
         }
         if (SCscript.currentCharacter.name == character2)
         {
-            BrightenCurrentlySelectedCharacterSprite(character2Image);
+            BrightenCurrentlySelectedCharacterSprite(character2Image, character2Name);
         }
         if (SCscript.currentCharacter.name == character3)
         {
-            BrightenCurrentlySelectedCharacterSprite(character3Image);
+            BrightenCurrentlySelectedCharacterSprite(character3Image, character3Name);
         }
     }
 
@@ -93,12 +93,16 @@ public class CurrentCharactersUI : MonoBehaviour
     }
 
     //Brightens the sprite of the currently active character and dims all others.
-    void BrightenCurrentlySelectedCharacterSprite(Image characterImage)
+    void BrightenCurrentlySelectedCharacterSprite(Image characterImage, TextMeshProUGUI characterName)
     {
         character1Image.color = new Color32(255, 255, 255, 150);
         character2Image.color = new Color32(255, 255, 255, 150);
         character3Image.color = new Color32(255, 255, 255, 150);
+        character1Name.color = new Color32(0, 0, 0, 150);
+        character2Name.color = new Color32(0, 0, 0, 150);
+        character3Name.color = new Color32(0, 0, 0, 150);
 
         characterImage.color = new Color32(255, 255, 255, 255);
+        characterName.color = new Color32(0, 0, 0, 255);
     }
 }

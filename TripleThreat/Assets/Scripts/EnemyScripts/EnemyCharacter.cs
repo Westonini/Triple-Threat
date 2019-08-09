@@ -29,7 +29,7 @@ public abstract class EnemyCharacter : MonoBehaviour
         groundCheck = GetComponentInChildren<GroundCheck>();
     }
 
-    protected virtual void Update()
+    private void Update()
     {
         Movement();
     }

@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Will attack any player character if within close enough range.
-public class EnemyFistAttack : MonoBehaviour
+public class FistEnemyAttack : MonoBehaviour
 {  
-    private Collider hitCollider;
-
     [HideInInspector] public PlayerCharacter playerHit;
+
+    FistEnemy enemyScript;
 
     void Start()
     {
-        //Get the collider of the hit area.
-        hitCollider = GetComponent<BoxCollider>();
+        //Get FistEnemy script from parent
+        enemyScript = GetComponentInParent<FistEnemy>();
     }
 
     //If the grunt touches a player save the player's PlayerCharacter script to playerHit so that it can be used within the enemy's script to deal damage.
@@ -21,6 +21,7 @@ public class EnemyFistAttack : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             playerHit = other.gameObject.GetComponent<PlayerCharacter>();
+            enemyScript.DealDamage(playerHit);
         }
     }
     private void OnTriggerExit(Collider other)

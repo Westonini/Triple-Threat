@@ -3,21 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //This script is attached to the enemy gameobject and is main script for the character.
-public class FistEnemy : EnemyCharacter //Inherits from EnemyCharacter
+public class RangedEnemy : EnemyCharacter //Inherits from EnemyCharacter
 {
-    //Values that each FistEnemy variant differs in.
+    //Values that each RangedEnemy variant differs in.
     public int health;
     public float speed;
     public int damage;
+    public float castTime;
     [Range(0, 100)] public int knockbackResistPercentage;
 
-    //FistEnemy's attack script
-    FistEnemyAttack attackScript;
+    //RangedEnemy's attack script
+    RangedEnemyAttack attackScript;
 
     protected override void Start()
     {
         //Get the attack script
-        attackScript = GetComponentInChildren<FistEnemyAttack>();
+        attackScript = GetComponentInChildren<RangedEnemyAttack>();
 
         //Sets the enemy's health, speed, and knockback resistance
         enemyHealth = health;
@@ -26,6 +27,20 @@ public class FistEnemy : EnemyCharacter //Inherits from EnemyCharacter
 
         //Call base Start()
         base.Start();
+    }
+
+    protected override void Movement()
+    {
+        if (attackScript.playerWithinRange)
+        {
+            walkSpeed = 0;
+        }
+        else
+        {
+            walkSpeed = speed;
+        }
+
+        base.Movement();
     }
 
     //Deals damage to and knocksback the target while also doing a hit sound effect.
