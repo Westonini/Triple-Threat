@@ -31,6 +31,11 @@ public abstract class EnemyCharacter : MonoBehaviour
 
     private void Update()
     {
+        MovementAnimations();
+    }
+
+    private void FixedUpdate()
+    {
         Movement();
     }
 
@@ -52,7 +57,10 @@ public abstract class EnemyCharacter : MonoBehaviour
             //Add downward force while not touching ground so that the enemy falls.
             rb.AddForce(Vector3.down * 3, ForceMode.Acceleration);
         }
+    }
 
+    private void MovementAnimations()
+    {
         //Walk/Idle animations
         //If enemy just got hit, stop walk animation while invincible.
         if (!isInvincible)

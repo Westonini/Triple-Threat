@@ -9,6 +9,9 @@ public abstract class PlayerCharacter : MonoBehaviour
     protected float walkSpeed;
     protected int knockbackPower;
 
+    float moveHorizontal;
+    float moveVertical;
+
     private Camera mainCam;
 
     private LayerMask aimArea;
@@ -29,7 +32,7 @@ public abstract class PlayerCharacter : MonoBehaviour
         mainCam = Camera.main;
 
         //Subscribes main functions to PlayerControls
-        PlayerControls += Movement;
+        PlayerControls += MovementAnimations;
         PlayerControls += Aim;
 
         //Sets aimArea layer to layer #10 (AimArea)
@@ -40,7 +43,7 @@ public abstract class PlayerCharacter : MonoBehaviour
     private void OnDisable()
     {
         //Unsubscribes main functions from PlayerControls
-        PlayerControls -= Movement;
+        PlayerControls -= MovementAnimations;
         PlayerControls -= Aim;
     }
 
@@ -59,12 +62,17 @@ public abstract class PlayerCharacter : MonoBehaviour
         PlayerControls();
     }
 
+    void FixedUpdate()
+    {
+        Movement();
+    }
+
     //Movement
     protected virtual void Movement()
     {
         //Sets the horizontal movement value to moveHorizontal and the vertical movement value to moveVertical
-        float moveHorizontal = Input.GetAxisRaw("Horizontal");
-        float moveVertical = Input.GetAxisRaw("Vertical");
+        moveHorizontal = Input.GetAxisRaw("Horizontal");
+        moveVertical = Input.GetAxisRaw("Vertical");
 
         //Changes the velocity of the character depending on their move direction multiplied by their speed.
         //Disable player-controlled movement while they're getting knockedback
@@ -73,6 +81,16 @@ public abstract class PlayerCharacter : MonoBehaviour
             rb.velocity = new Vector3(moveHorizontal, 0, moveVertical).normalized * walkSpeed;
         }     
 
+        //Ground Check
+        if (!GroundCheck.playerIsTouchingGround)
+        {
+            //Add downward force while not touching ground so that the player falls.
+            rb.AddForce((Vector3.down * 800), ForceMode.Acceleration);
+        }
+    }
+
+    private void MovementAnimations()
+    {
         //Walk/Idle animations
         //If the player is currently moving and not getting knocked back, do walk animation
         if (moveHorizontal != 0 || moveVertical != 0 && !isGettingKnockedback)
@@ -83,13 +101,6 @@ public abstract class PlayerCharacter : MonoBehaviour
         else
         {
             anim.ResetTrigger("Walk");
-        }
-
-        //Ground Check
-        if (!GroundCheck.playerIsTouchingGround)
-        {
-            //Add downward force while not touching ground so that the player falls.
-            rb.AddForce((Vector3.down * 800), ForceMode.Acceleration);
         }
     }
 
