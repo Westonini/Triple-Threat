@@ -3692,6 +3692,8 @@ MonoBehaviour:
   - {fileID: 35121930}
   currentCharacter: {fileID: 0}
   swapOnCooldown: 0
+  poofParticles: {fileID: 7119446763504727466, guid: 87ba587d9d2e4e54b9b4d51f08c08974,
+    type: 3}
 --- !u!114 &963194232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10312,8 +10314,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.25, y: 2.5000012, z: 1.2000006}
-  m_Center: {x: 0.20678484, y: 1.2500011, z: 0.0000003973641}
+  m_Size: {x: 1.25, y: 2.5000017, z: 1.45}
+  m_Center: {x: 0.20678487, y: 1.2500011, z: 0.044173855}
 --- !u!114 &8518179259534063365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10328,7 +10330,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHit: {fileID: 0}
   attackCooldownTime: 2
-  distanceAwayFromPlayerToAttack: 4.75
+  distanceAwayFromPlayerToAttack: 5.3
   attackTime: 0.8
   isCurrentlyAttacking: 0
   justBrokeShield: 0

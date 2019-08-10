@@ -20,6 +20,9 @@ public class SwapCharacters : MonoBehaviour
     private float swapCooldownTimer = 0.25f;
     private float resetSwapCooldownTimer;
 
+    [Space]
+    public GameObject poofParticles;
+
     SceneRestart SR;
 
     void Start()
@@ -100,6 +103,11 @@ public class SwapCharacters : MonoBehaviour
         character.SetActive(true);
         character.transform.position = currentPosition;
         currentCharacter = character;
+
+        //Instantiate Particles when swapping characters.
+        InstantiateParticles.InstantiateParticle(currentCharacter.transform, poofParticles, 1, currentCharacter);
+
+        //Play sound
 
         //Put swap on cooldown
         swapOnCooldown = true;
