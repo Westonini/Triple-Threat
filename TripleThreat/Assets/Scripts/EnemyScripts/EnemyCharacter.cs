@@ -6,16 +6,17 @@ public abstract class EnemyCharacter : MonoBehaviour
 {
     private Rigidbody rb;
 
-    protected float walkSpeed;
-    protected int enemyHealth;
-    protected int defense;
-    protected int knockbackPower;
-    protected int knockbackResistance;
+    public float walkSpeed;
+    public int health;
+    public int damage;
+    public int defense;
+    [Range(0, 100)] public int knockbackResistPercentage;
 
     private GroundCheck groundCheck;
 
     [HideInInspector]
     public bool isInvincible;
+    private bool isDying;
 
     private Animator anim;
 
@@ -93,25 +94,31 @@ public abstract class EnemyCharacter : MonoBehaviour
         }
 
         //Subtract enemyHealth by the damageToDeal
-        enemyHealth -= damageToDeal;
+        health -= damageToDeal;
 
         //Kill the enemy if their health is <= 0
-        if (enemyHealth <= 0)
+        if (health <= 0 && !isDying)
         {
-            Destroy(gameObject);
+            //Enemy gets turned off then destroyed after 5 seconds.
+            isDying = true;
+            gameObject.SetActive(false);
+            Destroy(gameObject, 5f);
         }
 
         //Knockback
         //The knockbackPower is passed in as a parameter by a player character during an attack.
         //The knockback resistance differs with each enemy and is calculated as percentage. For example: knockback power is 200, knockback resistance is 50% so they'll only get knocked back by 100 instead of 200.
-        float calculatedKnockbackResistance = ((knockbackPower * knockbackResistance) / 100);
+        float calculatedKnockbackResistance = ((knockbackPower * knockbackResistPercentage) / 100);
         float calculatedKnockback = knockbackPower - calculatedKnockbackResistance;
 
         //Adds the knockback direction and amount
         rb.AddForce((transform.position - hitFrom).normalized * calculatedKnockback, ForceMode.Acceleration);
 
-        //Short invincibility after getting hit
-        StartCoroutine("Invincibility");
+        //Short invincibility after getting hit as long as they aren't currently dying
+        if (!isDying)
+        {
+            StartCoroutine("Invincibility");
+        }
 
         //Play sound fx
 

@@ -40,10 +40,8 @@ public class Archer : PlayerCharacter //Inherits from PlayerCharacter
     }
 
     //Archer takes 2 additional damage when hurt.
-    //Archer's knockback power is set here.
     public override void TakeDamage(int damageReceived, Vector3 hitFrom)
     {
-        knockbackPower = 1150;
         base.TakeDamage(damageReceived + 2, hitFrom);
     }
 

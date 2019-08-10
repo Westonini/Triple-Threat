@@ -5,12 +5,6 @@ using UnityEngine;
 //This script is attached to the enemy gameobject and is main script for the character.
 public class FistEnemy : EnemyCharacter //Inherits from EnemyCharacter
 {
-    //Values that each FistEnemy variant differs in.
-    public int health;
-    public float speed;
-    public int damage;
-    [Range(0, 100)] public int knockbackResistPercentage;
-
     //FistEnemy's attack script
     FistEnemyAttack attackScript;
 
@@ -18,11 +12,6 @@ public class FistEnemy : EnemyCharacter //Inherits from EnemyCharacter
     {
         //Get the attack script
         attackScript = GetComponentInChildren<FistEnemyAttack>();
-
-        //Sets the enemy's health, speed, and knockback resistance
-        enemyHealth = health;
-        walkSpeed = speed;
-        knockbackResistance = knockbackResistPercentage;
 
         //Call base Start()
         base.Start();

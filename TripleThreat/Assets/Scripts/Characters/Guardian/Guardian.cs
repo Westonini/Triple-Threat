@@ -8,6 +8,7 @@ public class Guardian : PlayerCharacter //Inherits from PlayerCharacter
     //Guardian Stats:
     //Can't deal damage but can block all damage; takes no additonal damage when hit; slow speed (2.5)
 
+
     GuardianAction GA;
 
     private void Awake()
@@ -31,14 +32,6 @@ public class Guardian : PlayerCharacter //Inherits from PlayerCharacter
         }
 
         base.Movement();
-    }
-
-    //Guardian takes 0 additional damage when hurt.
-    //Guardian's knockback power is set here.
-    public override void TakeDamage(int damageReceived, Vector3 hitFrom)
-    {
-        knockbackPower = 750;
-        base.TakeDamage(damageReceived, hitFrom);
     }
 
     //Gets called from the GuardianAction script. Deals 0 damage but knocks enemies back.

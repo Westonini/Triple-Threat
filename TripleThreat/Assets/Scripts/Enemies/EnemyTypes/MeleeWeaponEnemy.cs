@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //This script is attached to the enemy gameobject and is main script for the character.
-public class RangedEnemy : EnemyCharacter //Inherits from EnemyCharacter
+public class MeleeWeaponEnemy : EnemyCharacter
 {
-    //Charge time for the ranged attack
-    public float castTime;
-    //Used to reset the walkSpeed later.
     private float speed;
+    public float speedWhileAttacking;
 
-    //RangedEnemy's attack script
-    RangedEnemyAttack attackScript;
+
+    //FistEnemy's attack script
+    MeleeWeaponEnemyAttack attackScript;
 
     protected override void Start()
     {
         //Get the attack script
-        attackScript = GetComponentInChildren<RangedEnemyAttack>();
+        attackScript = GetComponentInChildren<MeleeWeaponEnemyAttack>();
 
         //set Speed to walkSpeed;
         speed = walkSpeed;
@@ -28,9 +27,9 @@ public class RangedEnemy : EnemyCharacter //Inherits from EnemyCharacter
     protected override void Movement()
     {
         //If the player is within range set the walk speed to 0 to start charging. Otherwise set the walkspeed to whatever it's set at.
-        if (attackScript.playerWithinRange)
+        if (attackScript.isCurrentlyAttacking)
         {
-            walkSpeed = 0;
+            walkSpeed = speedWhileAttacking;
         }
         else
         {
@@ -49,9 +48,15 @@ public class RangedEnemy : EnemyCharacter //Inherits from EnemyCharacter
         //Hit Sound Fx
 
         //Deal damage to player as long as the player isn't currently invincible
-        if (!PlayerCharacter.isInvincible)
+        if (!PlayerCharacter.isInvincible && !attackScript.justBrokeShield)
         {
             playerScript.TakeDamage(damage, transform.position);
+        }
+        //Knock the player back and deal no damage if the shield was just broken in the attack
+        else if (!PlayerCharacter.isInvincible && attackScript.justBrokeShield)
+        {
+            playerScript.TakeDamage(0, transform.position);
+            attackScript.justBrokeShield = false;
         }
     }
 }

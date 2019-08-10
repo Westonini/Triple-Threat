@@ -34,10 +34,8 @@ public class Warrior : PlayerCharacter //Inherits from PlayerCharacter
     }
 
     //Warrior takes 1 additional damage when hurt.
-    //Warrior's knockback power is set here.
     public override void TakeDamage(int damageReceived, Vector3 hitFrom)
     {
-        knockbackPower = 1000;
         base.TakeDamage(damageReceived + 1, hitFrom);
     }
 

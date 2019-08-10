@@ -7,7 +7,7 @@ public abstract class PlayerCharacter : MonoBehaviour
 {
     private Rigidbody rb;
     protected float walkSpeed;
-    protected int knockbackPower;
+    public int knockbackPower; //Set in inspector for each character.
 
     float moveHorizontal;
     float moveVertical;
@@ -20,8 +20,8 @@ public abstract class PlayerCharacter : MonoBehaviour
     public static bool isInvincible;
     private bool isGettingKnockedback;
 
-    public delegate void PlayerControl();
-    public static event PlayerControl PlayerControls;
+    protected delegate void PlayerControl();
+    protected event PlayerControl PlayerControls;
 
     private Animator anim;
 

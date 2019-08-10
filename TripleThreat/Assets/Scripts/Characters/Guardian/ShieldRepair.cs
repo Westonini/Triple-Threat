@@ -12,26 +12,48 @@ public class ShieldRepair : MonoBehaviour
     public GameObject shieldBrokenText;
     public GameObject shieldRepairingText;
     public GameObject shieldRepairedText;
+    public GameObject shieldRepairTimeIncreasedText;
 
-    private float shieldRepairTime = 3f;
+    public static float shieldRepairTime;
 
     public GameObject shieldImage;
     public TextMeshProUGUI shieldDurabilityText;
     SwapCharacters SCscript;
+
+    private delegate void ShieldFunction();
+    private event ShieldFunction ShieldFunctions;
 
     void Start()
     {
         //Start the scene with shieldHealth at 10.
         GuardianAction.shieldHealth = 10;
 
+        shieldRepairTime = 3f;
+
+        //Get the SwapCharacters script from the Main Camera object.
         SCscript = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<SwapCharacters>();
+
+        //Subscribe some functions to ShieldFunctions
+        ShieldFunctions += ShowRepairText;
+        ShieldFunctions += ShowShieldDurability;
+        ShieldFunctions += ShieldRepairInput;
     }
 
     void Update()
     {
+        //Call the ShieldFunctions Event every frame.
+        if (ShieldFunctions != null)
+        {
+            ShieldFunctions();
+        }
+    }
+
+    void ShowRepairText()
+    {
         //If the shield is broken, show some text saying that it's broken and tell player how to repair it
         if (GuardianAction.shieldHealth <= 0 && !currentlyRepairing)
         {
+            shieldRepairedText.SetActive(false);
             shieldBrokenText.SetActive(true);
         }
         else
@@ -39,7 +61,30 @@ public class ShieldRepair : MonoBehaviour
             shieldBrokenText.SetActive(false);
         }
 
+        //If the repair time was increased, show text saying that its been increased
+        if (shieldRepairTime > 3f)
+        {
+            shieldRepairTimeIncreasedText.SetActive(true);
+        }
+        else
+        {
+            shieldRepairTimeIncreasedText.SetActive(false);
+        }
+    }
 
+
+    void ShowShieldDurability()
+    {
+        //If the player has the Guardian character in any of the character slots, show shield durability
+        if (SCscript.character1.name == "Guardian" || SCscript.character2.name == "Guardian" || SCscript.character3.name == "Guardian")
+        {
+            shieldImage.SetActive(true);
+            shieldDurabilityText.text = "Shield Durability:" + "\n" + GuardianAction.shieldHealth.ToString() + " / 10";
+        }
+    }
+
+    void ShieldRepairInput()
+    {
         //If the player holds down the "Repair" key, repair the shield after 2.5 seconds
         if (Input.GetButton("Repair") && GuardianAction.shieldHealth <= 0 && !currentlyRepairing)
         {
@@ -52,12 +97,6 @@ public class ShieldRepair : MonoBehaviour
             StopCoroutine("Repair");
             currentlyRepairing = false;
             shieldRepairingText.SetActive(false);
-        }
-
-        if (SCscript.character1.name == "Guardian" || SCscript.character2.name == "Guardian" || SCscript.character3.name == "Guardian")
-        {
-            shieldImage.SetActive(true);
-            shieldDurabilityText.text = "Shield Durability:" + "\n" + GuardianAction.shieldHealth.ToString() + " / 10";
         }
     }
 
@@ -74,6 +113,7 @@ public class ShieldRepair : MonoBehaviour
         GuardianAction.shieldHealth = 10;
         shieldRepairingText.SetActive(false);
         shieldRepairedText.SetActive(true); //Show text saying "SHIELD REPAIRED" for 2.5 seconds
+        shieldRepairTime = 3f;
 
         yield return new WaitForSeconds(2.5f);
 
