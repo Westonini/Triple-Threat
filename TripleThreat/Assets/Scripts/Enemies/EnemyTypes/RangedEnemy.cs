@@ -29,13 +29,19 @@ public class RangedEnemy : EnemyCharacter //Inherits from EnemyCharacter
     protected override void Movement()
     {
         //If the player is within range set the walk speed to 0 to start charging. Otherwise set the walkspeed to whatever it's set at.
+        //When the enemy has 0 speed, stop the dust particles.
         if (attackScript.playerWithinRange)
         {
             walkSpeed = 0;
+            dustParticles.Stop();
         }
         else
         {
             walkSpeed = speed;
+            if (!dustParticles.isEmitting)
+            {
+                dustParticles.Play();
+            }
         }
 
         base.Movement();

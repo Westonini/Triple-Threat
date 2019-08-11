@@ -20,20 +20,26 @@ public class Archer : PlayerCharacter //Inherits from PlayerCharacter
     //Archer's walk speed gets changed within this override function.
     protected override void Movement()
     {
+        //Get the main module of the dustParticles to change the speed in the following code
+        var main = dustParticles.main;
+
         //If the player currently isn't charging an arrow set walkSpeed to 4 (below-average speed)
         if (!AA.currentlyCharging && !AA.currentlyAiming)
         {
             walkSpeed = 4f;
+            main.startSpeed = 7f;
         }
         //If the player currently is drawing an arrow set walkSpeed to 2 (slow speed)
         else if (AA.currentlyCharging)
         {
             walkSpeed = 2f;
+            main.startSpeed = 3.5f;
         }
         //If the player currently is aiming an arrow set walkSpeed to 1.5 (very slow speed)
         else if (AA.currentlyAiming)
         {
             walkSpeed = 1.5f;
+            main.startSpeed = 2f;
         }
 
         base.Movement();

@@ -14,6 +14,7 @@ public abstract class EnemyCharacter : MonoBehaviour
     [Space]
     public GameObject bloodParticles;
     public float bloodParticlesYOffset;
+    public ParticleSystem dustParticles;
 
     private GroundCheck groundCheck;
 
@@ -73,6 +74,20 @@ public abstract class EnemyCharacter : MonoBehaviour
         else
         {
             anim.ResetTrigger("Walk");
+        }
+
+        //Dust particles show up while the enemy is touching the ground and their velocity is at least 0
+        if (rb.velocity.x >= 0 && groundCheck.enemyIsTouchingGround)
+        {
+            if (!dustParticles.isEmitting)
+            {
+                dustParticles.Play();
+            }
+        }
+        //Otherwise stop them from showing up.
+        else
+        {
+            dustParticles.Stop();
         }
     }
 

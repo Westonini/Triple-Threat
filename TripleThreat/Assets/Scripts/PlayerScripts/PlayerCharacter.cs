@@ -9,6 +9,7 @@ public abstract class PlayerCharacter : MonoBehaviour
     protected float walkSpeed;
     public int knockbackPower;
     public GameObject bloodParticles;
+    public ParticleSystem dustParticles;
 
     float moveHorizontal;
     float moveVertical;
@@ -102,6 +103,21 @@ public abstract class PlayerCharacter : MonoBehaviour
         else
         {
             anim.ResetTrigger("Walk");
+        }
+
+
+        //Dust particles show up while the player is moving or getting knocked back while grounded.
+        if (((moveHorizontal != 0 || moveVertical != 0) || isGettingKnockedback) && GroundCheck.playerIsTouchingGround) 
+        {
+            if (!dustParticles.isEmitting)
+            {
+                dustParticles.Play();
+            }
+        }
+        //Otherwise stop them from showing up.
+        else
+        {
+            dustParticles.Stop();
         }
     }
 
