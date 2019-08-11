@@ -64,6 +64,9 @@ public class GuardianAction : MonoBehaviour
             shieldRenderer.enabled = false;
             currentlyBlocking = false;
 
+            //Make sure the lowest the health can go is 0.
+            shieldHealth = 0;
+
             //Play shield break sound
         }
         else if (shieldHealth > 0 && shieldIsBroken)

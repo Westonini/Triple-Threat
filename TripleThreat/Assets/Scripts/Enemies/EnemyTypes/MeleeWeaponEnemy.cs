@@ -6,6 +6,8 @@ using UnityEngine;
 public class MeleeWeaponEnemy : EnemyCharacter
 {
     private float speed;
+
+    [Space]
     public float speedWhileAttacking;
 
 

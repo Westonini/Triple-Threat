@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class InstantiateParticles : MonoBehaviour
 {
-    public static void InstantiateParticle(Transform positionToInstantiate, GameObject particle, float timeTillDestroyed, GameObject parentObject = null)
+    public static void InstantiateParticle(Transform positionToInstantiate, GameObject particle, float timeTillDestroyed, float yOffset, GameObject parentObject = null)
     {
-        //Offset the positionToInstantiate on the y-axis
-        //Transform offsetPos = transform;
-        //offsetPos.position = new Vector3(positionToInstantiate.transform.position.x, positionToInstantiate.transform.position.y + 0.9f, positionToInstantiate.transform.position.z);
-
-        //Create an instance of the particle to be instantiated
+        //Create an instance of the particle to be instantiated (possibly with the y-axis offset)
         GameObject particleInstance;
-        particleInstance = Instantiate(particle, positionToInstantiate.position, positionToInstantiate.rotation) as GameObject;
+        particleInstance = Instantiate(particle, new Vector3(positionToInstantiate.transform.position.x, positionToInstantiate.transform.position.y + yOffset, positionToInstantiate.transform.position.z), positionToInstantiate.rotation) as GameObject;
 
         //If the parentObject parameter isn't null, set this particle as a child of the parent.
         if (parentObject != null)

@@ -6,6 +6,7 @@ using UnityEngine;
 public class RangedEnemy : EnemyCharacter //Inherits from EnemyCharacter
 {
     //Charge time for the ranged attack
+    [Space]
     public float castTime;
     //Used to reset the walkSpeed later.
     private float speed;

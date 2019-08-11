@@ -11,9 +11,8 @@ GameObject:
   - component: {fileID: 202415147814869349}
   - component: {fileID: 202415147814869345}
   - component: {fileID: 202415147814869346}
-  - component: {fileID: 202415147814869347}
   m_Layer: 0
-  m_Name: BloodParticles
+  m_Name: BloodParticles_Normal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3791,7 +3790,7 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4608
+      m_Bits: 256
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -4812,17 +4811,3 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &202415147814869347
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 202415147814869348}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39ff23d7eae52fe4ebf4f9394cf3c399, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bloodSplatter: {fileID: 202415147814869348}
-  bloodParticles: {fileID: 202415147814869345}

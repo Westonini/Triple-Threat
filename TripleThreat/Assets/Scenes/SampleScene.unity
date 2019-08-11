@@ -51,8 +51,8 @@ LightmapSettings:
     m_IndirectOutputScale: 1
     m_AlbedoBoost: 1
     m_EnvironmentLightingMode: 0
-    m_EnableBakedLightmaps: 0
-    m_EnableRealtimeLightmaps: 0
+    m_EnableBakedLightmaps: 1
+    m_EnableRealtimeLightmaps: 1
   m_LightmapEditorSettings:
     serializedVersion: 12
     m_Resolution: 2
@@ -1275,6 +1275,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 331534202}
   m_CullTransparentMesh: 0
+--- !u!1 &336753318
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 336753319}
+  m_Layer: 5
+  m_Name: TextAboveHead - Enemies
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &336753319
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 336753318}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 612410574}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &342650251
 GameObject:
   m_ObjectHideFlags: 0
@@ -1925,7 +1960,7 @@ GameObject:
   - component: {fileID: 594630072}
   - component: {fileID: 594630071}
   m_Layer: 5
-  m_Name: TextAboveHead
+  m_Name: TextAboveHead - Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2275,6 +2310,7 @@ RectTransform:
   - {fileID: 594630070}
   - {fileID: 1914463630}
   - {fileID: 851169422}
+  - {fileID: 336753319}
   m_Father: {fileID: 1994954443}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2971,6 +3007,52 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 821090588}
   m_Mesh: {fileID: -2432090755550338912, guid: e7bb6f6afdc593b4bac9cc643d24b3e2, type: 3}
+--- !u!1 &825356658
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 825356659}
+  - component: {fileID: 825356660}
+  m_Layer: 0
+  m_Name: TextAboveHeadPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &825356659
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 825356658}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8230381738554216696}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &825356660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 825356658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05958460f4ad7b9419a5af34fea60922, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyTextAboveHeadInstance: {fileID: 0}
+  enemyTextAboveHeadPrefab: {fileID: 2219978392377574418, guid: f3ce1130bf1b5264390e3d9e7997011e,
+    type: 3}
 --- !u!1 &828047630
 GameObject:
   m_ObjectHideFlags: 0
@@ -4669,7 +4751,7 @@ GameObject:
   - component: {fileID: 1253278462}
   - component: {fileID: 1253278461}
   m_Layer: 14
-  m_Name: Ranger (2)
+  m_Name: Ranger
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4690,6 +4772,7 @@ Transform:
   - {fileID: 1335718492}
   - {fileID: 1949336336}
   - {fileID: 727519126}
+  - {fileID: 1937101973}
   m_Father: {fileID: 161058210}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4710,7 +4793,11 @@ MonoBehaviour:
   damage: 2
   defense: 0
   knockbackResistPercentage: 0
+  bloodParticles: {fileID: 202415147814869348, guid: 2c71721e9ca5d1340ac9d12b7436e4bb,
+    type: 3}
+  bloodParticlesYOffset: 3
   isInvincible: 0
+  isDying: 0
   castTime: 2.5
 --- !u!95 &1253278462
 Animator:
@@ -5125,6 +5212,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1269819953}
   m_CullTransparentMesh: 0
+--- !u!1 &1292042670
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1292042671}
+  - component: {fileID: 1292042672}
+  m_Layer: 0
+  m_Name: TextAboveHeadPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1292042671
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1292042670}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5703029637302312181}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1292042672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1292042670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05958460f4ad7b9419a5af34fea60922, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyTextAboveHeadInstance: {fileID: 0}
+  enemyTextAboveHeadPrefab: {fileID: 2219978392377574418, guid: f3ce1130bf1b5264390e3d9e7997011e,
+    type: 3}
 --- !u!1 &1295379843
 GameObject:
   m_ObjectHideFlags: 0
@@ -6087,6 +6220,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1553214587}
   - component: {fileID: 1553214588}
+  - component: {fileID: 1553214589}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -6127,6 +6261,18 @@ MonoBehaviour:
   shieldRepairTimeIncreasedText: {fileID: 492235497}
   shieldImage: {fileID: 1450928417}
   shieldDurabilityText: {fileID: 208167419}
+--- !u!114 &1553214589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553214586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fbc35f5edc928347b860a85253d2b24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1581866983
 GameObject:
   m_ObjectHideFlags: 0
@@ -6160,6 +6306,52 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1582906420
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1582906421}
+  - component: {fileID: 1582906422}
+  m_Layer: 0
+  m_Name: TextAboveHeadPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1582906421
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1582906420}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5006512736369191961}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1582906422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1582906420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05958460f4ad7b9419a5af34fea60922, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyTextAboveHeadInstance: {fileID: 0}
+  enemyTextAboveHeadPrefab: {fileID: 2219978392377574418, guid: f3ce1130bf1b5264390e3d9e7997011e,
+    type: 3}
 --- !u!1 &1597414587
 GameObject:
   m_ObjectHideFlags: 0
@@ -6371,6 +6563,52 @@ Transform:
   m_Father: {fileID: 1989313061}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 75, y: 0, z: 0}
+--- !u!1 &1772065721
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1772065722}
+  - component: {fileID: 1772065723}
+  m_Layer: 0
+  m_Name: TextAboveHeadPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1772065722
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1772065721}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1663596145049921640}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1772065723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1772065721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05958460f4ad7b9419a5af34fea60922, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyTextAboveHeadInstance: {fileID: 0}
+  enemyTextAboveHeadPrefab: {fileID: 2219978392377574418, guid: f3ce1130bf1b5264390e3d9e7997011e,
+    type: 3}
 --- !u!1 &1836007558
 GameObject:
   m_ObjectHideFlags: 0
@@ -6880,6 +7118,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1927847425}
   m_CullTransparentMesh: 0
+--- !u!1 &1937101972
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1937101973}
+  - component: {fileID: 1937101974}
+  m_Layer: 0
+  m_Name: TextAboveHeadPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1937101973
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1937101972}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1253278460}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1937101974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1937101972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05958460f4ad7b9419a5af34fea60922, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyTextAboveHeadInstance: {fileID: 0}
+  enemyTextAboveHeadPrefab: {fileID: 2219978392377574418, guid: f3ce1130bf1b5264390e3d9e7997011e,
+    type: 3}
 --- !u!1 &1949336335
 GameObject:
   m_ObjectHideFlags: 0
@@ -7923,6 +8207,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2127226247
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2127226248}
+  - component: {fileID: 2127226249}
+  m_Layer: 0
+  m_Name: TextAboveHeadPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2127226248
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127226247}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2707322646501067380}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2127226249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127226247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05958460f4ad7b9419a5af34fea60922, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyTextAboveHeadInstance: {fileID: 0}
+  enemyTextAboveHeadPrefab: {fileID: 2219978392377574418, guid: f3ce1130bf1b5264390e3d9e7997011e,
+    type: 3}
 --- !u!1 &2130419204
 GameObject:
   m_ObjectHideFlags: 0
@@ -8335,7 +8665,11 @@ MonoBehaviour:
   damage: 1
   defense: 0
   knockbackResistPercentage: 0
+  bloodParticles: {fileID: 202415147814869348, guid: 2c71721e9ca5d1340ac9d12b7436e4bb,
+    type: 3}
+  bloodParticlesYOffset: 3
   isInvincible: 0
+  isDying: 0
 --- !u!54 &1425686436665358443
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8413,6 +8747,7 @@ Transform:
   m_Children:
   - {fileID: 1382501782}
   - {fileID: 1424880569}
+  - {fileID: 1772065722}
   m_Father: {fileID: 161058210}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8570,7 +8905,11 @@ MonoBehaviour:
   damage: 2
   defense: 0
   knockbackResistPercentage: 30
+  bloodParticles: {fileID: 202415147814869348, guid: 32542adc32a182b4cb9f9a97b3089023,
+    type: 3}
+  bloodParticlesYOffset: 2.5
   isInvincible: 0
+  isDying: 0
 --- !u!1 &2401384033248917305
 GameObject:
   m_ObjectHideFlags: 0
@@ -8650,6 +8989,7 @@ Transform:
   m_Children:
   - {fileID: 1910630953}
   - {fileID: 79082550}
+  - {fileID: 2127226248}
   m_Father: {fileID: 161058210}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8954,6 +9294,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knockbackPower: 1150
+  bloodParticles: {fileID: 202415147814869348, guid: 2c71721e9ca5d1340ac9d12b7436e4bb,
+    type: 3}
 --- !u!54 &4014616246612983228
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9289,7 +9631,11 @@ MonoBehaviour:
   damage: 2
   defense: 0
   knockbackResistPercentage: 0
+  bloodParticles: {fileID: 202415147814869348, guid: 2c71721e9ca5d1340ac9d12b7436e4bb,
+    type: 3}
+  bloodParticlesYOffset: 3
   isInvincible: 0
+  isDying: 0
   castTime: 2.5
 --- !u!4 &4946650909899232679
 Transform:
@@ -9333,6 +9679,7 @@ Transform:
   m_Children:
   - {fileID: 203464829}
   - {fileID: 360287589}
+  - {fileID: 1582906421}
   m_Father: {fileID: 161058210}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9396,6 +9743,7 @@ Transform:
   m_Children:
   - {fileID: 612773518}
   - {fileID: 4642647437712180499}
+  - {fileID: 1292042671}
   m_Father: {fileID: 161058210}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9704,6 +10052,7 @@ Transform:
   - {fileID: 286042885}
   - {fileID: 1307819030}
   - {fileID: 49481969}
+  - {fileID: 825356659}
   m_Father: {fileID: 161058210}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9758,6 +10107,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knockbackPower: 1000
+  bloodParticles: {fileID: 202415147814869348, guid: 2c71721e9ca5d1340ac9d12b7436e4bb,
+    type: 3}
 --- !u!54 &8296172667483089490
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9962,7 +10313,11 @@ MonoBehaviour:
   damage: 1
   defense: 0
   knockbackResistPercentage: 0
+  bloodParticles: {fileID: 202415147814869348, guid: 2c71721e9ca5d1340ac9d12b7436e4bb,
+    type: 3}
+  bloodParticlesYOffset: 2.5
   isInvincible: 0
+  isDying: 0
 --- !u!54 &8296172668166069772
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10232,7 +10587,7 @@ GameObject:
   - component: {fileID: 8518179259534063364}
   m_Layer: 0
   m_Name: Sledgehammer
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10369,6 +10724,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knockbackPower: 750
+  bloodParticles: {fileID: 202415147814869348, guid: 2c71721e9ca5d1340ac9d12b7436e4bb,
+    type: 3}
 --- !u!54 &8632360443676352351
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10606,7 +10963,11 @@ MonoBehaviour:
   damage: 4
   defense: 0
   knockbackResistPercentage: 40
+  bloodParticles: {fileID: 202415147814869348, guid: 32542adc32a182b4cb9f9a97b3089023,
+    type: 3}
+  bloodParticlesYOffset: 4
   isInvincible: 0
+  isDying: 0
   speedWhileAttacking: 1
 --- !u!33 &8765986660646670278
 MeshFilter:

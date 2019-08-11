@@ -105,7 +105,7 @@ public class SwapCharacters : MonoBehaviour
         currentCharacter = character;
 
         //Instantiate Particles when swapping characters.
-        InstantiateParticles.InstantiateParticle(currentCharacter.transform, poofParticles, 1, currentCharacter);
+        InstantiateParticles.InstantiateParticle(currentCharacter.transform, poofParticles, 0.35f, 0.5f, currentCharacter);
 
         //Play sound
 

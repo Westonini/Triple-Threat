@@ -7,7 +7,8 @@ public abstract class PlayerCharacter : MonoBehaviour
 {
     private Rigidbody rb;
     protected float walkSpeed;
-    public int knockbackPower; //Set in inspector for each character.
+    public int knockbackPower;
+    public GameObject bloodParticles;
 
     float moveHorizontal;
     float moveVertical;
@@ -35,8 +36,8 @@ public abstract class PlayerCharacter : MonoBehaviour
         PlayerControls += MovementAnimations;
         PlayerControls += Aim;
 
-        //Sets aimArea layer to layer #10 (AimArea)
-        aimArea = 1 << 10;
+        //Get layermask
+        aimArea = LayerMask.GetMask("AimArea");
     }
 
     //Happens when a character gets disabled
@@ -125,7 +126,15 @@ public abstract class PlayerCharacter : MonoBehaviour
     {
         //Subtract player health by the damage received
         PlayerHealth.playerHealth -= damageReceived;
-        
+
+        //Play sound fx
+
+        //Instantiate blood particles when hurt
+        if (damageReceived > 0)
+        {
+            InstantiateParticles.InstantiateParticle(transform, bloodParticles, 5f, 5f);
+        }
+
         //Do the following only if player is still alive
         if (PlayerHealth.playerHealth > 0)
         {
@@ -134,10 +143,6 @@ public abstract class PlayerCharacter : MonoBehaviour
 
             //Short invincibility after getting hit
             StartCoroutine("Invincibility");
-
-            //Play sound fx
-
-            //Show player getting hurt and show health being lost
         }
     }
 

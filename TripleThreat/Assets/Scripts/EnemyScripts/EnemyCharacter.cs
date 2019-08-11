@@ -11,12 +11,14 @@ public abstract class EnemyCharacter : MonoBehaviour
     public int damage;
     public int defense;
     [Range(0, 100)] public int knockbackResistPercentage;
+    [Space]
+    public GameObject bloodParticles;
+    public float bloodParticlesYOffset;
 
     private GroundCheck groundCheck;
 
-    [HideInInspector]
-    public bool isInvincible;
-    private bool isDying;
+    [HideInInspector] public bool isInvincible;
+    [HideInInspector] public bool isDying;
 
     private Animator anim;
 
@@ -105,24 +107,28 @@ public abstract class EnemyCharacter : MonoBehaviour
             Destroy(gameObject, 5f);
         }
 
-        //Knockback
-        //The knockbackPower is passed in as a parameter by a player character during an attack.
-        //The knockback resistance differs with each enemy and is calculated as percentage. For example: knockback power is 200, knockback resistance is 50% so they'll only get knocked back by 100 instead of 200.
-        float calculatedKnockbackResistance = ((knockbackPower * knockbackResistPercentage) / 100);
-        float calculatedKnockback = knockbackPower - calculatedKnockbackResistance;
-
-        //Adds the knockback direction and amount
-        rb.AddForce((transform.position - hitFrom).normalized * calculatedKnockback, ForceMode.Acceleration);
-
-        //Short invincibility after getting hit as long as they aren't currently dying
-        if (!isDying)
+        if (health > 0)
         {
+            //Knockback
+            //The knockbackPower is passed in as a parameter by a player character during an attack.
+            //The knockback resistance differs with each enemy and is calculated as percentage. For example: knockback power is 200, knockback resistance is 50% so they'll only get knocked back by 100 instead of 200.
+            float calculatedKnockbackResistance = ((knockbackPower * knockbackResistPercentage) / 100);
+            float calculatedKnockback = knockbackPower - calculatedKnockbackResistance;
+
+            //Adds the knockback direction and amount
+            rb.AddForce((transform.position - hitFrom).normalized * calculatedKnockback, ForceMode.Acceleration);
+
+            //Short invincibility after getting hit
             StartCoroutine("Invincibility");
         }
 
         //Play sound fx
 
-        //Show enemy getting hurt
+        //Instantiate blood particles when hurt
+        if (damageToDeal > 0)
+        {
+            InstantiateParticles.InstantiateParticle(transform, bloodParticles, 5f, bloodParticlesYOffset);
+        }
     }
 
     //Short invincibility after getting hit
