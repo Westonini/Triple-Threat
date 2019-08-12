@@ -9,6 +9,7 @@ public class WarriorAction : MonoBehaviour
 
     private Collider swordCollider;
     private Animator swordAnim;
+    private TrailRenderer swordTrail;
 
     [HideInInspector]
     public EnemyCharacter enemyHit;
@@ -20,9 +21,10 @@ public class WarriorAction : MonoBehaviour
 
     private void Start()
     {
-        //Get the sword's collider and animator
+        //Get the sword's collider, animator, and trail.
         swordCollider = GetComponent<Collider>();
         swordAnim = GetComponent<Animator>();
+        swordTrail = GetComponentInChildren<TrailRenderer>();
 
         //Get the Warrior script from the parent object
         warriorScript = GetComponentInParent<Warrior>();
@@ -41,6 +43,7 @@ public class WarriorAction : MonoBehaviour
         swordCollider.enabled = false;
         currentlyAttacking = false;
         currentlyOnCooldown = false;
+        swordTrail.enabled = false;
     }
 
     private void Update()
@@ -69,6 +72,7 @@ public class WarriorAction : MonoBehaviour
     {
         swordCollider.enabled = true;
         swordAnim.SetTrigger("Attack");
+        swordTrail.enabled = true;
 
         currentlyAttacking = true;
 
@@ -77,6 +81,7 @@ public class WarriorAction : MonoBehaviour
         yield return new WaitForSeconds(0.10f);
         swordCollider.enabled = false;
         currentlyAttacking = false;
+        swordTrail.enabled = false;
     }
 
     //Stops player from attacking momentarily.

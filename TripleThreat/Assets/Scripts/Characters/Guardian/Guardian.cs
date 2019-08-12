@@ -40,8 +40,6 @@ public class Guardian : PlayerCharacter //Inherits from PlayerCharacter
         //Set enemyScript to equal the component passed in as a parameter, taken from the EnemyCharacter script
         EnemyCharacter enemyScript = component as EnemyCharacter;
 
-        //Shield block sound effect
-
         //Deal 0 damage but push enemies back.
         //If the guardian is currently bashing, set knockback to 475
         if (!enemyScript.isInvincible && GA.currentlyBlocking)

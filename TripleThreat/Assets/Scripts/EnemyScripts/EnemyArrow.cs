@@ -12,8 +12,8 @@ public class EnemyArrow : Arrow //Inherits from Arrow parent class
         //Get the RangedEnemy script from the object that instantiated this object.
         enemyScript = GetComponentInParent<RangedEnemy>();
 
-        //Change this arrow's parent to null so incase the parent object dies, this object doesn't die with it
-        gameObject.transform.parent = null;
+        //Set the parent to the Instantiated Objects gameobject after getting the enemy script
+        gameObject.transform.SetParent(InstantiateParticles.instantiatedObjects.transform);
 
         base.Start();
     }
@@ -23,8 +23,9 @@ public class EnemyArrow : Arrow //Inherits from Arrow parent class
         //If the arrow touches the shield, destroy the arrow and subtract one durabiltiy point from the shield.
         if (other.gameObject.layer == LayerMask.NameToLayer("Shield")) //Shield Layer
         {
-            GuardianAction.shieldHealth -= 1;
-            Destroy(gameObject);
+            GuardianAction.SubtractShieldHealth(1);
+
+            DisableArrow();
         }
 
         //If the arrow touches a player, call the enemy's DealDamage() function and pass in the player's PlayerCharacter script.
@@ -32,7 +33,8 @@ public class EnemyArrow : Arrow //Inherits from Arrow parent class
         {
             playerHit = other.gameObject.GetComponent<PlayerCharacter>();
             enemyScript.DealDamage(playerHit);
-            Destroy(gameObject);
+
+            DisableArrow();
         }
 
         base.OnTriggerEnter(other);

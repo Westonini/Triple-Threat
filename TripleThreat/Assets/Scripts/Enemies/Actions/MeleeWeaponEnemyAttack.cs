@@ -17,15 +17,17 @@ public class MeleeWeaponEnemyAttack : MonoBehaviour
 
     Collider weaponCollider;
     Animator weaponAnim;
+    TrailRenderer weaponTrail;
     
     MeleeWeaponEnemy enemyScript;
     SwapCharacters swapScript;
 
     void Start()
     {
-        //Get the weapon's collider and animator
+        //Get the weapon's collider, animator, and trail.
         weaponCollider = GetComponent<Collider>();
         weaponAnim = GetComponent<Animator>();
+        weaponTrail = GetComponentInChildren<TrailRenderer>();
 
         //Get MeleeWeaponEnemy script from parent
         enemyScript = GetComponentInParent<MeleeWeaponEnemy>();
@@ -53,10 +55,11 @@ public class MeleeWeaponEnemyAttack : MonoBehaviour
         //If the shield is hit, disable the weapon collider, break the shield, and increase the repair time.
         if (other.gameObject.layer == LayerMask.NameToLayer("Shield")) //Shield Layer
         {
+            //On impact with the shield, disable the weapon collider and set justBrokeShield to true.
             weaponCollider.enabled = false;
             justBrokeShield = true;
 
-            GuardianAction.shieldHealth = 0;
+            GuardianAction.SubtractShieldHealth(10);
             ShieldRepair.shieldRepairTime = 5f;
 
             //Knockback but deal 0 damage
@@ -92,15 +95,20 @@ public class MeleeWeaponEnemyAttack : MonoBehaviour
 
     IEnumerator Attack()
     {
+        //Do attack
         isCurrentlyAttacking = true;
 
         weaponCollider.enabled = true;
         weaponAnim.SetTrigger("Attack");
+        weaponTrail.enabled = true;
 
+        //Attack is over but animation is pulling the weapon back into the start position.
         yield return new WaitForSeconds(attackTime);
 
         weaponCollider.enabled = false;
+        weaponTrail.enabled = false;
 
+        //Cooldown before the enemy can attack again.
         yield return new WaitForSeconds(attackCooldownTime);
 
         isCurrentlyAttacking = false;

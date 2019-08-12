@@ -61,7 +61,10 @@ public abstract class PlayerCharacter : MonoBehaviour
     void Update()
     {
         //Calls all the functions subscribed to the PlayerControls event every frame.
-        PlayerControls();
+        if (PlayerControls != null)
+        {
+            PlayerControls();
+        }
     }
 
     void FixedUpdate()

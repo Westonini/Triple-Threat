@@ -5,15 +5,21 @@ using UnityEngine;
 //Acts as a parent class for PlayerArrow & EnemyArrow
 public abstract class Arrow : MonoBehaviour
 {
-    Rigidbody arrowRB;
+    protected Rigidbody arrowRB;
+    protected Collider arrowCollider;
+    protected MeshRenderer arrowRenderer;
+    protected ParticleSystem arrowParticles;
 
     [HideInInspector]
     public EnemyCharacter enemyHit;
 
     protected virtual void Start()
     {
-        //Get the arrow's rigidbody
+        //Get the arrow's components
         arrowRB = GetComponent<Rigidbody>();
+        arrowCollider = GetComponent<Collider>();
+        arrowRenderer = GetComponent<MeshRenderer>();
+        arrowParticles = GetComponentInChildren<ParticleSystem>();
 
         //Start the ArrowGravity coroutine as soon as this object is instantiated.
         StartCoroutine("ArrowGravity");
@@ -21,10 +27,10 @@ public abstract class Arrow : MonoBehaviour
 
     protected virtual void OnTriggerEnter(Collider other)
     {
-        //If the arrow touches the ground, destroy it
+        //If the arrow touches the ground, turn off its collider and renderer.
         if (other.gameObject.layer == LayerMask.NameToLayer("Ground")) //Ground Layer
         {
-            Destroy(gameObject);
+            DisableArrow();
         }
     }
 
@@ -34,5 +40,15 @@ public abstract class Arrow : MonoBehaviour
         arrowRB.useGravity = false;
         yield return new WaitForSeconds(0.2f);
         arrowRB.useGravity = true;
+    }
+
+    protected void DisableArrow()
+    {
+        //Disable the collider and renderer, freeze the position, and stop additional particles from spawning.
+        //This is so that the trail and particles don't instantly disappear when they hit something.
+        arrowCollider.enabled = false;
+        arrowRenderer.enabled = false;
+        arrowRB.constraints = RigidbodyConstraints.FreezePosition;
+        arrowParticles.Stop();
     }
 }
