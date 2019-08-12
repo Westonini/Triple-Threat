@@ -75,7 +75,8 @@ public class GuardianAction : MonoBehaviour
             enemyHit = collision.gameObject.GetComponent<EnemyCharacter>();
             guardianScript.DealDamage(enemyHit);
 
-            if (!shieldHealthInvincibility)
+            //If the enemy is a FistEnemy type, subtract a shield point when touching them.
+            if (!shieldHealthInvincibility && collision.gameObject.GetComponent<FistEnemy>())
             {
                 SubtractShieldHealth(1);
             }
@@ -158,7 +159,7 @@ public class GuardianAction : MonoBehaviour
     private IEnumerator SubtractShieldHealthCooldown()
     {
         shieldHealthInvincibility = true;
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(1f);
         shieldHealthInvincibility = false;
     }
 }

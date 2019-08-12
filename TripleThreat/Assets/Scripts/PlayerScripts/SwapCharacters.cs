@@ -21,7 +21,8 @@ public class SwapCharacters : MonoBehaviour
     private float resetSwapCooldownTimer;
 
     [Space]
-    public GameObject poofParticles;
+    public GameObject bubbleParticle;
+    public GameObject smokeParticles;
 
     SceneRestart SR;
 
@@ -105,7 +106,8 @@ public class SwapCharacters : MonoBehaviour
         currentCharacter = character;
 
         //Instantiate Particles when swapping characters.
-        InstantiateParticles.InstantiateParticle(currentCharacter.transform, poofParticles, 0.35f, 0.5f, currentCharacter);
+        InstantiateParticles.InstantiateParticle(currentCharacter.transform, bubbleParticle, 2f, 0.25f, currentCharacter);
+        InstantiateParticles.InstantiateParticle(currentCharacter.transform, smokeParticles, 2f, 0.25f);
 
         //Play sound
 

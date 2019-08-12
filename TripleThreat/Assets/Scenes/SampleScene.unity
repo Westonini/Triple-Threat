@@ -27594,7 +27594,9 @@ MonoBehaviour:
   - {fileID: 35121930}
   currentCharacter: {fileID: 0}
   swapOnCooldown: 0
-  poofParticles: {fileID: 7119446763504727466, guid: 87ba587d9d2e4e54b9b4d51f08c08974,
+  bubbleParticle: {fileID: 7759160549468393688, guid: 3134ea74fc68efe4395e9e0dd56fd382,
+    type: 3}
+  smokeParticles: {fileID: 894405644719408751, guid: c949fb51fdf158442a07f51a599d447c,
     type: 3}
 --- !u!114 &963194232
 MonoBehaviour:
