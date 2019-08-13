@@ -86,13 +86,13 @@ public class ShieldRepair : MonoBehaviour
     void ShieldRepairInput()
     {
         //If the player holds down the "Repair" key, repair the shield after 2.5 seconds
-        if (Input.GetButton("Repair") && GuardianAction.shieldHealth <= 0 && !currentlyRepairing)
+        if (Input.GetButton("Repair") && GuardianAction.shieldHealth <= 0 && !currentlyRepairing && PlayerHealth.playerHealth > 0)
         {
             StartCoroutine("Repair");
             shieldRepairingText.SetActive(true);
         }
-        //If the player releases the "Repair" key while repairing, stop repairing.
-        if (Input.GetButtonUp("Repair") && currentlyRepairing)
+        //If the player releases the "Repair" key while repairing, stop repairing. Alternatively, if the player is dead stop the repair.
+        if (Input.GetButtonUp("Repair") && currentlyRepairing || PlayerHealth.playerHealth <= 0)
         {
             StopCoroutine("Repair");
             currentlyRepairing = false;
