@@ -11,7 +11,7 @@ public class SwapCharacters : MonoBehaviour
 
     public GameObject[] cameraList;
 
-    [HideInInspector] public GameObject currentCharacter;
+    [HideInInspector] public static GameObject currentCharacter;
     private Vector3 currentPosition;
 
     public static Transform currentPlayerPosition;
@@ -62,8 +62,8 @@ public class SwapCharacters : MonoBehaviour
     //If/else statements for checking which character to switch to and if it's possible.
     void SwapInput()
     {
-        //If the scene isn't currently restarting, the player isn't currently invincible, and swap currently isn't on cooldown..
-        if (!SR.sceneCurrentlyRestarting && !PlayerCharacter.isInvincible && !swapOnCooldown)
+        //If the scene isn't currently restarting, the player isn't currently invincible or dead, and swap currently isn't on cooldown..
+        if (!SR.sceneCurrentlyRestarting && !PlayerCharacter.isInvincible && !swapOnCooldown && PlayerHealth.playerHealth > 0)
         {
             //If the player presses the "Chraracter1" Key and is not currently character 1, swap to character1.
             if (Input.GetButtonDown("Character1") && currentCharacter != character1)

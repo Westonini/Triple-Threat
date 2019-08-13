@@ -35,15 +35,15 @@ public class CurrentCharactersUI : MonoBehaviour
     private void Update()
     {
         //if the character currently being used is x, call the function to brighten x's sprite
-        if (SCscript.currentCharacter.name == character1)
+        if (SwapCharacters.currentCharacter.name == character1)
         {
             BrightenCurrentlySelectedCharacterSprite(character1Image, character1Name);
         }
-        if (SCscript.currentCharacter.name == character2)
+        if (SwapCharacters.currentCharacter.name == character2)
         {
             BrightenCurrentlySelectedCharacterSprite(character2Image, character2Name);
         }
-        if (SCscript.currentCharacter.name == character3)
+        if (SwapCharacters.currentCharacter.name == character3)
         {
             BrightenCurrentlySelectedCharacterSprite(character3Image, character3Name);
         }

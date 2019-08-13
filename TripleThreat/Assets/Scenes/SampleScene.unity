@@ -595,7 +595,7 @@ GameObject:
   - component: {fileID: 49481970}
   m_Layer: 0
   m_Name: ShootPoint
-  m_TagString: Untagged
+  m_TagString: Equipment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5402,7 +5402,7 @@ GameObject:
   - component: {fileID: 79082551}
   m_Layer: 0
   m_Name: AttackCollider
-  m_TagString: Untagged
+  m_TagString: Equipment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10373,7 +10373,7 @@ GameObject:
   - component: {fileID: 195092893}
   m_Layer: 0
   m_Name: Bow
-  m_TagString: Untagged
+  m_TagString: Equipment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10797,7 +10797,7 @@ GameObject:
   - component: {fileID: 286042885}
   m_Layer: 0
   m_Name: Bow
-  m_TagString: Untagged
+  m_TagString: Equipment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11023,7 +11023,7 @@ GameObject:
   - component: {fileID: 360287590}
   m_Layer: 0
   m_Name: AttackCollider
-  m_TagString: Untagged
+  m_TagString: Equipment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16680,6 +16680,7 @@ RectTransform:
   - {fileID: 1914463630}
   - {fileID: 851169422}
   - {fileID: 336753319}
+  - {fileID: 784934427}
   m_Father: {fileID: 1994954443}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -21764,6 +21765,102 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!1 &784934426
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 784934427}
+  - component: {fileID: 784934430}
+  - component: {fileID: 784934429}
+  - component: {fileID: 784934428}
+  m_Layer: 5
+  m_Name: RedTint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &784934427
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784934426}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 956020569}
+  m_Father: {fileID: 612410574}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 800, y: 450}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &784934428
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784934426}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5ca4cca25a5f1ff48810f1a3a9aa786a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &784934429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784934426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.6981132, g: 0, b: 0, a: 0}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &784934430
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784934426}
+  m_CullTransparentMesh: 0
 --- !u!1 &788431959
 GameObject:
   m_ObjectHideFlags: 0
@@ -27387,6 +27484,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 901544313}
   m_CullTransparentMesh: 0
+--- !u!1 &956020568
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 956020569}
+  - component: {fileID: 956020571}
+  - component: {fileID: 956020570}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &956020569
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 956020568}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 784934427}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &956020570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 956020568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: 30db71c1add78bc42a3d83af298a4f5a, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &956020571
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 956020568}
+  m_CullTransparentMesh: 0
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -27592,7 +27764,6 @@ MonoBehaviour:
   - {fileID: 1248926925}
   - {fileID: 1665470407}
   - {fileID: 35121930}
-  currentCharacter: {fileID: 0}
   swapOnCooldown: 0
   bubbleParticle: {fileID: 7759160549468393688, guid: 3134ea74fc68efe4395e9e0dd56fd382,
     type: 3}
@@ -33518,6 +33689,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11d63d2c506b9444dad9cf8a2c7abfcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  smokeParticles: {fileID: 894405644719408751, guid: c949fb51fdf158442a07f51a599d447c,
+    type: 3}
 --- !u!1 &1257703640
 GameObject:
   m_ObjectHideFlags: 0
@@ -34048,7 +34221,7 @@ GameObject:
   - component: {fileID: 1340252472}
   m_Layer: 0
   m_Name: ShootPoint
-  m_TagString: Untagged
+  m_TagString: Equipment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -34436,7 +34609,7 @@ GameObject:
   - component: {fileID: 1424880570}
   m_Layer: 0
   m_Name: AttackCollider
-  m_TagString: Untagged
+  m_TagString: Equipment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -35048,6 +35221,7 @@ GameObject:
   - component: {fileID: 1553214587}
   - component: {fileID: 1553214588}
   - component: {fileID: 1553214589}
+  - component: {fileID: 1553214590}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -35100,6 +35274,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fbc35f5edc928347b860a85253d2b24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1553214590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553214586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eb1a2c7323f9424895f9a27682a06fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bloodParticles: {fileID: 202415147814869348, guid: 2c71721e9ca5d1340ac9d12b7436e4bb,
+    type: 3}
+  smokeParticles: {fileID: 894405644719408751, guid: c949fb51fdf158442a07f51a599d447c,
+    type: 3}
+  redTintAnim: {fileID: 784934428}
 --- !u!1 &1581866983
 GameObject:
   m_ObjectHideFlags: 0
@@ -35351,7 +35542,7 @@ GameObject:
   - component: {fileID: 1607546377}
   m_Layer: 0
   m_Name: ShootPoint
-  m_TagString: Untagged
+  m_TagString: Equipment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45633,6 +45824,7 @@ GameObject:
   - component: {fileID: 1966636809}
   - component: {fileID: 1966636808}
   - component: {fileID: 1966636807}
+  - component: {fileID: 1966636813}
   m_Layer: 14
   m_Name: Ranger
   m_TagString: Enemy
@@ -45682,7 +45874,6 @@ MonoBehaviour:
   bloodParticlesYOffset: 3
   dustParticles: {fileID: 500513957}
   isInvincible: 0
-  isDying: 0
   castTime: 2.5
 --- !u!95 &1966636808
 Animator:
@@ -45783,6 +45974,22 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1966636805}
   m_Mesh: {fileID: -2432090755550338912, guid: fc53711cab6224d46848b1576863c85c, type: 3}
+--- !u!114 &1966636813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1966636805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80b08245334245a45bb6a874452d06c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bloodParticles: {fileID: 202415147814869348, guid: 2c71721e9ca5d1340ac9d12b7436e4bb,
+    type: 3}
+  smokeParticles: {fileID: 894405644719408751, guid: df6df71e94c81f144b0232df9ee46032,
+    type: 3}
 --- !u!1 &1968573255
 GameObject:
   m_ObjectHideFlags: 0
@@ -51666,7 +51873,7 @@ GameObject:
   - component: {fileID: 390081038776702704}
   m_Layer: 0
   m_Name: Bow
-  m_TagString: Untagged
+  m_TagString: Equipment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -51745,6 +51952,7 @@ GameObject:
   - component: {fileID: 1425686436665358443}
   - component: {fileID: 1425686436665358442}
   - component: {fileID: 1425686436665358445}
+  - component: {fileID: 1425686436665358446}
   m_Layer: 14
   m_Name: Grunt
   m_TagString: Enemy
@@ -51824,7 +52032,6 @@ MonoBehaviour:
   bloodParticlesYOffset: 3
   dustParticles: {fileID: 2035389846}
   isInvincible: 0
-  isDying: 0
 --- !u!54 &1425686436665358443
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -51874,6 +52081,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1425686436665358446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1425686436665358439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80b08245334245a45bb6a874452d06c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bloodParticles: {fileID: 202415147814869348, guid: 2c71721e9ca5d1340ac9d12b7436e4bb,
+    type: 3}
+  smokeParticles: {fileID: 894405644719408751, guid: df6df71e94c81f144b0232df9ee46032,
+    type: 3}
 --- !u!4 &1659637858984412458
 Transform:
   m_ObjectHideFlags: 0
@@ -51937,6 +52160,7 @@ GameObject:
   - component: {fileID: 2399607410193734268}
   - component: {fileID: 2399607410193734272}
   - component: {fileID: 2399607410193734273}
+  - component: {fileID: 2399607410193734274}
   m_Layer: 14
   m_Name: Meathead
   m_TagString: Enemy
@@ -52066,7 +52290,22 @@ MonoBehaviour:
   bloodParticlesYOffset: 2.5
   dustParticles: {fileID: 72571859}
   isInvincible: 0
-  isDying: 0
+--- !u!114 &2399607410193734274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2399607410193734267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80b08245334245a45bb6a874452d06c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bloodParticles: {fileID: 202415147814869348, guid: 2c71721e9ca5d1340ac9d12b7436e4bb,
+    type: 3}
+  smokeParticles: {fileID: 894405644719408751, guid: df6df71e94c81f144b0232df9ee46032,
+    type: 3}
 --- !u!1 &2401384033248917305
 GameObject:
   m_ObjectHideFlags: 0
@@ -52629,6 +52868,7 @@ GameObject:
   - component: {fileID: 4927898198249579244}
   - component: {fileID: 4927898198249579248}
   - component: {fileID: 4927898198249579249}
+  - component: {fileID: 4927898198249579250}
   m_Layer: 14
   m_Name: Ranger
   m_TagString: Enemy
@@ -52757,8 +52997,23 @@ MonoBehaviour:
   bloodParticlesYOffset: 3
   dustParticles: {fileID: 1826022201}
   isInvincible: 0
-  isDying: 0
   castTime: 2.5
+--- !u!114 &4927898198249579250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4927898198249579243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80b08245334245a45bb6a874452d06c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bloodParticles: {fileID: 202415147814869348, guid: 2c71721e9ca5d1340ac9d12b7436e4bb,
+    type: 3}
+  smokeParticles: {fileID: 894405644719408751, guid: df6df71e94c81f144b0232df9ee46032,
+    type: 3}
 --- !u!4 &4946650909899232679
 Transform:
   m_ObjectHideFlags: 0
@@ -53311,7 +53566,7 @@ GameObject:
   - component: {fileID: 8296172667539127855}
   m_Layer: 0
   m_Name: Sword
-  m_TagString: Untagged
+  m_TagString: Equipment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -53426,6 +53681,7 @@ GameObject:
   - component: {fileID: 8296172668166069772}
   - component: {fileID: 8296172668166069771}
   - component: {fileID: 8296172668166069776}
+  - component: {fileID: 8296172668166069777}
   m_Layer: 14
   m_Name: Lightweight
   m_TagString: Enemy
@@ -53455,7 +53711,6 @@ MonoBehaviour:
   bloodParticlesYOffset: 2.5
   dustParticles: {fileID: 710688955}
   isInvincible: 0
-  isDying: 0
 --- !u!54 &8296172668166069772
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -53464,7 +53719,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8296172668166069770}
   serializedVersion: 2
-  m_Mass: 15
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -53555,6 +53810,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &8296172668166069777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8296172668166069770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80b08245334245a45bb6a874452d06c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bloodParticles: {fileID: 202415147814869348, guid: 2c71721e9ca5d1340ac9d12b7436e4bb,
+    type: 3}
+  smokeParticles: {fileID: 894405644719408751, guid: df6df71e94c81f144b0232df9ee46032,
+    type: 3}
 --- !u!1 &8296172668214070343
 GameObject:
   m_ObjectHideFlags: 0
@@ -53572,7 +53843,7 @@ GameObject:
   - component: {fileID: 8296172668214070346}
   m_Layer: 11
   m_Name: Shield
-  m_TagString: Untagged
+  m_TagString: Equipment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -53725,7 +53996,7 @@ GameObject:
   - component: {fileID: 8518179259534063364}
   m_Layer: 0
   m_Name: Sledgehammer
-  m_TagString: Untagged
+  m_TagString: Equipment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -53979,6 +54250,7 @@ GameObject:
   - component: {fileID: 8754543464923475687}
   - component: {fileID: 8754543464923475691}
   - component: {fileID: 8754543464923475692}
+  - component: {fileID: 8754543464923475693}
   m_Layer: 14
   m_Name: Mime
   m_TagString: Enemy
@@ -54107,8 +54379,23 @@ MonoBehaviour:
   bloodParticlesYOffset: 4
   dustParticles: {fileID: 126336000}
   isInvincible: 0
-  isDying: 0
   speedWhileAttacking: 1
+--- !u!114 &8754543464923475693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8754543464923475686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80b08245334245a45bb6a874452d06c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bloodParticles: {fileID: 202415147814869348, guid: 2c71721e9ca5d1340ac9d12b7436e4bb,
+    type: 3}
+  smokeParticles: {fileID: 894405644719408751, guid: df6df71e94c81f144b0232df9ee46032,
+    type: 3}
 --- !u!33 &8765986660646670278
 MeshFilter:
   m_ObjectHideFlags: 0

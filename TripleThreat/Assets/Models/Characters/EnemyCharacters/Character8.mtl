@@ -35,3 +35,15 @@ Kd 0.82 0.82 0.82
 Ks 0.330000 0.330000 0.330000 
 map_Kd Textures/Wood_Light (Instance).png
 
+newmtl Grey_-_40 (Instance) (Instance)
+Ka 0.000000 0.000000 0.000000 
+Kd 0.4 0.4 0.4 
+Ks 0.330000 0.330000 0.330000 
+map_Kd Textures/Grey_-_40 (Instance) (Instance).png
+
+newmtl Dirt (Instance) (Instance)
+Ka 0.000000 0.000000 0.000000 
+Kd 0.56 0 0 
+Ks 0.330000 0.330000 0.330000 
+map_Kd Textures/Dirt (Instance) (Instance).png
+

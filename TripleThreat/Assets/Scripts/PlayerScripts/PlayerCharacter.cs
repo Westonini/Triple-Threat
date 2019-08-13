@@ -7,7 +7,7 @@ public abstract class PlayerCharacter : MonoBehaviour
 {
     private Rigidbody rb;
     protected float walkSpeed;
-    public int knockbackPower;
+    public int knockbackPower; //The amount which this character gets knocked back by
     public GameObject bloodParticles;
     public ParticleSystem dustParticles;
 
@@ -18,8 +18,7 @@ public abstract class PlayerCharacter : MonoBehaviour
 
     private LayerMask aimArea;
 
-    [HideInInspector]
-    public static bool isInvincible;
+    [HideInInspector] public static bool isInvincible;
     private bool isGettingKnockedback;
 
     protected delegate void PlayerControl();
@@ -97,7 +96,7 @@ public abstract class PlayerCharacter : MonoBehaviour
     private void MovementAnimations()
     {
         //Walk/Idle animations
-        //If the player is currently moving and not getting knocked back, do walk animation
+        //If the player is currently moving and is not getting knocked back, do walk animation
         if (moveHorizontal != 0 || moveVertical != 0 && !isGettingKnockedback)
         {
             anim.SetTrigger("Walk");
@@ -139,14 +138,32 @@ public abstract class PlayerCharacter : MonoBehaviour
     }
 
     //TakeDamage is to be called in Enemy classes for when they hit a player.
-    //Character takes more or less damage depending on which character they are.
+    //Character takes more or less damage depending on their knockbackPower value.
     //Takes in parameters "damageReceived" which is how much damage is coming in, and "hitFrom" which is the position the enemy is getting hitfrom to calculate the knockback direction
     public virtual void TakeDamage(int damageReceived, Vector3 hitFrom)
     {
-        //Subtract player health by the damage received
-        PlayerHealth.playerHealth -= damageReceived;
+        //Do the following only if player's health is above 0
+        if (PlayerHealth.playerHealth > 0)
+        {
+            //If the damage that's to be received puts the player at or under 0 hp...
+            if (PlayerHealth.playerHealth - damageReceived <= 0)
+            {
+                //Ragdoll death knock back
+                rb.AddForce((transform.position - hitFrom).normalized * (knockbackPower / 2), ForceMode.Acceleration);
+            }
+            //Otherwise..
+            else
+            {
+                //Regular player knock back
+                rb.AddForce((transform.position - hitFrom).normalized * knockbackPower, ForceMode.Acceleration);
 
-        //Play sound fx
+                //Short invincibility after getting hit
+                StartCoroutine("Invincibility");
+            }
+
+            //Subtract player health by the damage received as long as the player's health isn't already at 0.
+            PlayerHealth.playerHealth -= damageReceived;
+        }
 
         //Instantiate blood particles when hurt
         if (damageReceived > 0)
@@ -154,15 +171,8 @@ public abstract class PlayerCharacter : MonoBehaviour
             InstantiateParticles.InstantiateParticle(transform, bloodParticles, 5f, 5f);
         }
 
-        //Do the following only if player is still alive
-        if (PlayerHealth.playerHealth > 0)
-        {
-            //Knock player back
-            rb.AddForce((transform.position - hitFrom).normalized * knockbackPower, ForceMode.Acceleration);
+        //Play sound fx
 
-            //Short invincibility after getting hit
-            StartCoroutine("Invincibility");
-        }
     }
 
     //Short invincibility after getting hit

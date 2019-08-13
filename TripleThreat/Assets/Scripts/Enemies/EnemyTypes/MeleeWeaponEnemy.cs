@@ -55,7 +55,7 @@ public class MeleeWeaponEnemy : EnemyCharacter
             playerScript.TakeDamage(damage, transform.position);
         }
         //Knock the player back and deal no damage if the shield was just broken in the attack
-        else if (!PlayerCharacter.isInvincible && attackScript.justBrokeShield)
+        else if (attackScript.justBrokeShield)
         {
             playerScript.TakeDamage(0, transform.position);
             attackScript.justBrokeShield = false;

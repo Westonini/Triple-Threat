@@ -70,7 +70,7 @@ public class GuardianAction : MonoBehaviour
     //If the shield touches an enemy, pass their gameobject in as a parameter in DealDamage in order to deal knockback
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             enemyHit = collision.gameObject.GetComponent<EnemyCharacter>();
             guardianScript.DealDamage(enemyHit);

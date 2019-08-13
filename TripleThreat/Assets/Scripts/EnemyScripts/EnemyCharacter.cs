@@ -19,7 +19,6 @@ public abstract class EnemyCharacter : MonoBehaviour
     private GroundCheck groundCheck;
 
     [HideInInspector] public bool isInvincible;
-    [HideInInspector] public bool isDying;
 
     private Animator anim;
 
@@ -113,28 +112,24 @@ public abstract class EnemyCharacter : MonoBehaviour
         //Subtract enemyHealth by the damageToDeal
         health -= damageToDeal;
 
-        //Kill the enemy if their health is <= 0
-        if (health <= 0 && !isDying)
-        {
-            //Enemy gets turned off then destroyed after 5 seconds.
-            isDying = true;
-            gameObject.SetActive(false);
-            Destroy(gameObject, 5f);
-        }
+        //Knockback
+        //The knockbackPower is passed in as a parameter by a player character during an attack.
+        //The knockback resistance differs with each enemy and is calculated as percentage. For example: knockback power is 200, knockback resistance is 50% so they'll only get knocked back by 100 instead of 200.
+        float calculatedKnockbackResistance = ((knockbackPower * knockbackResistPercentage) / 100);
+        float calculatedKnockback = knockbackPower - calculatedKnockbackResistance;
 
         if (health > 0)
         {
-            //Knockback
-            //The knockbackPower is passed in as a parameter by a player character during an attack.
-            //The knockback resistance differs with each enemy and is calculated as percentage. For example: knockback power is 200, knockback resistance is 50% so they'll only get knocked back by 100 instead of 200.
-            float calculatedKnockbackResistance = ((knockbackPower * knockbackResistPercentage) / 100);
-            float calculatedKnockback = knockbackPower - calculatedKnockbackResistance;
+            //Short invincibility after getting hit
+            StartCoroutine("Invincibility");
 
             //Adds the knockback direction and amount
             rb.AddForce((transform.position - hitFrom).normalized * calculatedKnockback, ForceMode.Acceleration);
-
-            //Short invincibility after getting hit
-            StartCoroutine("Invincibility");
+        }
+        else
+        {
+            //Adds the knockback direction and amount
+            rb.AddForce((transform.position - hitFrom).normalized * (calculatedKnockback / 2), ForceMode.Acceleration);
         }
 
         //Play sound fx

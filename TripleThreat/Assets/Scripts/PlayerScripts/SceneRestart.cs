@@ -8,14 +8,20 @@ public class SceneRestart : MonoBehaviour
 {
     [HideInInspector]
     public bool sceneCurrentlyRestarting;
+    public static bool restartScene;
+
+    private void Start()
+    {
+        restartScene = false;
+    }
 
     private void Update()
     {
         //If gameOver gets set to true within the PlayerCharacter script, call the RestartScene Coroutine and set gameOver to false.
-        if (PlayerHealth.gameOver)
+        if (restartScene)
         {
             StartCoroutine("RestartScene");
-            PlayerHealth.gameOver = false;
+            restartScene = false;
         }
     }
 
@@ -32,8 +38,8 @@ public class SceneRestart : MonoBehaviour
             playerCharacters[i].SetActive(false);
         }
 
-        //Wait 3 seconds and then restart the current scene.
-        yield return new WaitForSeconds(3f);
+        //Wait x seconds and then restart the current scene.
+        yield return new WaitForSeconds(2.5f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

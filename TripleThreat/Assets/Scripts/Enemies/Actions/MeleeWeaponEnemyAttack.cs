@@ -20,7 +20,6 @@ public class MeleeWeaponEnemyAttack : MonoBehaviour
     TrailRenderer weaponTrail;
     
     MeleeWeaponEnemy enemyScript;
-    SwapCharacters swapScript;
 
     void Start()
     {
@@ -31,9 +30,6 @@ public class MeleeWeaponEnemyAttack : MonoBehaviour
 
         //Get MeleeWeaponEnemy script from parent
         enemyScript = GetComponentInParent<MeleeWeaponEnemy>();
-
-        //Get SwapCharacters script
-        swapScript = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<SwapCharacters>();
 
         //Added so that the animations don't bug.
         weaponAnim.keepAnimatorControllerStateOnDisable = true;
@@ -80,7 +76,7 @@ public class MeleeWeaponEnemyAttack : MonoBehaviour
     void DistanceFromPlayer()
     {
         //Calculate the distance between this character and the player character
-        distanceFromPlayer = Vector3.Distance(swapScript.currentCharacter.transform.position, transform.position);
+        distanceFromPlayer = Vector3.Distance(SwapCharacters.currentCharacter.transform.position, transform.position);
 
         //If this enemy and player are within (maxRangeFromPlayer) units of eachother, set playerWithinRange to true. Otherwise set it false and stop any current drawing.
         if (distanceFromPlayer <= distanceAwayFromPlayerToAttack)

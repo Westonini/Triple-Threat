@@ -20,7 +20,7 @@ public class PlayerArrow : Arrow //Inherits from Arrow parent class
     protected override void OnTriggerEnter(Collider other)
     {
         //If the arrow touches an enemy, call DealDamage with the enemy's enemyscript passed in as a parameter
-        if (other.gameObject.tag == "Enemy") //Enemy Tag
+        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy")) //Enemy Layer
         {
             enemyHit = other.gameObject.GetComponent<EnemyCharacter>();
             archerScript.DealDamage(enemyHit);

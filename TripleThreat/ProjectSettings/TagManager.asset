@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - PlayerGC
   - EnemyGC
+  - Equipment
   layers:
   - Default
   - TransparentFX
@@ -23,7 +24,7 @@ TagManager:
   - Player
   - 
   - Enemy
-  - 
+  - EnemyCorpse
   - 
   - 
   - 

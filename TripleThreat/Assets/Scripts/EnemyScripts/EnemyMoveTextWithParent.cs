@@ -44,8 +44,15 @@ public class EnemyMoveTextWithParent : MonoBehaviour
         infoText.transform.position = namePos;
 
         infoText.text = enemyName + "\n" + "HP: " + enemyScript.health + " / " + enemyMaxHealth;
+
+        //When the enemy is doing their death ragdoll, hide the text.
+        if (enemyScript.health <= 0)
+        {
+            infoText.text = "";
+        }
     }
 
+    //When the enemy dies, destroy the text instance as well.
     private void OnDisable()
     {
         Destroy(enemyTextAboveHeadInstance);

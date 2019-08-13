@@ -60,7 +60,7 @@ public class WarriorAction : MonoBehaviour
     //If the sword touched an enemy, set that enemy's gameobject to enemyHit and  call DealDamage with enemyHit as the parameter passed in.
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Enemy")
+        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             enemyHit = other.gameObject.GetComponent<EnemyCharacter>();
             warriorScript.DealDamage(enemyHit);

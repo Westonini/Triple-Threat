@@ -9,13 +9,13 @@ public class PlayerHealth : MonoBehaviour
     TextMeshProUGUI healthText;
 
     public static int playerHealth = 10;
-    public static bool gameOver;
+    public static bool startPlayerDeath;
 
     void Start()
     {
         //Reset the static variable, playerHealth, at the start of each scene
         playerHealth = 10;
-        gameOver = false;
+        startPlayerDeath = false;
 
         healthText = GetComponent<TextMeshProUGUI>();
     }
@@ -34,8 +34,8 @@ public class PlayerHealth : MonoBehaviour
         //Kill the player and restart scene if their health is <= 0
         if (playerHealth <= 0)
         {
-            //Sets gameOver to true, destroying all objects tagged "Player" and restarting the scene within the SceneRestart gameobject.
-            gameOver = true;
+            //Sets startPlayerDeath to true which will then start an IEnumerator within the PlayerDeath script.
+            startPlayerDeath = true;
         }
     }
 

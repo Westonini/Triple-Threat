@@ -14,7 +14,6 @@ public class RangedEnemyAttack : MonoBehaviour
     public float cooldownTime = 2.5f;
 
     RangedEnemy enemyScript;
-    SwapCharacters swapScript;
 
     float castTime;
     float distanceFromPlayer;
@@ -26,9 +25,6 @@ public class RangedEnemyAttack : MonoBehaviour
     {
         //Get RangedEnemy script from parent
         enemyScript = GetComponentInParent<RangedEnemy>();
-
-        //Get SwapCharacters script
-        swapScript = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<SwapCharacters>();
 
         //Get Shoot position
         shootPosition = GetComponent<Transform>();
@@ -51,7 +47,7 @@ public class RangedEnemyAttack : MonoBehaviour
     void DistanceFromPlayer()
     {
         //Calculate the distance between this character and the player character
-        distanceFromPlayer = Vector3.Distance(swapScript.currentCharacter.transform.position, transform.position);
+        distanceFromPlayer = Vector3.Distance(SwapCharacters.currentCharacter.transform.position, transform.position);
 
         //If this enemy and player are within (maxRangeFromPlayer) units of eachother, set playerWithinRange to true. Otherwise set it false and stop any current drawing.
         if (distanceFromPlayer <= maxRangeFromPlayer)
