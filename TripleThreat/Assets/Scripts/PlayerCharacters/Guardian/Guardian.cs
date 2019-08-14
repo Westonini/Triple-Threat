@@ -20,15 +20,15 @@ public class Guardian : PlayerCharacter //Inherits from PlayerCharacter
     //Guardians's walk speed gets changed within this override function.
     protected override void Movement()
     {
-        //If the player currently isn't blocking set walkSpeed to 2.5 (slow speed)
+        //If the player currently isn't blocking set walkSpeed to default walk speed (slow speed)
         if (!GA.currentlyBlocking)
         {
-            walkSpeed = 2.5f;
+            walkSpeed = defaultWalkSpeed;
         }
-        //If the player currently is blocking set walkSpeed to 1.5 (very slow speed)
+        //If the player currently is blocking set walkSpeed to default walk speed - 1 (very slow speed)
         else
         {
-            walkSpeed = 1.5f;
+            walkSpeed = defaultWalkSpeed - 1;
         }
 
         base.Movement();
@@ -46,10 +46,10 @@ public class Guardian : PlayerCharacter //Inherits from PlayerCharacter
         {
             enemyScript.TakeDamage(0, transform.position, 475);
         }
-        //If the guardian is currently bashing, set knockback to 400
+        //If the guardian isn't currently bashing, set knockback to 375
         else if (!enemyScript.isInvincible && !GA.currentlyBlocking)
         {
-            enemyScript.TakeDamage(0, transform.position, 350);
+            enemyScript.TakeDamage(0, transform.position, 375);
         }
     }
 }

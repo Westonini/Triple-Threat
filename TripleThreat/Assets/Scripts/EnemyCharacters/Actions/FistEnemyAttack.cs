@@ -24,6 +24,14 @@ public class FistEnemyAttack : MonoBehaviour
             enemyScript.DealDamage(playerHit);
         }
     }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.tag == "Player" && PlayerHealth.playerHealth > 0)
+        {
+            playerHit = other.gameObject.GetComponent<PlayerCharacter>();
+            enemyScript.DealDamage(playerHit);
+        }
+    }
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.tag == "Player")

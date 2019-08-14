@@ -2,48 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class EnemyCharacter : MonoBehaviour
+//This is the parent character class which all other enemy character classes inherit from
+public abstract class EnemyCharacter : Character //Inherits from Character
 {
-    private Rigidbody rb;
-
-    public float walkSpeed;
-    public int health;
-    public int damage;
-    public int defense;
-    [Range(0, 100)] public int knockbackResistPercentage;
     [Space]
-    public GameObject bloodParticles;
-    public float bloodParticlesYOffset;
-    public ParticleSystem dustParticles;
+    public int health;                                    //Enemy's health
+    public int damage;                                    //Enemy's damage value
+    public int defense;                                   //Enemy's defense value
+    [Range(0, 100)] public int knockbackResistPercentage; //Percentage of knockback resistance against the player's knockback
 
-    private GroundCheck groundCheck;
+    [HideInInspector] public bool isInvincible;           //Set to true if invincible, otherwise it'll be false
 
-    [HideInInspector] public bool isInvincible;
-
-    private Animator anim;
-
-    protected virtual void Start()
+    protected override void Start()
     {
-        //Get rigidbody and animator components from the object this script is attached to.
-        rb = GetComponent<Rigidbody>();
-        anim = GetComponent<Animator>();
+        downwardForce = 3;
 
-        //Get a reference to this object's GroundCheck script by getting the component from its children.
-        groundCheck = GetComponentInChildren<GroundCheck>();
-    }
-
-    private void Update()
-    {
-        MovementAnimations();
-    }
-
-    private void FixedUpdate()
-    {
-        Movement();
+        base.Start();
     }
 
     //Movement
-    protected virtual void Movement()
+    protected override void Movement()
     {
         //Enemy Movement Speed
         float step = walkSpeed * Time.deltaTime;
@@ -51,18 +29,10 @@ public abstract class EnemyCharacter : MonoBehaviour
         //Enemy Movement Towards Player
         transform.position = Vector3.MoveTowards(transform.position, SwapCharacters.currentPlayerPosition.position, step);
 
-        //Look at the player
-        transform.LookAt(new Vector3(SwapCharacters.currentPlayerPosition.position.x, this.transform.position.y, SwapCharacters.currentPlayerPosition.position.z));
-
-        //Ground Check
-        if (!groundCheck.enemyIsTouchingGround)
-        {
-            //Add downward force while not touching ground so that the enemy falls.
-            rb.AddForce(Vector3.down * 3, ForceMode.Acceleration);
-        }
+        base.Movement();
     }
 
-    private void MovementAnimations()
+    protected override void MovementAnimations()
     {
         //Walk/Idle animations
         //If enemy just got hit, stop walk animation while invincible.
@@ -76,7 +46,7 @@ public abstract class EnemyCharacter : MonoBehaviour
         }
 
         //Dust particles show up while the enemy is touching the ground and their velocity is at least 0
-        if (rb.velocity.x >= 0 && groundCheck.enemyIsTouchingGround)
+        if (rb.velocity.x >= 0 && isTouchingGround)
         {
             if (!dustParticles.isEmitting)
             {
@@ -88,6 +58,12 @@ public abstract class EnemyCharacter : MonoBehaviour
         {
             dustParticles.Stop();
         }
+    }
+
+    protected override void Aim()
+    {
+        //Look at the player
+        transform.LookAt(new Vector3(SwapCharacters.currentPlayerPosition.position.x, this.transform.position.y, SwapCharacters.currentPlayerPosition.position.z));
     }
 
     //TakeDamage is to be called in player classes for when they hit an enemy.
@@ -148,7 +124,4 @@ public abstract class EnemyCharacter : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         isInvincible = false;
     }
-
-    //Abstract function used to deal damage to a player's character. In the child classes it'll take in a PlayerCharacter script.
-    public abstract void DealDamage<T>(T component) where T : Component;
 }

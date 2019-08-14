@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,21 +10,25 @@ public class PlayerDeath : MonoBehaviour
     PlayerCharacter playerScript;
     Animator characterAnim;
 
-    bool currentlyDying;
 
     public GameObject bloodParticles;
     public GameObject smokeParticles;
     public Animator redTintAnim;
 
-    void Update()
+    void OnEnable()
     {
-        //If the player's health is <= 0 the PlayerHealth script will set startPlayerDeath to true.
-        if (PlayerHealth.startPlayerDeath && !currentlyDying)
-        {
-            currentlyDying = true;
-            StartCoroutine("PlayerDeathIEnum");
-            PlayerHealth.startPlayerDeath = false;
-        }
+        PlayerCharacter._playerDied += HandleDeath;
+    }
+
+    private void OnDisable()
+    {
+        PlayerCharacter._playerDied -= HandleDeath;
+    }
+
+    //To be invoked when _playerDied gets invoked from PlayerCharacter
+    private void HandleDeath()
+    {
+         StartCoroutine("PlayerDeathIEnum");
     }
 
     //Disable the player's PlayerCharacter and SwapCharacter scripts and get rid of constraints on the player's rigidbody. 
@@ -37,9 +42,9 @@ public class PlayerDeath : MonoBehaviour
 
         //Set all gameobjects tagged "Equipment" to inactive.
         foreach (Transform equipment in SwapCharacters.currentCharacter.transform) if (equipment.CompareTag("Equipment"))
-        {
+            {
                 equipment.gameObject.SetActive(false);
-        }
+            }
 
         //Enable/disable things
         characterAnim.enabled = false;

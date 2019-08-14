@@ -2,29 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//This is the parent character class which all other character classes inherit from
-public abstract class PlayerCharacter : MonoBehaviour
+//This is the parent character class which all other player character classes inherit from
+public abstract class PlayerCharacter : Character //Inherits from Character
 {
-    private Rigidbody rb;
-    protected float walkSpeed;
-    public int knockbackPower; //The amount which this character gets knocked back by
-    public GameObject bloodParticles;
-    public ParticleSystem dustParticles;
+    [Space]
+    public int knockbackPower;                              //The amount which this character gets knocked back by
 
-    float moveHorizontal;
-    float moveVertical;
+    float moveHorizontal;                                   //Will be set to 1 if going right and -1 if going left
+    float moveVertical;                                     //Will be set to 1 if going up and -1 if going down
 
-    private Camera mainCam;
+    private Camera mainCam;                                 //Main camera
 
-    private LayerMask aimArea;
+    private LayerMask aimArea;                              //Aim area layer that the player will be able to put their mouse on in order to aim
 
-    [HideInInspector] public static bool isInvincible;
-    private bool isGettingKnockedback;
+    [HideInInspector] public static bool isInvincible;      //Set to true if invincible, otherwise it'll be false. static because it's for all 3 player characters.
+    private bool isGettingKnockedback;                      //Set to true if getting knocked back, otherwise it'll be false
+    private bool isDying;                                   //Set to true if dying, otherwise it'll be false
 
-    protected delegate void PlayerControl();
-    protected event PlayerControl PlayerControls;
+    public delegate void PlayerTookDmg();                   
+    public static event PlayerTookDmg _playerTookDmg;       //Event to be invoked when the player takes damage
 
-    private Animator anim;
+    public delegate void PlayerDied();
+    public static event PlayerDied _playerDied;             //Event to be invoked when the player takes dies
 
     //Happens when a character gets enabled
     protected virtual void OnEnable()
@@ -32,47 +31,22 @@ public abstract class PlayerCharacter : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         mainCam = Camera.main;
 
-        //Subscribes main functions to PlayerControls
-        PlayerControls += MovementAnimations;
-        PlayerControls += Aim;
-
         //Get layermask
         aimArea = LayerMask.GetMask("AimArea");
     }
 
-    //Happens when a character gets disabled
-    private void OnDisable()
-    {
-        //Unsubscribes main functions from PlayerControls
-        PlayerControls -= MovementAnimations;
-        PlayerControls -= Aim;
-    }
-
-    void Start()
+    protected override void Start()
     {
         //Reset at start of every round since it's a static variable
         isInvincible = false;
 
-        //Get animator component from the object this script is attached to.
-        anim = GetComponent<Animator>();
-    }
+        downwardForce = 800;
 
-    void Update()
-    {
-        //Calls all the functions subscribed to the PlayerControls event every frame.
-        if (PlayerControls != null)
-        {
-            PlayerControls();
-        }
-    }
-
-    void FixedUpdate()
-    {
-        Movement();
+        base.Start();
     }
 
     //Movement
-    protected virtual void Movement()
+    protected override void Movement()
     {
         //Sets the horizontal movement value to moveHorizontal and the vertical movement value to moveVertical
         moveHorizontal = Input.GetAxisRaw("Horizontal");
@@ -83,48 +57,38 @@ public abstract class PlayerCharacter : MonoBehaviour
         if (!isGettingKnockedback)
         {
             rb.velocity = new Vector3(moveHorizontal, 0, moveVertical).normalized * walkSpeed;
-        }     
-
-        //Ground Check
-        if (!GroundCheck.playerIsTouchingGround)
-        {
-            //Add downward force while not touching ground so that the player falls.
-            rb.AddForce((Vector3.down * 800), ForceMode.Acceleration);
         }
+
+        base.Movement();
     }
 
-    private void MovementAnimations()
+    protected override void MovementAnimations()
     {
-        //Walk/Idle animations
-        //If the player is currently moving and is not getting knocked back, do walk animation
-        if (moveHorizontal != 0 || moveVertical != 0 && !isGettingKnockedback)
+        //Movement animations and dust particles
+        //If the player is currently moving and touching the ground..
+        if ((moveHorizontal != 0 || moveVertical != 0) && isTouchingGround)
         {
-            anim.SetTrigger("Walk");
-        }
-        //Else stop the trigger.
-        else
-        {
-            anim.ResetTrigger("Walk");
-        }
-
-
-        //Dust particles show up while the player is moving or getting knocked back while grounded.
-        if (((moveHorizontal != 0 || moveVertical != 0) || isGettingKnockedback) && GroundCheck.playerIsTouchingGround) 
-        {
+            //Emit dust particles.
             if (!dustParticles.isEmitting)
             {
                 dustParticles.Play();
             }
+            //If the player isn't getting knocked back, do walk animation.
+            if (!isGettingKnockedback)
+            {
+                anim.SetTrigger("Walk");
+            }
         }
-        //Otherwise stop them from showing up.
+        //Else stop movement animations and dust particles
         else
         {
+            anim.ResetTrigger("Walk");
             dustParticles.Stop();
         }
     }
 
     //Character aims where the player's mouse is aiming
-    void Aim()
+    protected override void Aim()
     {
         //Move character's y rotation to look at where mouse is pointing
         Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
@@ -142,37 +106,43 @@ public abstract class PlayerCharacter : MonoBehaviour
     //Takes in parameters "damageReceived" which is how much damage is coming in, and "hitFrom" which is the position the enemy is getting hitfrom to calculate the knockback direction
     public virtual void TakeDamage(int damageReceived, Vector3 hitFrom)
     {
-        //Do the following only if player's health is above 0
-        if (PlayerHealth.playerHealth > 0)
+        //Deal damage and instantiate blood particles damage received is above 0 damage
+        if (damageReceived > 0 && PlayerHealth.playerHealth > 0)
         {
-            //If the damage that's to be received puts the player at or under 0 hp...
-            if (PlayerHealth.playerHealth - damageReceived <= 0)
-            {
-                //Ragdoll death knock back
-                rb.AddForce((transform.position - hitFrom).normalized * (knockbackPower / 2), ForceMode.Acceleration);
-            }
-            //Otherwise..
-            else
-            {
-                //Regular player knock back
-                rb.AddForce((transform.position - hitFrom).normalized * knockbackPower, ForceMode.Acceleration);
-
-                //Short invincibility after getting hit
-                StartCoroutine("Invincibility");
-            }
-
-            //Subtract player health by the damage received as long as the player's health isn't already at 0.
             PlayerHealth.playerHealth -= damageReceived;
-        }
-
-        //Instantiate blood particles when hurt
-        if (damageReceived > 0)
-        {
             InstantiateParticles.InstantiateParticle(transform, bloodParticles, 5f, 5f);
         }
 
-        //Play sound fx
+        //Invoke _playerTookDmg to update health text
+        if (_playerTookDmg != null)
+            _playerTookDmg.Invoke();
 
+        //Invoke _playerdied and do a ragdoll knockback if the player health dropped to 0 or below after they got hit.
+        if (PlayerHealth.playerHealth <= 0 && !isDying)
+        {
+            //Invoke _playerDied
+            if (_playerDied != null)
+                _playerDied.Invoke();
+
+            //Ragdoll death knock back
+            rb.AddForce((transform.position - hitFrom).normalized * (knockbackPower / 2), ForceMode.Acceleration);
+
+            //Set isDying to true so this can't happen multiple times.
+            isDying = true;
+
+            return;
+        }
+        //Else if the player's health is above 0 after they got hit do a regular knockback and start the invincibility coroutine
+        else if (PlayerHealth.playerHealth > 0)
+        {
+            //Regular player knock back
+            rb.AddForce((transform.position - hitFrom).normalized * knockbackPower, ForceMode.Acceleration);
+
+            //Short invincibility after getting hit
+            StartCoroutine("Invincibility");
+
+            //Play sound fx
+        }
     }
 
     //Short invincibility after getting hit
@@ -186,7 +156,5 @@ public abstract class PlayerCharacter : MonoBehaviour
         yield return new WaitForSeconds(0.10f);
         isInvincible = false;
     }
-
-    //Abstract function used to deal damage to an enemy. In the child classes it'll take in an EnemyCharacter script.
-    public abstract void DealDamage <T>(T component) where T : Component;
 }
+

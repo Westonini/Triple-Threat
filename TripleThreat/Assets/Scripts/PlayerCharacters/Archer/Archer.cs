@@ -23,22 +23,22 @@ public class Archer : PlayerCharacter //Inherits from PlayerCharacter
         //Get the main module of the dustParticles to change the speed in the following code
         var main = dustParticles.main;
 
-        //If the player currently isn't charging an arrow set walkSpeed to 4 (below-average speed)
+        //If the player currently isn't charging an arrow set walkSpeed to default walk speed (below-average speed)
         if (!AA.currentlyCharging && !AA.currentlyAiming)
         {
-            walkSpeed = 4f;
+            walkSpeed = defaultWalkSpeed;
             main.startSpeed = 7f;
         }
-        //If the player currently is drawing an arrow set walkSpeed to 2 (slow speed)
+        //If the player currently is drawing an arrow set walkSpeed to default walk speed - 2 (slow speed)
         else if (AA.currentlyCharging)
         {
-            walkSpeed = 2f;
+            walkSpeed = defaultWalkSpeed - 2;
             main.startSpeed = 3.5f;
         }
-        //If the player currently is aiming an arrow set walkSpeed to 1.5 (very slow speed)
+        //If the player currently is aiming an arrow set walkSpeed to default walk speed - 2.5 (very slow speed)
         else if (AA.currentlyAiming)
         {
-            walkSpeed = 1.5f;
+            walkSpeed = defaultWalkSpeed - 2.5f;
             main.startSpeed = 2f;
         }
 

@@ -20,15 +20,15 @@ public class Warrior : PlayerCharacter //Inherits from PlayerCharacter
     //Warrior's walk speed gets changed within this override function.
     protected override void Movement()
     {
-        //If the player currently isn't attacking set walkSpeed to 5 (average speed)
+        //If the player currently isn't acctacking set walkSpeed to the default speed
         if (!WA.currentlyAttacking)
         {
-            walkSpeed = 5f;
+            walkSpeed = defaultWalkSpeed;
         }
-        //If the player currently is attacking set walkSpeed to 3 (below-average speed)
-        else
+        //If the player currently is attacking set walkSpeed to the default speed - 2
+        else 
         {
-            walkSpeed = 3f;
+            walkSpeed = defaultWalkSpeed - 2;
         }
         base.Movement();
     }

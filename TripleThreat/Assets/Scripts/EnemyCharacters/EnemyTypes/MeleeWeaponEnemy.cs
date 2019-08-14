@@ -19,9 +19,6 @@ public class MeleeWeaponEnemy : EnemyCharacter
         //Get the attack script
         attackScript = GetComponentInChildren<MeleeWeaponEnemyAttack>();
 
-        //set Speed to walkSpeed;
-        speed = walkSpeed;
-
         //Call base Start()
         base.Start();
     }
@@ -35,7 +32,7 @@ public class MeleeWeaponEnemy : EnemyCharacter
         }
         else
         {
-            walkSpeed = speed;
+            walkSpeed = defaultWalkSpeed;
         }
 
         base.Movement();

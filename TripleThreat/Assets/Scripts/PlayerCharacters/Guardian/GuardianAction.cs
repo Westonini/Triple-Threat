@@ -82,6 +82,20 @@ public class GuardianAction : MonoBehaviour
             }
         }
     }
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            enemyHit = collision.gameObject.GetComponent<EnemyCharacter>();
+            guardianScript.DealDamage(enemyHit);
+
+            //If the enemy is a FistEnemy type, subtract a shield point when touching them.
+            if (!shieldHealthInvincibility && collision.gameObject.GetComponent<FistEnemy>())
+            {
+                SubtractShieldHealth(1);
+            }
+        }
+    }
 
     //A public static void that can subtract the shield health by any amount from any script
     public static void SubtractShieldHealth(int amount)

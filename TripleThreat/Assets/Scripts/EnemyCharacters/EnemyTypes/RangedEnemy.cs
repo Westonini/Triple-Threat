@@ -8,8 +8,6 @@ public class RangedEnemy : EnemyCharacter //Inherits from EnemyCharacter
     //Charge time for the ranged attack
     [Space]
     public float castTime;
-    //Used to reset the walkSpeed later.
-    private float speed;
 
     //RangedEnemy's attack script
     RangedEnemyAttack attackScript;
@@ -18,9 +16,6 @@ public class RangedEnemy : EnemyCharacter //Inherits from EnemyCharacter
     {
         //Get the attack script
         attackScript = GetComponentInChildren<RangedEnemyAttack>();
-
-        //set Speed to walkSpeed;
-        speed = walkSpeed;
 
         //Call base Start()
         base.Start();
@@ -37,7 +32,7 @@ public class RangedEnemy : EnemyCharacter //Inherits from EnemyCharacter
         }
         else
         {
-            walkSpeed = speed;
+            walkSpeed = defaultWalkSpeed;
             if (!dustParticles.isEmitting)
             {
                 dustParticles.Play();
