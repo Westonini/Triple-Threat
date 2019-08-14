@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CharacterMovementAnimations : MonoBehaviour
 {
-    ParticleSystem dustParticles;
+    public ParticleSystem dustParticles;
     Animator anim;
 
     void Start()
@@ -12,39 +12,37 @@ public class CharacterMovementAnimations : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
+    //Toggles the character's walk animation on or off depending on the boolean passed in.
+    public void ToggleWalkAnimation(bool OnOff)
     {
-        
-    }
-
-    void CharacterWalkAnimation()
-    {
-        /*//Walk/Idle animations
-        //If the player is currently moving and is not getting knocked back, do walk animation
-        if (moveHorizontal != 0 || moveVertical != 0 && !isGettingKnockedback)
+        if (OnOff)
         {
             anim.SetTrigger("Walk");
         }
-        //Else stop the trigger.
         else
         {
             anim.ResetTrigger("Walk");
         }
+    }
 
-
-        //Dust particles show up while the player is moving or getting knocked back while grounded.
-        if (((moveHorizontal != 0 || moveVertical != 0) || isGettingKnockedback) && isTouchingGround)
+    //Toggles the character's dust particles depending on the boolean passed in.
+    public void ToggleDustParticles(bool OnOff)
+    {
+        if (OnOff && !dustParticles.isEmitting)
         {
-            if (!dustParticles.isEmitting)
-            {
-                dustParticles.Play();
-            }
+            dustParticles.Play();
         }
-        //Otherwise stop them from showing up.
-        else
+        else if (!OnOff)
         {
             dustParticles.Stop();
-        }*/
+        }
+    }
+
+    public void ChangeDustParticlesSpeed(float speed)
+    {
+        //Get the main module of the dustParticles to change the speed in the following code
+        var main = dustParticles.main;
+
+        main.startSpeed = speed;
     }
 }

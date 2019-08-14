@@ -6,11 +6,14 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour
 {
     public static int playerHealth = 10;
+    public PlayerHealthText healthTextScript;
 
     void Start()
     {
         //Reset the static variable, playerHealth, at the start of each scene
         playerHealth = 10;
+
+        healthTextScript.HealthText();
     }
 
     void OnEnable()
@@ -26,6 +29,7 @@ public class PlayerHealth : MonoBehaviour
     //Makes sure that if the player health can only be as low as zero.
     void SetHealthToZero()
     {
-        playerHealth = playerHealth <= 0 ? 0 : playerHealth;
+        playerHealth = playerHealth < 0 ? 0 : playerHealth;
+        healthTextScript.HealthText();
     }
 }

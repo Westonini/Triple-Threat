@@ -22,9 +22,6 @@ public class GuardianAction : MonoBehaviour
 
     private bool shieldIsBroken;
 
-    protected delegate void Shield();
-    protected event Shield ShieldFunctions;
-
     private void Start()
     {
         //Get components
@@ -41,11 +38,6 @@ public class GuardianAction : MonoBehaviour
 
         //This is to make sure some animations don't bug out.
         shieldAnim.keepAnimatorControllerStateOnDisable = true;
-
-        //Add functions to the ShieldFunctions event.
-        ShieldFunctions += ShieldBash;
-        ShieldFunctions += ShieldBreak;
-        ShieldFunctions += ShieldHit;
     }
 
     //Set certain things to false when the character is swapped.
@@ -60,11 +52,9 @@ public class GuardianAction : MonoBehaviour
 
     void Update()
     {
-        //Call all the functions within the ShieldFunctions event every frame.
-        if (ShieldFunctions != null)
-        {
-            ShieldFunctions();
-        }
+        ShieldBash();
+        ShieldBreak();
+        ShieldHit();
     }
 
     //If the shield touches an enemy, pass their gameobject in as a parameter in DealDamage in order to deal knockback

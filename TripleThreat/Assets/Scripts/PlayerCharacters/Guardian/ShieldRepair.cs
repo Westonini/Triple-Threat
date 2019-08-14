@@ -20,9 +20,6 @@ public class ShieldRepair : MonoBehaviour
     public TextMeshProUGUI shieldDurabilityText;
     SwapCharacters SCscript;
 
-    private delegate void ShieldFunction();
-    private event ShieldFunction ShieldFunctions;
-
     void Start()
     {
         //Start the scene with shieldHealth at 10.
@@ -32,20 +29,13 @@ public class ShieldRepair : MonoBehaviour
 
         //Get the SwapCharacters script from the Main Camera object.
         SCscript = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<SwapCharacters>();
-
-        //Subscribe some functions to ShieldFunctions
-        ShieldFunctions += ShowRepairText;
-        ShieldFunctions += ShowShieldDurability;
-        ShieldFunctions += ShieldRepairInput;
     }
 
     void Update()
     {
-        //Call the ShieldFunctions Event every frame.
-        if (ShieldFunctions != null)
-        {
-            ShieldFunctions();
-        }
+        ShowRepairText();
+        ShowShieldDurability();
+        ShieldRepairInput();
     }
 
     void ShowRepairText()

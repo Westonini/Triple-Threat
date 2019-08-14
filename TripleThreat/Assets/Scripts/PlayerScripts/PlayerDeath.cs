@@ -8,21 +8,23 @@ public class PlayerDeath : MonoBehaviour
 {
     Rigidbody characterRB;
     PlayerCharacter playerScript;
+    CharacterMovementAnimations animationsScript;
     Animator characterAnim;
 
-
-    public GameObject bloodParticles;
     public GameObject smokeParticles;
     public Animator redTintAnim;
 
+    public delegate void PlayerDead();
+    public static event PlayerDead _playerDead;             //Event to be invoked when the player finished their dying state and has died.
+
     void OnEnable()
     {
-        PlayerCharacter._playerDied += HandleDeath;
+        PlayerCharacter._playerDying += HandleDeath;
     }
 
     private void OnDisable()
     {
-        PlayerCharacter._playerDied -= HandleDeath;
+        PlayerCharacter._playerDying -= HandleDeath;
     }
 
     //To be invoked when _playerDied gets invoked from PlayerCharacter
@@ -39,6 +41,7 @@ public class PlayerDeath : MonoBehaviour
         characterRB = SwapCharacters.currentCharacter.GetComponent<Rigidbody>();
         playerScript = SwapCharacters.currentCharacter.GetComponent<PlayerCharacter>();
         characterAnim = SwapCharacters.currentCharacter.GetComponent<Animator>();
+        animationsScript = SwapCharacters.currentCharacter.GetComponent<CharacterMovementAnimations>();
 
         //Set all gameobjects tagged "Equipment" to inactive.
         foreach (Transform equipment in SwapCharacters.currentCharacter.transform) if (equipment.CompareTag("Equipment"))
@@ -49,7 +52,7 @@ public class PlayerDeath : MonoBehaviour
         //Enable/disable things
         characterAnim.enabled = false;
         redTintAnim.SetTrigger("Activate");
-        playerScript.dustParticles.Stop();
+        animationsScript.ToggleDustParticles(false);
         playerScript.enabled = false;
 
         //Rigidbody constraint changes for a ragdoll-type effect
@@ -61,9 +64,9 @@ public class PlayerDeath : MonoBehaviour
         if (SwapCharacters.currentCharacter.activeSelf)
         {
             yield return new WaitForSeconds(1.5f);
-            InstantiateParticles.InstantiateParticle(SwapCharacters.currentCharacter.transform, bloodParticles, 5f, 2.5f);
+            InstantiateParticles.InstantiateParticle(SwapCharacters.currentCharacter.transform, playerScript.bloodParticles, 5f, 2.5f);
             yield return new WaitForSeconds(1.5f);
-            InstantiateParticles.InstantiateParticle(SwapCharacters.currentCharacter.transform, bloodParticles, 5f, 2.5f);
+            InstantiateParticles.InstantiateParticle(SwapCharacters.currentCharacter.transform, playerScript.bloodParticles, 5f, 2.5f);
             yield return new WaitForSeconds(1.5f);
             InstantiateParticles.InstantiateParticle(SwapCharacters.currentCharacter.transform, smokeParticles, 2f, 0.25f);
         }
@@ -74,6 +77,6 @@ public class PlayerDeath : MonoBehaviour
         }
 
         //Will start the RestartScene coroutine within the SceneRestart script
-        SceneRestart.restartScene = true;
+        _playerDead.Invoke();
     }
 }

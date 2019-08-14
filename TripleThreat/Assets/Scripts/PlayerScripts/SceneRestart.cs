@@ -8,20 +8,21 @@ public class SceneRestart : MonoBehaviour
 {
     [HideInInspector]
     public bool sceneCurrentlyRestarting;
-    public static bool restartScene;
 
-    private void Start()
+    private void OnEnable()
     {
-        restartScene = false;
+        PlayerDeath._playerDead += HandleSceneRestart;
+    }
+    private void OnDisable()
+    {
+        PlayerDeath._playerDead -= HandleSceneRestart;
     }
 
-    private void Update()
+    void HandleSceneRestart()
     {
-        //If gameOver gets set to true within the PlayerCharacter script, call the RestartScene Coroutine and set gameOver to false.
-        if (restartScene)
+        if (!sceneCurrentlyRestarting)
         {
             StartCoroutine("RestartScene");
-            restartScene = false;
         }
     }
 

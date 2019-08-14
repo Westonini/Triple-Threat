@@ -13,6 +13,9 @@ public abstract class EnemyCharacter : Character //Inherits from Character
 
     [HideInInspector] public bool isInvincible;           //Set to true if invincible, otherwise it'll be false
 
+    public delegate void EnemyDied();
+    public event EnemyDied _enemyDied;             //Event to be invoked when the enemy dies
+
     protected override void Start()
     {
         downwardForce = 3;
@@ -32,31 +35,23 @@ public abstract class EnemyCharacter : Character //Inherits from Character
         base.Movement();
     }
 
-    protected override void MovementAnimations()
+    protected override void MovementAnimationInput()
     {
-        //Walk/Idle animations
-        //If enemy just got hit, stop walk animation while invincible.
-        if (!isInvincible)
+        if (isTouchingGround)
         {
-            anim.SetTrigger("Walk");
-        }
-        else
-        {
-            anim.ResetTrigger("Walk");
-        }
-
-        //Dust particles show up while the enemy is touching the ground and their velocity is at least 0
-        if (rb.velocity.x >= 0 && isTouchingGround)
-        {
-            if (!dustParticles.isEmitting)
+            //Walk/Idle animations
+            //If enemy just got hit, stop walk animation while invincible.
+            if (!isInvincible)
             {
-                dustParticles.Play();
+                animationsScript.ToggleWalkAnimation(true);
             }
+            //Dust particles
+            animationsScript.ToggleDustParticles(true);
         }
-        //Otherwise stop them from showing up.
         else
         {
-            dustParticles.Stop();
+            animationsScript.ToggleDustParticles(false);
+            animationsScript.ToggleWalkAnimation(false);
         }
     }
 
@@ -75,18 +70,16 @@ public abstract class EnemyCharacter : Character //Inherits from Character
         int damageToDeal;
 
         //If the enemy's defense is higher than the damage they're receiving, deal 0 damage.
-        if (defense >= damageReceived)
-        {
-            damageToDeal = 0;
-        }
         //Otherwise set damageToDeal to the enemy subtracted by their defense amount.
-        else
-        {
-            damageToDeal = (damageReceived - defense);
-        }
+        damageToDeal = defense >= damageReceived ? 0 : damageReceived - defense;
 
         //Subtract enemyHealth by the damageToDeal
-        health -= damageToDeal;
+        //Instantiate blood particles when hurt
+        if (damageToDeal > 0)
+        {
+            health -= damageToDeal;
+            InstantiateParticles.InstantiateParticle(transform, bloodParticles, 5f, bloodParticlesYOffset);
+        }
 
         //Knockback
         //The knockbackPower is passed in as a parameter by a player character during an attack.
@@ -94,27 +87,26 @@ public abstract class EnemyCharacter : Character //Inherits from Character
         float calculatedKnockbackResistance = ((knockbackPower * knockbackResistPercentage) / 100);
         float calculatedKnockback = knockbackPower - calculatedKnockbackResistance;
 
-        if (health > 0)
-        {
-            //Short invincibility after getting hit
-            StartCoroutine("Invincibility");
-
-            //Adds the knockback direction and amount
-            rb.AddForce((transform.position - hitFrom).normalized * calculatedKnockback, ForceMode.Acceleration);
-        }
-        else
-        {
-            //Adds the knockback direction and amount
-            rb.AddForce((transform.position - hitFrom).normalized * (calculatedKnockback / 2), ForceMode.Acceleration);
-        }
-
         //Play sound fx
 
-        //Instantiate blood particles when hurt
-        if (damageToDeal > 0)
+        if (health <= 0 && !isDying)
         {
-            InstantiateParticles.InstantiateParticle(transform, bloodParticles, 5f, bloodParticlesYOffset);
+            if (_enemyDied != null)
+                _enemyDied.Invoke();
+
+            //Adds the knockback direction and amount
+            rb.AddForce((transform.position - hitFrom).normalized * (calculatedKnockback / 2), ForceMode.Acceleration);
+
+            isDying = true;
+
+            return;
         }
+
+        //Short invincibility after getting hit
+        StartCoroutine("Invincibility");
+
+        //Adds the knockback direction and amount
+        rb.AddForce((transform.position - hitFrom).normalized * calculatedKnockback, ForceMode.Acceleration);
     }
 
     //Short invincibility after getting hit

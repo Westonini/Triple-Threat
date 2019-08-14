@@ -16,13 +16,15 @@ public class SwapCharacters : MonoBehaviour
 
     public static Transform currentPlayerPosition;
 
-    [HideInInspector] public bool swapOnCooldown;
+    private bool swapOnCooldown;
     private float swapCooldownTimer = 0.25f;
-    private float resetSwapCooldownTimer;
 
     [Space]
     public GameObject bubbleParticle;
     public GameObject smokeParticles;
+
+    public delegate void CharacterSwapped();
+    public static event CharacterSwapped _characterSwapped;
 
     SceneRestart SR;
 
@@ -41,9 +43,16 @@ public class SwapCharacters : MonoBehaviour
 
         //Get the SceneRestart script from the Main Camera object.
         SR = GetComponent<SceneRestart>();
+    }
 
-        //Set resetSwapCooldownTimer to swapCooldownTimer to reset the value later.
-        resetSwapCooldownTimer = swapCooldownTimer;
+    //Subscribe SwapCooldown to _characterSwapped
+    private void OnEnable()
+    {
+        _characterSwapped += StartSwapCooldown;
+    }
+    private void OnDisable()
+    {
+        _characterSwapped -= StartSwapCooldown;
     }
 
     //Calls the Swap function to swap between characters
@@ -54,9 +63,6 @@ public class SwapCharacters : MonoBehaviour
 
         //Gets the current player position for the enemies to track.
         currentPlayerPosition = currentCharacter.transform;
-
-        //Swap cooldown function.
-        SwapCooldown();
     }
 
     //If/else statements for checking which character to switch to and if it's possible.
@@ -111,22 +117,24 @@ public class SwapCharacters : MonoBehaviour
 
         //Play sound
 
-        //Put swap on cooldown
-        swapOnCooldown = true;
+        //Call the _characterSwapped event.
+        if (_characterSwapped != null)
+        {
+            _characterSwapped.Invoke();
+        }
+    }
+
+    void StartSwapCooldown()
+    {
+        StartCoroutine("SwapCooldown");
     }
 
     //Cooldown timer for swapping between characters
-    void SwapCooldown()
+    IEnumerator SwapCooldown()
     {
-        if (swapOnCooldown)
-        {
-            swapCooldownTimer -= Time.deltaTime;
-
-            if (swapCooldownTimer <= 0)
-            {
-                swapOnCooldown = false;
-                swapCooldownTimer = resetSwapCooldownTimer;
-            }
-        }
+        //Put swap on cooldown
+        swapOnCooldown = true;
+        yield return new WaitForSeconds(swapCooldownTimer);
+        swapOnCooldown = false;
     }
 }

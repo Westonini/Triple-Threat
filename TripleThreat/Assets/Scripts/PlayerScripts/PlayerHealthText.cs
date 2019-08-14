@@ -11,21 +11,10 @@ public class PlayerHealthText : MonoBehaviour
     void Start()
     {
         healthText = GetComponent<TextMeshProUGUI>();
-        HealthText();
-    }
-
-    void OnEnable()
-    {
-        PlayerCharacter._playerTookDmg += HealthText;
-    }
-
-    void OnDisable()
-    {
-        PlayerCharacter._playerTookDmg -= HealthText;
     }
 
     //Updates the healthtext's number and color depending on the player's health
-    void HealthText()
+    public void HealthText()
     {
         //HealthText value update
         healthText.text = "HP: " + PlayerHealth.playerHealth.ToString() + " / 10";

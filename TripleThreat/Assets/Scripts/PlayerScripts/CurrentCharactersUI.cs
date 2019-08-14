@@ -30,9 +30,20 @@ public class CurrentCharactersUI : MonoBehaviour
         SCscript = GetComponent<SwapCharacters>();
 
         ShowCurrentCharacters();
+        SwapBrightenedImage();
     }
 
-    private void Update()
+    //Subscribe SwapBrightenedImage to _characterSwapped
+    private void OnEnable()
+    {
+        SwapCharacters._characterSwapped += SwapBrightenedImage;
+    }
+    private void OnDisable()
+    {
+        SwapCharacters._characterSwapped -= SwapBrightenedImage;
+    }
+
+    void SwapBrightenedImage()
     {
         //if the character currently being used is x, call the function to brighten x's sprite
         if (SwapCharacters.currentCharacter.name == character1)

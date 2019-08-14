@@ -6,11 +6,11 @@ public class EnemyDeath : MonoBehaviour
 {
     Rigidbody characterRB;
     EnemyCharacter enemyScript;
+    CharacterMovementAnimations animationsScript;
     Animator characterAnim;
 
     bool currentlyDying;
 
-    public GameObject bloodParticles;
     public GameObject smokeParticles;
 
     void Awake()
@@ -18,16 +18,23 @@ public class EnemyDeath : MonoBehaviour
         enemyScript = GetComponent<EnemyCharacter>();
         characterRB = GetComponent<Rigidbody>();
         characterAnim = GetComponent<Animator>();
+        animationsScript = GetComponent<CharacterMovementAnimations>();
     }
 
-    void Update()
+    void OnEnable()
     {
-        //If the enemy's health is <= 0 the Start the death coroutine
-        if (enemyScript.health <= 0 && !currentlyDying)
-        {
-            currentlyDying = true;
-            StartCoroutine("EnemyDeathIEnum");
-        }
+        enemyScript._enemyDied += HandleDeath;
+    }
+
+    private void OnDisable()
+    {
+        enemyScript._enemyDied -= HandleDeath;
+    }
+
+    //To be invoked when _playerDied gets invoked from PlayerCharacter
+    private void HandleDeath()
+    {
+        StartCoroutine("EnemyDeathIEnum");
     }
 
     IEnumerator EnemyDeathIEnum()
@@ -43,7 +50,7 @@ public class EnemyDeath : MonoBehaviour
 
         //Enable/disable things
         characterAnim.enabled = false;
-        enemyScript.dustParticles.Stop();
+        animationsScript.ToggleDustParticles(false);
         enemyScript.enabled = false;
 
         //Rigidbody constraint changes for a ragdoll-type effect
@@ -55,7 +62,7 @@ public class EnemyDeath : MonoBehaviour
         if (gameObject.activeSelf)
         {
             yield return new WaitForSeconds(2f);
-            InstantiateParticles.InstantiateParticle(transform, bloodParticles, 5f, 2.5f);
+            InstantiateParticles.InstantiateParticle(transform, enemyScript.bloodParticles, 5f, 2.5f);
             yield return new WaitForSeconds(2f);
         }
         //If the enemy character was inactive due to them falling off the map or some othe reason, only wait for 1.7 seconds

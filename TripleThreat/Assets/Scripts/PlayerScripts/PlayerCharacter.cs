@@ -17,13 +17,12 @@ public abstract class PlayerCharacter : Character //Inherits from Character
 
     [HideInInspector] public static bool isInvincible;      //Set to true if invincible, otherwise it'll be false. static because it's for all 3 player characters.
     private bool isGettingKnockedback;                      //Set to true if getting knocked back, otherwise it'll be false
-    private bool isDying;                                   //Set to true if dying, otherwise it'll be false
 
     public delegate void PlayerTookDmg();                   
     public static event PlayerTookDmg _playerTookDmg;       //Event to be invoked when the player takes damage
 
     public delegate void PlayerDied();
-    public static event PlayerDied _playerDied;             //Event to be invoked when the player takes dies
+    public static event PlayerDied _playerDying;             //Event to be invoked when the player dies
 
     //Happens when a character gets enabled
     protected virtual void OnEnable()
@@ -62,28 +61,26 @@ public abstract class PlayerCharacter : Character //Inherits from Character
         base.Movement();
     }
 
-    protected override void MovementAnimations()
+    protected override void MovementAnimationInput()
     {
         //Movement animations and dust particles
         //If the player is currently moving and touching the ground..
         if ((moveHorizontal != 0 || moveVertical != 0) && isTouchingGround)
         {
             //Emit dust particles.
-            if (!dustParticles.isEmitting)
-            {
-                dustParticles.Play();
-            }
+            animationsScript.ToggleDustParticles(true);
+
             //If the player isn't getting knocked back, do walk animation.
             if (!isGettingKnockedback)
             {
-                anim.SetTrigger("Walk");
+                animationsScript.ToggleWalkAnimation(true);
             }
         }
         //Else stop movement animations and dust particles
         else
         {
-            anim.ResetTrigger("Walk");
-            dustParticles.Stop();
+            animationsScript.ToggleWalkAnimation(false);
+            animationsScript.ToggleDustParticles(false);
         }
     }
 
@@ -113,6 +110,8 @@ public abstract class PlayerCharacter : Character //Inherits from Character
             InstantiateParticles.InstantiateParticle(transform, bloodParticles, 5f, 5f);
         }
 
+        //Play sound fx
+
         //Invoke _playerTookDmg to update health text
         if (_playerTookDmg != null)
             _playerTookDmg.Invoke();
@@ -120,17 +119,15 @@ public abstract class PlayerCharacter : Character //Inherits from Character
         //Invoke _playerdied and do a ragdoll knockback if the player health dropped to 0 or below after they got hit.
         if (PlayerHealth.playerHealth <= 0 && !isDying)
         {
-            //Invoke _playerDied
-            if (_playerDied != null)
-                _playerDied.Invoke();
+            //Invoke _playerDying
+            if (_playerDying != null)
+                _playerDying.Invoke();
 
             //Ragdoll death knock back
             rb.AddForce((transform.position - hitFrom).normalized * (knockbackPower / 2), ForceMode.Acceleration);
 
             //Set isDying to true so this can't happen multiple times.
             isDying = true;
-
-            return;
         }
         //Else if the player's health is above 0 after they got hit do a regular knockback and start the invincibility coroutine
         else if (PlayerHealth.playerHealth > 0)
@@ -140,8 +137,6 @@ public abstract class PlayerCharacter : Character //Inherits from Character
 
             //Short invincibility after getting hit
             StartCoroutine("Invincibility");
-
-            //Play sound fx
         }
     }
 

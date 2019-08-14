@@ -28,15 +28,12 @@ public class RangedEnemy : EnemyCharacter //Inherits from EnemyCharacter
         if (attackScript.playerWithinRange)
         {
             walkSpeed = 0;
-            dustParticles.Stop();
+            animationsScript.ToggleDustParticles(false);
         }
         else
         {
             walkSpeed = defaultWalkSpeed;
-            if (!dustParticles.isEmitting)
-            {
-                dustParticles.Play();
-            }
+            animationsScript.ToggleDustParticles(true);
         }
 
         base.Movement();

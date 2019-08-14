@@ -11,21 +11,18 @@ public abstract class Character : MonoBehaviour
     [Space]
     public GameObject bloodParticles;         //BloodParticles gameobject
     public float bloodParticlesYOffset;       //Amount that the BloodParticles will be offset by on the y-axis
-    public ParticleSystem dustParticles;      //DustParticles gameobject
 
     protected float downwardForce;            //Amount of force that will push the character downward for gravity simulation
     protected bool isTouchingGround;          //Boolean to check if player is touching ground
+    protected bool isDying;                                   //Set to true if dying, otherwise it'll be false
 
-    [HideInInspector] public delegate void PlayerMovementAnimations();
-    [HideInInspector] public event PlayerMovementAnimations _playerMovementAnimations;             //Event to be invoked when the player moves
-
-    protected Animator anim;
+    protected CharacterMovementAnimations animationsScript;
 
     protected virtual void Start()
     {
         //Get components       
         rb = GetComponent<Rigidbody>();
-        anim = GetComponent<Animator>();
+        animationsScript = GetComponent<CharacterMovementAnimations>();
 
         //Set defaultWalkSpeed to walkSpeed so it can be reset later.
         defaultWalkSpeed = walkSpeed;
@@ -33,7 +30,7 @@ public abstract class Character : MonoBehaviour
 
     protected virtual void Update()
     {
-        MovementAnimations();
+        MovementAnimationInput();
         Aim();
     }
 
@@ -53,7 +50,7 @@ public abstract class Character : MonoBehaviour
         }
     }
 
-    protected virtual void MovementAnimations()
+    protected virtual void MovementAnimationInput()
     {
         //To be overwritten within PlayerCharacter and EnemyCharacter
     }
