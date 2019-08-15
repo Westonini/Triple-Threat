@@ -12,9 +12,10 @@ public abstract class EnemyCharacter : Character //Inherits from Character
     [Range(0, 100)] public int knockbackResistPercentage; //Percentage of knockback resistance against the player's knockback
 
     [HideInInspector] public bool isInvincible;           //Set to true if invincible, otherwise it'll be false
+    protected bool isTouchingGround;                      //Boolean to check if enemy is touching ground
 
     public delegate void EnemyDied();
-    public event EnemyDied _enemyDied;             //Event to be invoked when the enemy dies
+    public event EnemyDied _enemyDied;                    //Event to be invoked when the enemy dies
 
     protected override void Start()
     {
@@ -32,7 +33,12 @@ public abstract class EnemyCharacter : Character //Inherits from Character
         //Enemy Movement Towards Player
         transform.position = Vector3.MoveTowards(transform.position, SwapCharacters.currentPlayerPosition.position, step);
 
-        base.Movement();
+        //Gravity
+        if (!isTouchingGround)
+        {
+            //Add downward force while not touching ground so that the character falls.
+            rb.AddForce(Vector3.down * downwardForce, ForceMode.Acceleration);
+        }
     }
 
     protected override void MovementAnimationInput()
@@ -107,6 +113,21 @@ public abstract class EnemyCharacter : Character //Inherits from Character
 
         //Adds the knockback direction and amount
         rb.AddForce((transform.position - hitFrom).normalized * calculatedKnockback, ForceMode.Acceleration);
+    }
+
+    //Happens when you initially touch the ground.
+    protected override void OnGroundTouch()
+    {
+        isTouchingGround = true;
+
+        base.OnGroundTouch();
+    }
+    //Happens when you initially leave the ground.
+    protected override void OnGroundLeave()
+    {
+        isTouchingGround = false;
+
+        base.OnGroundLeave();
     }
 
     //Short invincibility after getting hit

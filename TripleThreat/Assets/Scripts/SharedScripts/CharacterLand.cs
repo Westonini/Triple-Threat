@@ -7,18 +7,21 @@ public class CharacterLand : MonoBehaviour
 {
     float fallingTimeElapsed;
     public GameObject landingParticles;
-    Character characterScript;
 
-    void Start()
+    Character characterScript;
+    AudioManager audioManager;
+
+    void Awake()
     {
         characterScript = GetComponent<Character>();
+        audioManager = GetComponentInChildren<AudioManager>();
 
         //Subscribe functions to events in the character script
         characterScript._characterFalling += StartFall;
         characterScript._characterLanded += Landed;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         //Unsubscribe functions from events in the character script
         characterScript._characterFalling -= StartFall;
@@ -44,11 +47,11 @@ public class CharacterLand : MonoBehaviour
     {
         //Stop the Falling coroutine
         StopCoroutine("Falling");
-
         //If the character was falling for at least 1 second, instantiate a landing particle
         if (fallingTimeElapsed >= 1f)
         {
             InstantiateParticles.InstantiateParticle(transform, landingParticles, 5f, 1f);
+            audioManager.Play("Landing");
         }
 
         //Set fallingTimeElapsed to 0

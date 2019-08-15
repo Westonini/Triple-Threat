@@ -17,12 +17,13 @@ public abstract class PlayerCharacter : Character //Inherits from Character
 
     [HideInInspector] public static bool isInvincible;      //Set to true if invincible, otherwise it'll be false. static because it's for all 3 player characters.
     private bool isGettingKnockedback;                      //Set to true if getting knocked back, otherwise it'll be false
+    public static bool isTouchingGround;                    //Static boolean that's shared between all the player characters. Set to true if touching ground, otherwise set to false.
 
     public delegate void PlayerTookDmg();                   
     public static event PlayerTookDmg _playerTookDmg;       //Event to be invoked when the player takes damage
 
     public delegate void PlayerDied();
-    public static event PlayerDied _playerDying;             //Event to be invoked when the player dies
+    public static event PlayerDied _playerDying;            //Event to be invoked when the player dies
 
     //Happens when a character gets enabled
     protected virtual void OnEnable()
@@ -38,6 +39,7 @@ public abstract class PlayerCharacter : Character //Inherits from Character
     {
         //Reset at start of every round since it's a static variable
         isInvincible = false;
+        isTouchingGround = false;
 
         downwardForce = 800;
 
@@ -58,7 +60,12 @@ public abstract class PlayerCharacter : Character //Inherits from Character
             rb.velocity = new Vector3(moveHorizontal, 0, moveVertical).normalized * walkSpeed;
         }
 
-        base.Movement();
+        //Gravity
+        if (!isTouchingGround)
+        {
+            //Add downward force while not touching ground so that the character falls.
+            rb.AddForce(Vector3.down * downwardForce, ForceMode.Acceleration);
+        }
     }
 
     protected override void MovementAnimationInput()
@@ -138,6 +145,21 @@ public abstract class PlayerCharacter : Character //Inherits from Character
             //Short invincibility after getting hit
             StartCoroutine("Invincibility");
         }
+    }
+
+    //Happens when you initially touch the ground.
+    protected override void OnGroundTouch()
+    {
+        isTouchingGround = true;
+
+        base.OnGroundTouch();
+    }
+    //Happens when you initially leave the ground.
+    protected override void OnGroundLeave()
+    {
+        isTouchingGround = false;
+
+        base.OnGroundLeave();
     }
 
     //Short invincibility after getting hit

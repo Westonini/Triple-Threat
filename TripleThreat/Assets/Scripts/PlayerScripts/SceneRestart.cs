@@ -30,14 +30,8 @@ public class SceneRestart : MonoBehaviour
     {
         sceneCurrentlyRestarting = true;
 
-        //Find all the playerCharacters and add them to an array.
-        GameObject[] playerCharacters = GameObject.FindGameObjectsWithTag("Player");
-
-        //Disable all objects tagged "Player"
-        for (var i = 0; i < playerCharacters.Length; i++)
-        {
-            playerCharacters[i].SetActive(false);
-        }
+        //Disable the renderer of the current character
+        SwapCharacters.currentCharacter.GetComponent<Renderer>().enabled = false;
 
         //Wait x seconds and then restart the current scene.
         yield return new WaitForSeconds(2.5f);

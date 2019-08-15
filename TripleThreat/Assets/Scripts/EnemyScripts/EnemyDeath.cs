@@ -6,6 +6,7 @@ using UnityEngine;
 public class EnemyDeath : CharacterDeath //Inherits from Character death
 {
     EnemyCharacter enemyScript;
+    AudioManager audioManager;
 
     void Awake()
     {
@@ -13,6 +14,7 @@ public class EnemyDeath : CharacterDeath //Inherits from Character death
         characterRB = GetComponent<Rigidbody>();
         characterAnim = GetComponent<Animator>();
         animationsScript = GetComponent<CharacterMovementAnimations>();
+        audioManager = GetComponentInChildren<AudioManager>();
     }
 
     void OnEnable()
@@ -44,7 +46,10 @@ public class EnemyDeath : CharacterDeath //Inherits from Character death
         //Rigidbody constraint changes for a ragdoll-type effect
         characterRB.constraints = RigidbodyConstraints.None;
         characterRB.constraints = RigidbodyConstraints.FreezeRotationY;
-        characterRB.mass = 0.1f;
+        characterRB.mass = 0.01f;
+
+        //Play sound
+        audioManager.Play("EnemyDeath");
 
         //If the enemy character is active, instantiate blood particles every so often and end it with a smoke particle.
         if (gameObject.activeSelf)

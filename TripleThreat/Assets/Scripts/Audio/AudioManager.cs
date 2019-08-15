@@ -4,31 +4,28 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-	public static AudioManager instance;
-
 	public AudioMixerGroup mixerGroup;
 
 	public Sound[] sounds;
 
-	void Awake()
+	protected virtual void Awake()
 	{
-		if (instance != null)
-		{
-			Destroy(gameObject);
-		}
-		else
-		{
-			instance = this;
-			DontDestroyOnLoad(gameObject);
-		}
-
 		foreach (Sound s in sounds)
 		{
 			s.source = gameObject.AddComponent<AudioSource>();
 			s.source.clip = s.clip;
 			s.source.loop = s.loop;
 
-			s.source.outputAudioMixerGroup = mixerGroup;
+            if (s._3D)
+            {
+                s.source.spatialBlend = 1;
+                s.source.spread = 180;
+                s.source.maxDistance = 75;
+            }
+
+            s.source.playOnAwake = false;
+            s.source.rolloffMode = AudioRolloffMode.Linear;
+            s.source.outputAudioMixerGroup = mixerGroup;
 		}
 	}
 
@@ -44,7 +41,7 @@ public class AudioManager : MonoBehaviour
 		s.source.volume = s.volume * (1f + UnityEngine.Random.Range(-s.volumeVariance / 2f, s.volumeVariance / 2f));
 		s.source.pitch = s.pitch * (1f + UnityEngine.Random.Range(-s.pitchVariance / 2f, s.pitchVariance / 2f));
 
-		s.source.Play();
+        s.source.Play();
 	}
 
     public void Pause(string sound)

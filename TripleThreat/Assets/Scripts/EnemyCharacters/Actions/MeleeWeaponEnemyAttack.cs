@@ -9,6 +9,7 @@ public class MeleeWeaponEnemyAttack : MonoBehaviour
     public float attackCooldownTime;
     public float distanceAwayFromPlayerToAttack;
     public float attackTime;
+    public GameObject draggedWeaponSparks; //Optional for when the weapon is being dragged.
     float distanceFromPlayer;
     [HideInInspector] public bool isCurrentlyAttacking;
     private bool playerWithinRange;
@@ -33,6 +34,10 @@ public class MeleeWeaponEnemyAttack : MonoBehaviour
 
         //Added so that the animations don't bug.
         weaponAnim.keepAnimatorControllerStateOnDisable = true;
+
+        //When the character is falling, toggle sparks off / when the character landed turn sparks back on
+        enemyScript._characterFalling += DraggedWeaponSparksToggleOff;
+        enemyScript._characterLanded += DraggedWeaponSparksToggleOn;
     }
 
     void Update()
@@ -43,6 +48,12 @@ public class MeleeWeaponEnemyAttack : MonoBehaviour
         {
             StartCoroutine("Attack");
         }
+    }
+
+    private void OnDisable()
+    {
+        enemyScript._characterFalling -= DraggedWeaponSparksToggleOff;
+        enemyScript._characterLanded -= DraggedWeaponSparksToggleOn;
     }
 
     //If the weapon touched a player, set that players's gameobject to playerHit and  call DealDamage with playerHit as the parameter passed in.
@@ -97,6 +108,7 @@ public class MeleeWeaponEnemyAttack : MonoBehaviour
         weaponCollider.enabled = true;
         weaponAnim.SetTrigger("Attack");
         weaponTrail.enabled = true;
+        DraggedWeaponSparksToggleOff();
 
         //Attack is over but animation is pulling the weapon back into the start position.
         yield return new WaitForSeconds(attackTime);
@@ -107,7 +119,19 @@ public class MeleeWeaponEnemyAttack : MonoBehaviour
         //Cooldown before the enemy can attack again.
         yield return new WaitForSeconds(attackCooldownTime);
 
+        DraggedWeaponSparksToggleOn();
         isCurrentlyAttacking = false;
+    }
 
+    //Turns sparks on/off if they're not null and are both also subscribed to events
+    void DraggedWeaponSparksToggleOff()
+    {
+        if (draggedWeaponSparks != null)
+            draggedWeaponSparks.SetActive(false);
+    }
+    void DraggedWeaponSparksToggleOn()
+    {
+        if (draggedWeaponSparks != null)
+            draggedWeaponSparks.SetActive(true);
     }
 }

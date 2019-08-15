@@ -13,7 +13,6 @@ public abstract class Character : MonoBehaviour
     public float bloodParticlesYOffset;       //Amount that the BloodParticles will be offset by on the y-axis
 
     protected float downwardForce;            //Amount of force that will push the character downward for gravity simulation
-    protected bool isTouchingGround;          //Boolean to check if player is touching ground
     protected bool isDying;                                   //Set to true if dying, otherwise it'll be false
 
     public delegate void CharacterFalling();
@@ -45,17 +44,11 @@ public abstract class Character : MonoBehaviour
         Movement();
     }
 
-    //Movement
+
     protected virtual void Movement()
     {
-        //Ground Check
-        if (!isTouchingGround)
-        {
-            //Add downward force while not touching ground so that the character falls.
-            rb.AddForce(Vector3.down * downwardForce, ForceMode.Acceleration);
-        }
+        //To be overwritten within PlayerCharacter and EnemyCharacter
     }
-
     protected virtual void MovementAnimationInput()
     {
         //To be overwritten within PlayerCharacter and EnemyCharacter
@@ -67,28 +60,35 @@ public abstract class Character : MonoBehaviour
 
 
     //Ground Check
-    private void OnCollisionEnter(Collision collision)
+    protected void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
-            isTouchingGround = true;
-
-            if (_characterLanded != null)
-            {
-                _characterLanded.Invoke(); //Stops couroutine within CharacterLand
-            }
+            OnGroundTouch();
         }
     }
-    private void OnCollisionExit(Collision collision)
+    protected void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
-            isTouchingGround = false;
+            OnGroundLeave();
+        }
+    }
 
-            if (_characterFalling != null)
-            {
-                _characterFalling.Invoke(); //Starts couroutine within CharacterLand
-            }
+    //Happens when you initially touch the ground.
+    protected virtual void OnGroundTouch()
+    {
+        if (_characterLanded != null)
+        {
+            _characterLanded.Invoke(); //Stops couroutine within CharacterLand
+        }
+    }
+    //Happens when you initially leave the ground.
+    protected virtual void OnGroundLeave()
+    {
+        if (_characterFalling != null)
+        {
+            _characterFalling.Invoke(); //Starts couroutine within CharacterLand
         }
     }
 
