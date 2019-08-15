@@ -20,6 +20,9 @@ public class ShieldRepair : MonoBehaviour
     public TextMeshProUGUI shieldDurabilityText;
     SwapCharacters SCscript;
 
+    public delegate void ShieldRepaired();
+    public static event ShieldRepaired _shieldRepaired;             //Event to be invoked when the shield gets repaired.
+
     void Start()
     {
         //Start the scene with shieldHealth at 10.
@@ -104,6 +107,8 @@ public class ShieldRepair : MonoBehaviour
         shieldRepairingText.SetActive(false);
         shieldRepairedText.SetActive(true); //Show text saying "SHIELD REPAIRED" for 2.5 seconds
         shieldRepairTime = 3f;
+        if (_shieldRepaired != null) //Invokes the _shieldRepaired function which has EnableShield() subscribed to it.
+            _shieldRepaired();
 
         yield return new WaitForSeconds(2.5f);
 

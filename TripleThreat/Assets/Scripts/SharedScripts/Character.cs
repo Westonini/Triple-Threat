@@ -16,6 +16,12 @@ public abstract class Character : MonoBehaviour
     protected bool isTouchingGround;          //Boolean to check if player is touching ground
     protected bool isDying;                                   //Set to true if dying, otherwise it'll be false
 
+    public delegate void CharacterFalling();
+    public event CharacterFalling _characterFalling;             //Event to be invoked when the character starts falling
+
+    public delegate void CharacterLanded();
+    public event CharacterFalling _characterLanded;             //Event to be invoked when the character lands
+
     protected CharacterMovementAnimations animationsScript;
 
     protected virtual void Start()
@@ -66,6 +72,11 @@ public abstract class Character : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             isTouchingGround = true;
+
+            if (_characterLanded != null)
+            {
+                _characterLanded.Invoke(); //Stops couroutine within CharacterLand
+            }
         }
     }
     private void OnCollisionExit(Collision collision)
@@ -73,6 +84,11 @@ public abstract class Character : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             isTouchingGround = false;
+
+            if (_characterFalling != null)
+            {
+                _characterFalling.Invoke(); //Starts couroutine within CharacterLand
+            }
         }
     }
 

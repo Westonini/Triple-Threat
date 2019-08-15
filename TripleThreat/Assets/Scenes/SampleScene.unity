@@ -16508,7 +16508,7 @@ GameObject:
   - component: {fileID: 612410576}
   - component: {fileID: 612410575}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: NonRaycastPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16553,7 +16553,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -16769,7 +16769,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 4.5904e-41, y: 0, z: 0, w: 3.6796878e+31}
+  m_BoundingSphereOverride: {x: 0, y: 4.59179e-40, z: -1.177e-42, w: 1.98e-43}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -45306,6 +45306,7 @@ GameObject:
   - component: {fileID: 1966636807}
   - component: {fileID: 1966636813}
   - component: {fileID: 1966636814}
+  - component: {fileID: 1966636815}
   m_Layer: 14
   m_Name: Ranger
   m_TagString: Enemy
@@ -45481,6 +45482,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dustParticles: {fileID: 500513957}
+--- !u!114 &1966636815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1966636805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07890c116b5ddb44c867bc39c03ff8ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  landingParticles: {fileID: 894405644719408751, guid: df6df71e94c81f144b0232df9ee46032,
+    type: 3}
 --- !u!1 &1968573255
 GameObject:
   m_ObjectHideFlags: 0
@@ -51365,10 +51380,11 @@ GameObject:
   - component: {fileID: 1425686436665358440}
   - component: {fileID: 1425686436665358444}
   - component: {fileID: 1425686436665358443}
-  - component: {fileID: 1425686436665358442}
   - component: {fileID: 1425686436665358445}
+  - component: {fileID: 1425686436665358442}
   - component: {fileID: 1425686436665358446}
   - component: {fileID: 1425686436665358447}
+  - component: {fileID: 1425686436665358448}
   m_Layer: 14
   m_Name: Grunt
   m_TagString: Enemy
@@ -51524,6 +51540,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dustParticles: {fileID: 2035389846}
+--- !u!114 &1425686436665358448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1425686436665358439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07890c116b5ddb44c867bc39c03ff8ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  landingParticles: {fileID: 894405644719408751, guid: df6df71e94c81f144b0232df9ee46032,
+    type: 3}
 --- !u!4 &1659637858984412458
 Transform:
   m_ObjectHideFlags: 0
@@ -51588,6 +51618,7 @@ GameObject:
   - component: {fileID: 2399607410193734273}
   - component: {fileID: 2399607410193734274}
   - component: {fileID: 2399607410193734275}
+  - component: {fileID: 2399607410193734276}
   m_Layer: 14
   m_Name: Meathead
   m_TagString: Enemy
@@ -51744,6 +51775,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dustParticles: {fileID: 72571859}
+--- !u!114 &2399607410193734276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2399607410193734267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07890c116b5ddb44c867bc39c03ff8ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  landingParticles: {fileID: 894405644719408751, guid: df6df71e94c81f144b0232df9ee46032,
+    type: 3}
 --- !u!1 &2401384033248917305
 GameObject:
   m_ObjectHideFlags: 0
@@ -52066,9 +52111,10 @@ GameObject:
   - component: {fileID: 4014616246612983230}
   - component: {fileID: 4014616246612983229}
   - component: {fileID: 4014616246612983228}
-  - component: {fileID: 4014616246612983227}
   - component: {fileID: 4014616246612983232}
+  - component: {fileID: 4014616246612983227}
   - component: {fileID: 4014616246612983233}
+  - component: {fileID: 4014616246612983234}
   m_Layer: 12
   m_Name: Archer
   m_TagString: Player
@@ -52207,6 +52253,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dustParticles: {fileID: 1682944687}
+--- !u!114 &4014616246612983234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4014616246612983226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07890c116b5ddb44c867bc39c03ff8ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  landingParticles: {fileID: 894405644719408751, guid: c949fb51fdf158442a07f51a599d447c,
+    type: 3}
 --- !u!33 &4245599975085756529
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -52322,6 +52382,7 @@ GameObject:
   - component: {fileID: 4927898198249579249}
   - component: {fileID: 4927898198249579250}
   - component: {fileID: 4927898198249579251}
+  - component: {fileID: 4927898198249579252}
   m_Layer: 14
   m_Name: Ranger
   m_TagString: Enemy
@@ -52478,6 +52539,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dustParticles: {fileID: 1826022201}
+--- !u!114 &4927898198249579252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4927898198249579243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07890c116b5ddb44c867bc39c03ff8ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  landingParticles: {fileID: 894405644719408751, guid: df6df71e94c81f144b0232df9ee46032,
+    type: 3}
 --- !u!4 &4946650909899232679
 Transform:
   m_ObjectHideFlags: 0
@@ -52886,9 +52961,10 @@ GameObject:
   - component: {fileID: 8296172667483089492}
   - component: {fileID: 8296172667483089491}
   - component: {fileID: 8296172667483089490}
-  - component: {fileID: 8296172667483089489}
   - component: {fileID: 8296172667483089494}
+  - component: {fileID: 8296172667483089489}
   - component: {fileID: 8296172667483089495}
+  - component: {fileID: 8296172667483089496}
   m_Layer: 12
   m_Name: Warrior
   m_TagString: Player
@@ -52913,7 +52989,7 @@ MonoBehaviour:
   bloodParticles: {fileID: 202415147814869348, guid: 2c71721e9ca5d1340ac9d12b7436e4bb,
     type: 3}
   bloodParticlesYOffset: 0
-  knockbackPower: 1000
+  knockbackPower: 1100
 --- !u!54 &8296172667483089490
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -53026,6 +53102,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dustParticles: {fileID: 1004575398}
+--- !u!114 &8296172667483089496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8296172667483089488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07890c116b5ddb44c867bc39c03ff8ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  landingParticles: {fileID: 894405644719408751, guid: df6df71e94c81f144b0232df9ee46032,
+    type: 3}
 --- !u!1 &8296172667539127852
 GameObject:
   m_ObjectHideFlags: 0
@@ -53155,10 +53245,11 @@ GameObject:
   - component: {fileID: 8296172668166069774}
   - component: {fileID: 8296172668166069773}
   - component: {fileID: 8296172668166069772}
-  - component: {fileID: 8296172668166069771}
   - component: {fileID: 8296172668166069776}
+  - component: {fileID: 8296172668166069771}
   - component: {fileID: 8296172668166069777}
   - component: {fileID: 8296172668166069778}
+  - component: {fileID: 8296172668166069779}
   m_Layer: 14
   m_Name: Lightweight
   m_TagString: Enemy
@@ -53314,6 +53405,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dustParticles: {fileID: 710688955}
+--- !u!114 &8296172668166069779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8296172668166069770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07890c116b5ddb44c867bc39c03ff8ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  landingParticles: {fileID: 894405644719408751, guid: df6df71e94c81f144b0232df9ee46032,
+    type: 3}
 --- !u!1 &8296172668214070343
 GameObject:
   m_ObjectHideFlags: 0
@@ -53599,9 +53704,10 @@ GameObject:
   - component: {fileID: 8632360443676352353}
   - component: {fileID: 8632360443676352352}
   - component: {fileID: 8632360443676352351}
-  - component: {fileID: 8632360443676352350}
   - component: {fileID: 8632360443676352355}
+  - component: {fileID: 8632360443676352350}
   - component: {fileID: 8632360443676352356}
+  - component: {fileID: 8632360443676352357}
   m_Layer: 12
   m_Name: Guardian
   m_TagString: Player
@@ -53626,7 +53732,7 @@ MonoBehaviour:
   bloodParticles: {fileID: 202415147814869348, guid: 2c71721e9ca5d1340ac9d12b7436e4bb,
     type: 3}
   bloodParticlesYOffset: 0
-  knockbackPower: 750
+  knockbackPower: 1000
 --- !u!54 &8632360443676352351
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -53739,6 +53845,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dustParticles: {fileID: 888201081}
+--- !u!114 &8632360443676352357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8632360443676352349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07890c116b5ddb44c867bc39c03ff8ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  landingParticles: {fileID: 894405644719408751, guid: c949fb51fdf158442a07f51a599d447c,
+    type: 3}
 --- !u!1 &8754543464923475686
 GameObject:
   m_ObjectHideFlags: 0
@@ -53756,6 +53876,7 @@ GameObject:
   - component: {fileID: 8754543464923475692}
   - component: {fileID: 8754543464923475693}
   - component: {fileID: 8754543464923475694}
+  - component: {fileID: 8754543464923475695}
   m_Layer: 14
   m_Name: Mime
   m_TagString: Enemy
@@ -53912,6 +54033,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dustParticles: {fileID: 126336000}
+--- !u!114 &8754543464923475695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8754543464923475686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07890c116b5ddb44c867bc39c03ff8ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  landingParticles: {fileID: 894405644719408751, guid: df6df71e94c81f144b0232df9ee46032,
+    type: 3}
 --- !u!33 &8765986660646670278
 MeshFilter:
   m_ObjectHideFlags: 0

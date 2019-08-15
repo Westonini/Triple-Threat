@@ -114,14 +114,14 @@ public abstract class PlayerCharacter : Character //Inherits from Character
 
         //Invoke _playerTookDmg to update health text
         if (_playerTookDmg != null)
-            _playerTookDmg.Invoke();
+            _playerTookDmg();
 
         //Invoke _playerdied and do a ragdoll knockback if the player health dropped to 0 or below after they got hit.
         if (PlayerHealth.playerHealth <= 0 && !isDying)
         {
             //Invoke _playerDying
             if (_playerDying != null)
-                _playerDying.Invoke();
+                _playerDying();
 
             //Ragdoll death knock back
             rb.AddForce((transform.position - hitFrom).normalized * (knockbackPower / 2), ForceMode.Acceleration);

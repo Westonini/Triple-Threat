@@ -4,14 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Player death coroutine.
-public class PlayerDeath : MonoBehaviour
+public class PlayerDeath : CharacterDeath //Inherits from CharacterDeath
 {
-    Rigidbody characterRB;
     PlayerCharacter playerScript;
-    CharacterMovementAnimations animationsScript;
-    Animator characterAnim;
 
-    public GameObject smokeParticles;
     public Animator redTintAnim;
 
     public delegate void PlayerDead();
@@ -27,15 +23,9 @@ public class PlayerDeath : MonoBehaviour
         PlayerCharacter._playerDying -= HandleDeath;
     }
 
-    //To be invoked when _playerDied gets invoked from PlayerCharacter
-    private void HandleDeath()
-    {
-         StartCoroutine("PlayerDeathIEnum");
-    }
-
     //Disable the player's PlayerCharacter and SwapCharacter scripts and get rid of constraints on the player's rigidbody. 
     //Afterwards set the restartscene boolean from the SceneRestart script to true.
-    IEnumerator PlayerDeathIEnum()
+    IEnumerator DeathIEnum()
     {
         //Get objects/components
         characterRB = SwapCharacters.currentCharacter.GetComponent<Rigidbody>();
@@ -58,7 +48,7 @@ public class PlayerDeath : MonoBehaviour
         //Rigidbody constraint changes for a ragdoll-type effect
         characterRB.constraints = RigidbodyConstraints.None;
         characterRB.constraints = RigidbodyConstraints.FreezeRotationY;
-        characterRB.mass = 1000;
+        characterRB.mass = 100;
 
         //If the player character is active, instantiate blood particles every so often and end it with a smoke particle.
         if (SwapCharacters.currentCharacter.activeSelf)

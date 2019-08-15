@@ -17,10 +17,37 @@ public class GuardianAction : MonoBehaviour
     [HideInInspector] public bool currentlyBlocking;
 
     public static int shieldHealth = 10;
-    public static bool shieldIsHit;
     public static bool shieldHealthInvincibility;
 
-    private bool shieldIsBroken;
+    public delegate void ShieldGotHit();
+    public static event ShieldGotHit _shieldHit;             //Event to be invoked when the shield gets hit
+
+    private void OnEnable()
+    {
+        //Subscribes functions to events
+        _shieldHit += ShieldHit;
+        _shieldHit += ShieldBreak;
+        ShieldRepair._shieldRepaired += EnableShield;
+    }
+
+    private void OnDisable()
+    {
+        //Unsubscribes functions from events
+        _shieldHit -= ShieldHit;
+        _shieldHit -= ShieldBreak;
+
+        //Sets some things to false
+        currentlyBlocking = false;
+
+        shieldHealthInvincibility = false;
+        StopCoroutine("SubtractShieldHealthCooldown");
+    }
+
+    private void OnDestroy()
+    {
+        //Unsubscribes this only on destroy
+        ShieldRepair._shieldRepaired -= EnableShield;
+    }
 
     private void Start()
     {
@@ -33,28 +60,15 @@ public class GuardianAction : MonoBehaviour
         guardianScript = GetComponentInParent<Guardian>();
 
         //Set static booleans to false on the start of the scene
-        shieldIsHit = false;
         shieldHealthInvincibility = false;
 
         //This is to make sure some animations don't bug out.
         shieldAnim.keepAnimatorControllerStateOnDisable = true;
     }
 
-    //Set certain things to false when the character is swapped.
-    private void OnDisable()
-    {
-        currentlyBlocking = false;
-
-        shieldHealthInvincibility = false;
-        shieldIsHit = false;
-        StopCoroutine("SubtractShieldHealthCooldown");
-    }
-
     void Update()
     {
         ShieldBash();
-        ShieldBreak();
-        ShieldHit();
     }
 
     //If the shield touches an enemy, pass their gameobject in as a parameter in DealDamage in order to deal knockback
@@ -90,10 +104,18 @@ public class GuardianAction : MonoBehaviour
     //A public static void that can subtract the shield health by any amount from any script
     public static void SubtractShieldHealth(int amount)
     {
-        if (!shieldHealthInvincibility)
+        if (!shieldHealthInvincibility && amount != 10)
         {
             shieldHealth -= amount;
-            shieldIsHit = true;
+            if (_shieldHit != null)
+                _shieldHit();
+        }
+        //If the amount of damage to deal is equal to 10, ignore the shieldinvincibility
+        else
+        {
+            shieldHealth -= amount;
+            if (_shieldHit != null)
+                _shieldHit();
         }
     }
 
@@ -101,7 +123,7 @@ public class GuardianAction : MonoBehaviour
     void ShieldBash()
     {
         //When the player holds the Fire1 key play the shield bash animation and set the currentlyblocking boolean to true
-        if (Input.GetButton("Fire1") && !shieldIsBroken)
+        if (Input.GetButton("Fire1") && shieldHealth > 0)
         {
             shieldAnim.SetTrigger("Bash");
             currentlyBlocking = true;
@@ -116,11 +138,9 @@ public class GuardianAction : MonoBehaviour
 
     void ShieldBreak()
     {
-        //If the shield's hp drops under 0, the shieldIsBroken boolean sets to true and the shield becomes unusable until repaired.
-        if (shieldHealth <= 0 && !shieldIsBroken)
+        //If the shield's hp drops under 0 the shield becomes unusable until repaired.
+        if (shieldHealth <= 0)
         {
-            shieldIsBroken = true;
-
             shieldAnim.ResetTrigger("Bash");
             shieldCollider.enabled = false;
             shieldRenderer.enabled = false;
@@ -131,39 +151,34 @@ public class GuardianAction : MonoBehaviour
 
             //Play shield break sound
         }
-        else if (shieldHealth > 0 && shieldIsBroken)
-        {
-            shieldIsBroken = false;
-            shieldCollider.enabled = true;
-            shieldRenderer.enabled = true;
-        }
+    }
+
+    //Enables the shield
+    void EnableShield()
+    {
+        shieldCollider.enabled = true;
+        shieldRenderer.enabled = true;
     }
 
     //When shield is hit play an impact particle, play a sound, and start the shield invincibility function
     void ShieldHit()
-    {      
-        if (shieldIsHit)
+    {
+        //Hit particle
+        if (!hitParticles.isEmitting)
         {
-            //Hit particle
-            if (!hitParticles.isEmitting)
-            {
-                hitParticles.Play();
-            }
-
-            //Shield invincibility
-            StartCoroutine("SubtractShieldHealthCooldown");
-
-            //Shield hit sound
-
-            //Set shieldIsHit to false
-            shieldIsHit = false;
+            hitParticles.Play();
         }
+
+        //Shield invincibility
+        StartCoroutine("SubtractShieldHealthCooldown");
+
+        //Shield hit sound
     }
 
     private IEnumerator SubtractShieldHealthCooldown()
     {
         shieldHealthInvincibility = true;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         shieldHealthInvincibility = false;
     }
 }

@@ -2,16 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyDeath : MonoBehaviour
+//Enemy death coroutine.
+public class EnemyDeath : CharacterDeath //Inherits from Character death
 {
-    Rigidbody characterRB;
     EnemyCharacter enemyScript;
-    CharacterMovementAnimations animationsScript;
-    Animator characterAnim;
-
-    bool currentlyDying;
-
-    public GameObject smokeParticles;
 
     void Awake()
     {
@@ -31,13 +25,7 @@ public class EnemyDeath : MonoBehaviour
         enemyScript._enemyDied -= HandleDeath;
     }
 
-    //To be invoked when _playerDied gets invoked from PlayerCharacter
-    private void HandleDeath()
-    {
-        StartCoroutine("EnemyDeathIEnum");
-    }
-
-    IEnumerator EnemyDeathIEnum()
+    IEnumerator DeathIEnum()
     {
         //Set all gameobjects tagged "Equipment" to inactive.
         foreach (Transform equipment in transform) if (equipment.CompareTag("Equipment"))
