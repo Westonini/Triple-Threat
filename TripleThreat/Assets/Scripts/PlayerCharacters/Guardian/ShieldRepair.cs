@@ -32,36 +32,38 @@ public class ShieldRepair : MonoBehaviour
 
         //Get the SwapCharacters script from the Main Camera object.
         SCscript = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<SwapCharacters>();
+
+        ShowShieldDurability();
+
+        //Subscribe some functions to the _shieldHit event, which gets called whenever the Guardian's shield gets hit
+        GuardianAction._shieldHit += ShowShieldDurability;
+        GuardianAction._shieldHit += ShowRepairText;
+    }
+
+    private void OnDisable()
+    {
+        GuardianAction._shieldHit -= ShowShieldDurability;
+        GuardianAction._shieldHit -= ShowRepairText;
     }
 
     void Update()
     {
-        ShowRepairText();
-        ShowShieldDurability();
         ShieldRepairInput();
     }
 
     void ShowRepairText()
     {
         //If the shield is broken, show some text saying that it's broken and tell player how to repair it
-        if (GuardianAction.shieldHealth <= 0 && !currentlyRepairing)
+        if (GuardianAction.shieldHealth <= 0)
         {
             shieldRepairedText.SetActive(false);
             shieldBrokenText.SetActive(true);
-        }
-        else
-        {
-            shieldBrokenText.SetActive(false);
         }
 
         //If the repair time was increased, show text saying that its been increased
         if (shieldRepairTime > 3f)
         {
             shieldRepairTimeIncreasedText.SetActive(true);
-        }
-        else
-        {
-            shieldRepairTimeIncreasedText.SetActive(false);
         }
     }
 
@@ -82,6 +84,7 @@ public class ShieldRepair : MonoBehaviour
         if (Input.GetButton("Repair") && GuardianAction.shieldHealth <= 0 && !currentlyRepairing && PlayerHealth.playerHealth > 0)
         {
             StartCoroutine("Repair");
+            shieldBrokenText.SetActive(false);
             shieldRepairingText.SetActive(true);
         }
         //If the player releases the "Repair" key while repairing, stop repairing. Alternatively, if the player is dead stop the repair.
@@ -89,6 +92,7 @@ public class ShieldRepair : MonoBehaviour
         {
             StopCoroutine("Repair");
             currentlyRepairing = false;
+            shieldBrokenText.SetActive(true);
             shieldRepairingText.SetActive(false);
         }
     }
@@ -100,15 +104,25 @@ public class ShieldRepair : MonoBehaviour
         shieldRepairedText.SetActive(false);
         currentlyRepairing = true;
 
+        //Shield start repair sound
+        FindObjectOfType<AudioManager>().Play("UI_2");
+
         yield return new WaitForSeconds(shieldRepairTime);
 
         currentlyRepairing = false;
         GuardianAction.shieldHealth = 10;
-        shieldRepairingText.SetActive(false);
+
+        ShowShieldDurability(); //Update the shield's durability text
+        shieldRepairingText.SetActive(false); //Stop showing the text that says "REPAIRING"
+        shieldRepairTimeIncreasedText.SetActive(false); //Stop showing the text that stays "INCREASED REPAIR TIME"
         shieldRepairedText.SetActive(true); //Show text saying "SHIELD REPAIRED" for 2.5 seconds
-        shieldRepairTime = 3f;
+        shieldRepairTime = 3f; //Set the repair time back to normal.
+
         if (_shieldRepaired != null) //Invokes the _shieldRepaired function which has EnableShield() subscribed to it.
             _shieldRepaired();
+
+        //Shield Repair sound
+        FindObjectOfType<AudioManager>().Play("ShieldRepair");
 
         yield return new WaitForSeconds(2.5f);
 

@@ -7,10 +7,12 @@ using TMPro;
 public class PlayerHealthText : MonoBehaviour
 {
     TextMeshProUGUI healthText;
+    Animator animator;
 
     void Start()
     {
         healthText = GetComponent<TextMeshProUGUI>();
+        animator = GetComponent<Animator>();
     }
 
     //Updates the healthtext's number and color depending on the player's health
@@ -19,6 +21,11 @@ public class PlayerHealthText : MonoBehaviour
         //HealthText value update
         healthText.text = "HP: " + PlayerHealth.playerHealth.ToString() + " / 10";
 
+        //Flash the health text if the player was hurt
+        if (PlayerHealth.playerHealth < 10)
+        {
+            animator.SetTrigger("Flash");
+        }
 
         //HealthText color
         if (PlayerHealth.playerHealth >= 6)

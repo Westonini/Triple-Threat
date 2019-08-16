@@ -13,6 +13,8 @@ public abstract class Arrow : MonoBehaviour
     [HideInInspector]
     public EnemyCharacter enemyHit;
 
+    List<string> possibleShootSounds = new List<string>();
+
     protected virtual void Start()
     {
         //Get the arrow's components
@@ -23,6 +25,12 @@ public abstract class Arrow : MonoBehaviour
 
         //Start the ArrowGravity coroutine as soon as this object is instantiated.
         StartCoroutine("ArrowGravity");
+
+        //Add shoot sounds to the possibleSounds list.
+        possibleShootSounds.Add("BowShoot1"); possibleShootSounds.Add("BowShoot2");
+
+        //Play random shoot sound
+        FindObjectOfType<AudioManager>().PlayRandom(possibleShootSounds);
     }
 
     protected virtual void OnTriggerEnter(Collider other)

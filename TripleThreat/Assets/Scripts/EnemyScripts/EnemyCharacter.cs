@@ -85,6 +85,9 @@ public abstract class EnemyCharacter : Character //Inherits from Character
         {
             health -= damageToDeal;
             InstantiateParticles.InstantiateParticle(transform, bloodParticles, 5f, bloodParticlesYOffset);
+
+            //Play hurt sound
+            FindObjectOfType<AudioManager>().Play("Hurt", transform);
         }
 
         //Knockback

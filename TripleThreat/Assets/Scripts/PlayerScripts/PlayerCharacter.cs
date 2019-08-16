@@ -114,10 +114,21 @@ public abstract class PlayerCharacter : Character //Inherits from Character
         if (damageReceived > 0 && PlayerHealth.playerHealth > 0)
         {
             PlayerHealth.playerHealth -= damageReceived;
-            InstantiateParticles.InstantiateParticle(transform, bloodParticles, 5f, 5f);
-        }
 
-        //Play sound fx
+            //Instantiate blood
+            InstantiateParticles.InstantiateParticle(transform, bloodParticles, 5f, 5f);
+
+            if (damageReceived >= 5)
+            {
+                //Play severe hurt sound
+                FindObjectOfType<AudioManager>().Play("SevereHurt");
+            } 
+            else
+            {
+                //Play hurt sound
+                FindObjectOfType<AudioManager>().Play("Hurt");
+            }
+        }
 
         //Invoke _playerTookDmg to update health text
         if (_playerTookDmg != null)

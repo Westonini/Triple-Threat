@@ -10,6 +10,7 @@ public class MeleeWeaponEnemyAttack : MonoBehaviour
     public float distanceAwayFromPlayerToAttack;
     public float attackTime;
     public GameObject draggedWeaponSparks; //Optional for when the weapon is being dragged.
+    private AudioSource dragSounds;
     float distanceFromPlayer;
     [HideInInspector] public bool isCurrentlyAttacking;
     private bool playerWithinRange;
@@ -21,6 +22,8 @@ public class MeleeWeaponEnemyAttack : MonoBehaviour
     TrailRenderer weaponTrail;
     
     MeleeWeaponEnemy enemyScript;
+
+    public string attackSound;
 
     void Start()
     {
@@ -38,16 +41,16 @@ public class MeleeWeaponEnemyAttack : MonoBehaviour
         //When the character is falling, toggle sparks off / when the character landed turn sparks back on
         enemyScript._characterFalling += DraggedWeaponSparksToggleOff;
         enemyScript._characterLanded += DraggedWeaponSparksToggleOn;
+
+        if (draggedWeaponSparks != null)
+        {
+            dragSounds = GetComponent<AudioSource>();
+        }
     }
 
     void Update()
     {
         DistanceFromPlayer();
-
-        if (playerWithinRange && !isCurrentlyAttacking)
-        {
-            StartCoroutine("Attack");
-        }
     }
 
     private void OnDisable()
@@ -66,8 +69,8 @@ public class MeleeWeaponEnemyAttack : MonoBehaviour
             weaponCollider.enabled = false;
             justBrokeShield = true;
 
-            GuardianAction.SubtractShieldHealth(10);
             ShieldRepair.shieldRepairTime = 5f;
+            GuardianAction.SubtractShieldHealth(10);
 
             //Knockback but deal 0 damage
             playerHit = other.gameObject.GetComponentInParent<PlayerCharacter>();
@@ -98,6 +101,11 @@ public class MeleeWeaponEnemyAttack : MonoBehaviour
         {
             playerWithinRange = false;
         }
+
+        if (playerWithinRange && !isCurrentlyAttacking)
+        {
+            StartCoroutine("Attack");
+        }
     }
 
     IEnumerator Attack()
@@ -109,6 +117,9 @@ public class MeleeWeaponEnemyAttack : MonoBehaviour
         weaponAnim.SetTrigger("Attack");
         weaponTrail.enabled = true;
         DraggedWeaponSparksToggleOff();
+
+        //Play sound
+        FindObjectOfType<AudioManager>().Play(attackSound, transform);
 
         //Attack is over but animation is pulling the weapon back into the start position.
         yield return new WaitForSeconds(attackTime);
@@ -127,11 +138,17 @@ public class MeleeWeaponEnemyAttack : MonoBehaviour
     void DraggedWeaponSparksToggleOff()
     {
         if (draggedWeaponSparks != null)
+        {
             draggedWeaponSparks.SetActive(false);
+            dragSounds.Stop();
+        }
     }
     void DraggedWeaponSparksToggleOn()
     {
         if (draggedWeaponSparks != null)
+        {
             draggedWeaponSparks.SetActive(true);
+            dragSounds.Play();
+        }
     }
 }

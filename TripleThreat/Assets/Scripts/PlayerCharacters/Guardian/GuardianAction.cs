@@ -22,6 +22,8 @@ public class GuardianAction : MonoBehaviour
     public delegate void ShieldGotHit();
     public static event ShieldGotHit _shieldHit;             //Event to be invoked when the shield gets hit
 
+    List<string> possibleBlockSounds = new List<string>();
+
     private void OnEnable()
     {
         //Subscribes functions to events
@@ -64,6 +66,9 @@ public class GuardianAction : MonoBehaviour
 
         //This is to make sure some animations don't bug out.
         shieldAnim.keepAnimatorControllerStateOnDisable = true;
+
+        //Add block sounds to the possibleSounds list.
+        possibleBlockSounds.Add("Block1"); possibleBlockSounds.Add("Block2"); possibleBlockSounds.Add("Block3"); possibleBlockSounds.Add("Block4");
     }
 
     void Update()
@@ -150,6 +155,7 @@ public class GuardianAction : MonoBehaviour
             shieldHealth = 0;
 
             //Play shield break sound
+            FindObjectOfType<AudioManager>().Play("ShieldBreak");
         }
     }
 
@@ -172,7 +178,8 @@ public class GuardianAction : MonoBehaviour
         //Shield invincibility
         StartCoroutine("SubtractShieldHealthCooldown");
 
-        //Shield hit sound
+        //Play random shield block sound
+        FindObjectOfType<AudioManager>().PlayRandom(possibleBlockSounds);
     }
 
     private IEnumerator SubtractShieldHealthCooldown()

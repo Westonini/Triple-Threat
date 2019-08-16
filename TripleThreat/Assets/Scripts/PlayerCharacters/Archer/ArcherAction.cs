@@ -51,6 +51,7 @@ public class ArcherAction : MonoBehaviour
             StopCoroutine("Charge");
             currentlyCharging = false;
             textAboveHead.text = "";
+            FindObjectOfType<AudioManager>().Stop("BowDraw");
         }
 
 
@@ -74,7 +75,9 @@ public class ArcherAction : MonoBehaviour
         currentlyCharging = true;
         textAboveHead.text = "DRAWING";
 
-        yield return new WaitForSeconds(2f);
+        //FindObjectOfType<AudioManager>().Play("BowDraw");
+
+        yield return new WaitForSeconds(1.25f); //Bow draw time
 
         arrowCharged = true;
         currentlyCharging = false;

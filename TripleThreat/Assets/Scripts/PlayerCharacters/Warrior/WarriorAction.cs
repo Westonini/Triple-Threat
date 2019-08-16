@@ -19,7 +19,7 @@ public class WarriorAction : MonoBehaviour
 
     private bool currentlyOnCooldown;
 
-    List<string> possibleSounds = new List<string>();
+    List<string> possibleSwingSounds = new List<string>();
 
     private void Start()
     {
@@ -35,7 +35,7 @@ public class WarriorAction : MonoBehaviour
         swordAnim.keepAnimatorControllerStateOnDisable = true;
 
         //Add swing sounds to the possibleSounds list.
-        possibleSounds.Add("Swing1"); possibleSounds.Add("Swing2"); possibleSounds.Add("Swing3"); possibleSounds.Add("Swing4"); possibleSounds.Add("Swing5"); possibleSounds.Add("Swing6");
+        possibleSwingSounds.Add("Swing1"); possibleSwingSounds.Add("Swing2"); possibleSwingSounds.Add("Swing3"); possibleSwingSounds.Add("Swing4"); possibleSwingSounds.Add("Swing5"); possibleSwingSounds.Add("Swing6");
     }
 
     //Reset these things when the player swaps out of this character.
@@ -80,7 +80,7 @@ public class WarriorAction : MonoBehaviour
         swordTrail.enabled = true;
 
         //Play random swing sound
-        FindObjectOfType<AudioManager>().PlayRandom(possibleSounds);
+        FindObjectOfType<AudioManager>().PlayRandom(possibleSwingSounds);
 
         currentlyAttacking = true;
 
