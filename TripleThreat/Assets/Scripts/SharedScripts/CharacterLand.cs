@@ -7,14 +7,14 @@ public class CharacterLand : MonoBehaviour
 {
     float fallingTimeElapsed;
     public GameObject landingParticles;
+    public string soundName = "Landing_Normal";
 
     Character characterScript;
-    AudioManager audioManager;
+
 
     void Awake()
     {
         characterScript = GetComponent<Character>();
-        audioManager = GetComponentInChildren<AudioManager>();
 
         //Subscribe functions to events in the character script
         characterScript._characterFalling += StartFall;
@@ -51,7 +51,8 @@ public class CharacterLand : MonoBehaviour
         if (fallingTimeElapsed >= 1f)
         {
             InstantiateParticles.InstantiateParticle(transform, landingParticles, 5f, 1f);
-            audioManager.Play("Landing");
+            //audioManager.Play("Landing");
+            FindObjectOfType<AudioManager>().Play(soundName, transform);
         }
 
         //Set fallingTimeElapsed to 0

@@ -51,7 +51,7 @@ public class PlayerDeath : CharacterDeath //Inherits from CharacterDeath
         characterRB.mass = 100;
 
         //Play sound
-        FindObjectOfType<GlobalAudioManager>().Play("PlayerDeath");
+        FindObjectOfType<AudioManager>().Play("PlayerDeath");
 
         //If the player character is active, instantiate blood particles every so often and end it with a smoke particle.
         if (SwapCharacters.currentCharacter.activeSelf)

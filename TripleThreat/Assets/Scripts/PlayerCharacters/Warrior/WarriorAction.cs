@@ -19,6 +19,8 @@ public class WarriorAction : MonoBehaviour
 
     private bool currentlyOnCooldown;
 
+    List<string> possibleSounds = new List<string>();
+
     private void Start()
     {
         //Get the sword's collider, animator, and trail.
@@ -31,6 +33,9 @@ public class WarriorAction : MonoBehaviour
 
         //Added so that the animations don't bug.
         swordAnim.keepAnimatorControllerStateOnDisable = true;
+
+        //Add swing sounds to the possibleSounds list.
+        possibleSounds.Add("Swing1"); possibleSounds.Add("Swing2"); possibleSounds.Add("Swing3"); possibleSounds.Add("Swing4"); possibleSounds.Add("Swing5"); possibleSounds.Add("Swing6");
     }
 
     //Reset these things when the player swaps out of this character.
@@ -73,6 +78,9 @@ public class WarriorAction : MonoBehaviour
         swordCollider.enabled = true;
         swordAnim.SetTrigger("Attack");
         swordTrail.enabled = true;
+
+        //Play random swing sound
+        FindObjectOfType<AudioManager>().PlayRandom(possibleSounds);
 
         currentlyAttacking = true;
 

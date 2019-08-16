@@ -116,7 +116,7 @@ public class SwapCharacters : MonoBehaviour
         InstantiateParticles.InstantiateParticle(currentCharacter.transform, smokeParticles, 2f, 0.25f);
 
         //Play sound
-        FindObjectOfType<GlobalAudioManager>().Play("Swap");
+        FindObjectOfType<AudioManager>().Play("Swap");
 
         //Call the _characterSwapped event.
         if (_characterSwapped != null)
