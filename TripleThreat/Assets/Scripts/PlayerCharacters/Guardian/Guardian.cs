@@ -21,7 +21,7 @@ public class Guardian : PlayerCharacter //Inherits from PlayerCharacter
     protected override void Movement()
     {
         //If the player currently isn't blocking set walkSpeed to default walk speed (slow speed)
-        if (!GA.currentlyBlocking)
+        if (!GA.currentlyBashing)
         {
             walkSpeed = defaultWalkSpeed;
         }
@@ -42,12 +42,12 @@ public class Guardian : PlayerCharacter //Inherits from PlayerCharacter
 
         //Deal 0 damage but push enemies back.
         //If the guardian is currently bashing, set knockback to 475
-        if (!enemyScript.isInvincible && GA.currentlyBlocking)
+        if (!enemyScript.isInvincible && GA.currentlyBashing)
         {
             enemyScript.TakeDamage(0, transform.position, 475);
         }
         //If the guardian isn't currently bashing, set knockback to 375
-        else if (!enemyScript.isInvincible && !GA.currentlyBlocking)
+        else if (!enemyScript.isInvincible && !GA.currentlyBashing)
         {
             enemyScript.TakeDamage(0, transform.position, 375);
         }

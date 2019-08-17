@@ -73,6 +73,9 @@ public class ShieldRepair : MonoBehaviour
         //If the player has the Guardian character in any of the character slots, show shield durability
         if (SCscript.character1.name == "Guardian" || SCscript.character2.name == "Guardian" || SCscript.character3.name == "Guardian")
         {
+            //Make sure the lowest the health can go is 0.
+            GuardianAction.shieldHealth = GuardianAction.shieldHealth < 0 ? 0 : GuardianAction.shieldHealth;
+
             shieldImage.SetActive(true);
             shieldDurabilityText.text = "Shield Durability:" + "\n" + GuardianAction.shieldHealth.ToString() + " / 10";
         }

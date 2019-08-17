@@ -62,6 +62,8 @@ public class PlayerDeath : CharacterDeath //Inherits from CharacterDeath
             InstantiateParticles.InstantiateParticle(SwapCharacters.currentCharacter.transform, playerScript.bloodParticles, 5f, 2.5f);
             yield return new WaitForSeconds(1.5f);
             InstantiateParticles.InstantiateParticle(SwapCharacters.currentCharacter.transform, smokeParticles, 2f, 0.25f);
+            //Play random smoke poof sound
+            FindObjectOfType<AudioManager>().PlayRandom(possibleSmokeSounds);
         }
         //If the player character was inactive due to them falling off the map or some othe reason, only wait for 1.7 seconds
         else

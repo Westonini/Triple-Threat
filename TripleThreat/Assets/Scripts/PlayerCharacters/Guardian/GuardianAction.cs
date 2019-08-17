@@ -14,7 +14,7 @@ public class GuardianAction : MonoBehaviour
 
     [HideInInspector] public EnemyCharacter enemyHit;
 
-    [HideInInspector] public bool currentlyBlocking;
+    [HideInInspector] public bool currentlyBashing;
 
     public static int shieldHealth = 10;
     public static bool shieldHealthInvincibility;
@@ -22,13 +22,14 @@ public class GuardianAction : MonoBehaviour
     public delegate void ShieldGotHit();
     public static event ShieldGotHit _shieldHit;             //Event to be invoked when the shield gets hit
 
+    List<string> possibleBashSounds = new List<string>();
     List<string> possibleBlockSounds = new List<string>();
 
     private void OnEnable()
     {
         //Subscribes functions to events
-        _shieldHit += ShieldHit;
         _shieldHit += ShieldBreak;
+        _shieldHit += ShieldHit;
         ShieldRepair._shieldRepaired += EnableShield;
     }
 
@@ -39,10 +40,11 @@ public class GuardianAction : MonoBehaviour
         _shieldHit -= ShieldBreak;
 
         //Sets some things to false
-        currentlyBlocking = false;
+        currentlyBashing = false;
 
         shieldHealthInvincibility = false;
         StopCoroutine("SubtractShieldHealthCooldown");
+        StopCoroutine("ShieldBashCooldown");
     }
 
     private void OnDestroy()
@@ -69,6 +71,8 @@ public class GuardianAction : MonoBehaviour
 
         //Add block sounds to the possibleSounds list.
         possibleBlockSounds.Add("Block1"); possibleBlockSounds.Add("Block2"); possibleBlockSounds.Add("Block3"); possibleBlockSounds.Add("Block4");
+        //Add bash sounds to the possibleSounds list.
+        possibleBashSounds.Add("ShieldBash1"); possibleBashSounds.Add("ShieldBash2"); possibleBashSounds.Add("ShieldBash3");
     }
 
     void Update()
@@ -128,16 +132,16 @@ public class GuardianAction : MonoBehaviour
     void ShieldBash()
     {
         //When the player holds the Fire1 key play the shield bash animation and set the currentlyblocking boolean to true
-        if (Input.GetButton("Fire1") && shieldHealth > 0)
+        if (Input.GetButton("Fire1") && shieldHealth > 0 && !currentlyBashing)
         {
+            //Play shield bash animation
             shieldAnim.SetTrigger("Bash");
-            currentlyBlocking = true;
-        }
-        //When the player releases the Fire1 key stop the shield bash animation and set the currentlyblocking boolean to false
-        if (Input.GetButtonUp("Fire1"))
-        {
-            shieldAnim.ResetTrigger("Bash");
-            currentlyBlocking = false;
+
+            //Play random shield bash sound
+            FindObjectOfType<AudioManager>().PlayRandom(possibleBashSounds);
+
+            //Start shield bash cooldown
+            StartCoroutine("ShieldBashCooldown");
         }
     }
 
@@ -149,10 +153,7 @@ public class GuardianAction : MonoBehaviour
             shieldAnim.ResetTrigger("Bash");
             shieldCollider.enabled = false;
             shieldRenderer.enabled = false;
-            currentlyBlocking = false;
-
-            //Make sure the lowest the health can go is 0.
-            shieldHealth = 0;
+            currentlyBashing = false;
 
             //Play shield break sound
             FindObjectOfType<AudioManager>().Play("ShieldBreak");
@@ -187,5 +188,13 @@ public class GuardianAction : MonoBehaviour
         shieldHealthInvincibility = true;
         yield return new WaitForSeconds(0.5f);
         shieldHealthInvincibility = false;
+    }
+
+    //If the shieldbash animation is playing, set currentlyBashing to true. Otherwise set it false.
+    private IEnumerator ShieldBashCooldown()
+    {
+        currentlyBashing = true;
+        yield return new WaitForSeconds(0.6f);
+        currentlyBashing = false;
     }
 }

@@ -51,8 +51,10 @@ public class ArcherAction : MonoBehaviour
             StopCoroutine("Charge");
             currentlyCharging = false;
             textAboveHead.text = "";
-            FindObjectOfType<AudioManager>().Stop("BowDraw");
+            bowAnim.SetBool("Draw", false);
+            arrow.SetActive(false);
         }
+
 
 
         //If the player presses Fire1 and the arrow is charged, shoot.
@@ -72,17 +74,22 @@ public class ArcherAction : MonoBehaviour
     //Used to charge the arrow.
     IEnumerator Charge()
     {
+        //Drawing the bow
         currentlyCharging = true;
         textAboveHead.text = "DRAWING";
 
-        //FindObjectOfType<AudioManager>().Play("BowDraw");
+        //Play draw animation
+        arrow.SetActive(true);
+        bowAnim.SetBool("Draw", true);
 
         yield return new WaitForSeconds(1.25f); //Bow draw time
 
+        //Ready to fire
+        bowAnim.SetBool("Draw", false);
+        FindObjectOfType<AudioManager>().Play("ArrowReady");
         arrowCharged = true;
         currentlyCharging = false;
         currentlyAiming = true;
-        arrow.SetActive(true);
         textAboveHead.text = "";
     }
 

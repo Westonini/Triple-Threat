@@ -7,10 +7,13 @@ public class RangedEnemyAttack : MonoBehaviour
     [HideInInspector] public PlayerCharacter playerHit;
     public Rigidbody projectilePrefab;
     public GameObject projectile;
-    [Range(0, 16)] public float maxRangeFromPlayer;
+    [Range(0, 18)] public float maxRangeFromPlayer;
+    public Animator weaponAnim;
+    public string weaponReadySound;
+
     private Transform shootPosition;
 
-    public float timeUntilShowProjectile;
+    public float timeUntilChargingFinishes;
     public float cooldownTime = 2.5f;
 
     RangedEnemy enemyScript;
@@ -61,6 +64,7 @@ public class RangedEnemyAttack : MonoBehaviour
             StopCoroutine("Fire");
             currentlyDrawing = false;
             projectile.SetActive(false);
+            weaponAnim.SetBool("Charge", false);
         }
     }
 
@@ -70,24 +74,31 @@ public class RangedEnemyAttack : MonoBehaviour
         //Set currentlyDrawing to true
         currentlyDrawing = true;
 
-        //Wait for timeUntilShowProjectile seconds...
-        yield return new WaitForSeconds(timeUntilShowProjectile);
+        //Wait a bit until starting the charging animation
+        yield return new WaitForSeconds(0.25f);
 
-        //If the projectile gameobject in the inspector isn't null, set it to true.
-        if (projectile != null)
-        {
-            projectile.SetActive(true);
-        }
+        //charging animation
+        projectile.SetActive(true);
+        weaponAnim.SetBool("Charge", true);
+
+        //Wait for timeUntilShowProjectile seconds...
+        yield return new WaitForSeconds(timeUntilChargingFinishes);
+
+        //Stop the charging animation
+        weaponAnim.SetBool("Charge", false);
+        //Play the weapon ready sound
+        FindObjectOfType<AudioManager>().Play(weaponReadySound, transform);
 
         //Wait for castTime - timeUntilShowProjectile seconds...
-        yield return new WaitForSeconds(castTime - timeUntilShowProjectile);
+        yield return new WaitForSeconds(castTime - timeUntilChargingFinishes);
 
+        //Play weapon shoot animation
+        weaponAnim.SetTrigger("Shoot");
         //Turn off the projectile that's for show.
         projectile.SetActive(false);
 
         //Create the arrow instance
         Rigidbody projectileInstance;
-
         //Instantiate the arrow prefab at shoot position and destroy it after some time.
         projectileInstance = Instantiate(projectilePrefab, shootPosition.position, shootPosition.rotation) as Rigidbody;
         projectileInstance.transform.parent = enemyScript.gameObject.transform;

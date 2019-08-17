@@ -64,6 +64,9 @@ public class EnemyDeath : CharacterDeath //Inherits from Character death
 
         //Instantiate a smoke cloud and destroy the enemy gameobject.
         InstantiateParticles.InstantiateParticle(transform, smokeParticles, 2f, 0.25f);
+        //Play random smoke poof sound
+        FindObjectOfType<AudioManager>().PlayRandom(possibleSmokeSounds, transform);
+
         Destroy(gameObject);
     }
 }
