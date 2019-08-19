@@ -54,10 +54,15 @@ public class Archer : PlayerCharacter //Inherits from PlayerCharacter
         //Set enemyScript to equal the component passed in as a parameter, taken from the EnemyCharacter script
         EnemyCharacter enemyScript = component as EnemyCharacter;
 
-        //Deal damage to enemy as long as the enemy isn't currently invincible
+        //Deal damage to enemy and do 500 knockback if the enemy isn't invincible.
         if (!enemyScript.isInvincible)
         {
             enemyScript.TakeDamage(3, transform.position, 500);
+        }
+        //If they are invincible, still do damage but only knock them back by 250 (multishot arrows).
+        else
+        {
+            enemyScript.TakeDamage(3, transform.position, 250);
         }
     }
 }

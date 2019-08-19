@@ -91,7 +91,7 @@ public class ShieldRepair : MonoBehaviour
             shieldRepairingText.SetActive(true);
         }
         //If the player releases the "Repair" key while repairing, stop repairing. Alternatively, if the player is dead stop the repair.
-        if (Input.GetButtonUp("Repair") && currentlyRepairing || PlayerHealth.playerHealth <= 0)
+        if (Input.GetButtonUp("Repair") && currentlyRepairing || PlayerHealth.playerHealth <= 0 && GuardianAction.shieldHealth <= 0)
         {
             StopCoroutine("Repair");
             currentlyRepairing = false;
