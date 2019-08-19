@@ -59,10 +59,10 @@ public class Archer : PlayerCharacter //Inherits from PlayerCharacter
         {
             enemyScript.TakeDamage(3, transform.position, 500);
         }
-        //If they are invincible, still do damage but only knock them back by 250 (multishot arrows).
+        //If they are invincible, still do damage but only knock them back by 200 (multishot arrows).
         else
         {
-            enemyScript.TakeDamage(3, transform.position, 250);
+            enemyScript.TakeDamage(3, transform.position, 200);
         }
     }
 }

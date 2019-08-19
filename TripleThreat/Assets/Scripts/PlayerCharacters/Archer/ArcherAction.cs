@@ -38,7 +38,7 @@ public class ArcherAction : MonoBehaviour
         arrowCharged = false;
         multiArrowCharged = false;
         textAboveHead.text = "";
-        arrow.SetActive(false);
+        arrow.SetActive(false); arrow2.SetActive(false); arrow3.SetActive(false);
     }
 
     // Update is called once per frame
@@ -46,7 +46,7 @@ public class ArcherAction : MonoBehaviour
     {
         //CHARGE ARROW(S)
         //If the player holds down Fire1 (Single arrow) or Fire2 (Three arrows) while the arrow(s) isnt't/aren't already charged, start charging the arrow(s).
-        if (!currentlyCharging && !arrowCharged && !multiArrowCharged && !arrowShot)
+        if (!currentlyCharging && !arrowCharged && !multiArrowCharged && !arrowShot && !currentlyAiming)
         {
             if (Input.GetButton("Fire1"))
             {
@@ -74,22 +74,21 @@ public class ArcherAction : MonoBehaviour
         //If the player presses Fire1/Fire2 and the arrow(s) is/are charged, shoot.
         if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2"))
         {
-            if (arrowCharged)
+            if (arrowCharged) //Single shot fire
             {
                 Shoot();
             }
-            else if (multiArrowCharged)
+            else if (multiArrowCharged) //multi shot fire
             {
                 StartCoroutine("MultiShoot");
             }
         }
         //If the player lets go of or presses Fire1/Fire2 while arrowShot is true, set arrowShot to false.
         //This is so that you can't shoot and immediately charge the next arrow without first releasing the key.
-        if ((Input.GetButtonUp("Fire1") || Input.GetButtonUp("Fire2") || Input.GetButtonDown("Fire2")) && arrowShot && !currentlyAiming)
+        if (Input.GetButtonUp("Fire1") || Input.GetButtonUp("Fire2") && arrowShot)
         {
             arrowShot = false;
         }
-
     }
 
     //Used to charge the arrow.
@@ -100,10 +99,13 @@ public class ArcherAction : MonoBehaviour
         textAboveHead.text = "DRAWING";
 
         //Play draw animation
-        arrow.SetActive(true);
+        bowAnim.SetBool("Shoot", false);
         bowAnim.SetBool("Draw", true);
 
-        yield return new WaitForSeconds(1.25f); //Bow draw time
+
+        yield return new WaitForSeconds(0.1f);
+        arrow.SetActive(true);
+        yield return new WaitForSeconds(1.15f); //Bow draw time
 
         //Ready to fire
         bowAnim.SetBool("Draw", false);
@@ -114,6 +116,7 @@ public class ArcherAction : MonoBehaviour
         textAboveHead.text = "";
     }
 
+    //Used to charge 3 arrows.
     IEnumerator ChargeMulti()
     {
         //Drawing the bow
@@ -121,13 +124,17 @@ public class ArcherAction : MonoBehaviour
         textAboveHead.text = "DRAWING";
 
         //Play draw animation
-        arrow.SetActive(true); arrow2.SetActive(true); arrow3.SetActive(true);
+        bowAnim.SetBool("Shoot", false);
         bowAnim.SetBool("Draw2", true);
 
-        yield return new WaitForSeconds(0.833f); //Arrow1 ready
+        yield return new WaitForSeconds(0.1f);
+        arrow.SetActive(true);
+        yield return new WaitForSeconds(0.733f); //Arrow1 ready
         FindObjectOfType<AudioManager>().Play("ArrowReady");
+        arrow2.SetActive(true);
         yield return new WaitForSeconds(0.833f); //Arrow2 ready
         FindObjectOfType<AudioManager>().Play("ArrowReady");
+        arrow3.SetActive(true);
         yield return new WaitForSeconds(0.833f); //Arrow3 ready
         FindObjectOfType<AudioManager>().Play("ArrowReady");
 
@@ -139,6 +146,7 @@ public class ArcherAction : MonoBehaviour
         textAboveHead.text = "";
     }
 
+    //Shoot 1 arrow
     void Shoot()
     {
         //Play shoot animation
@@ -160,11 +168,12 @@ public class ArcherAction : MonoBehaviour
         currentlyAiming = false;
     }
 
+    //Shoot 3 arrows
     IEnumerator MultiShoot()
     {
         //Shoot Arrow1
         //Play shoot animation
-        bowAnim.SetTrigger("Shoot");
+        bowAnim.SetBool("Shoot", true);
         //Disable the arrow that was laying on the bow
         arrow.SetActive(false);
         //Create the arrow instance
@@ -181,7 +190,8 @@ public class ArcherAction : MonoBehaviour
 
         //Shoot Arrow2
         //Play shoot animation
-        bowAnim.SetTrigger("Shoot");
+        bowAnim.SetBool("Shoot", false);
+        bowAnim.SetBool("Shoot", true);
         //Disable the arrow that was laying on the bow
         arrow2.SetActive(false);
         //Create the arrow instance
@@ -195,7 +205,8 @@ public class ArcherAction : MonoBehaviour
 
         //Shoot Arrow3
         //Play shoot animation
-        bowAnim.SetTrigger("Shoot");
+        bowAnim.SetBool("Shoot", false);
+        bowAnim.SetBool("Shoot", true);
         //Disable the arrow that was laying on the bow
         arrow3.SetActive(false);
         //Create the arrow instance
