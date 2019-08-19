@@ -54,8 +54,6 @@ public class Archer : PlayerCharacter //Inherits from PlayerCharacter
         //Set enemyScript to equal the component passed in as a parameter, taken from the EnemyCharacter script
         EnemyCharacter enemyScript = component as EnemyCharacter;
 
-        //Arrow hit Sound Fx
-
         //Deal damage to enemy as long as the enemy isn't currently invincible
         if (!enemyScript.isInvincible)
         {

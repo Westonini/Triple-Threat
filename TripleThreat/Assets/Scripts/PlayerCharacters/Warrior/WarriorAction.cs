@@ -11,13 +11,8 @@ public class WarriorAction : MonoBehaviour
     private Animator swordAnim;
     private TrailRenderer swordTrail;
 
-    [HideInInspector]
-    public EnemyCharacter enemyHit;
-
-    [HideInInspector]
-    public bool currentlyAttacking;
-
-    private bool currentlyOnCooldown;
+    [HideInInspector] public EnemyCharacter enemyHit;
+    [HideInInspector] public bool currentlyAttacking, attack1Used, attack2Used;
 
     List<string> possibleSwingSounds = new List<string>();
 
@@ -42,12 +37,11 @@ public class WarriorAction : MonoBehaviour
     private void OnDisable()
     {
         StopCoroutine("WarriorAttack");
-        StopCoroutine("AttackCooldown");
+        swordAnim.SetBool("Attack1", false);
+        swordAnim.SetBool("Attack2", false);
 
-        swordAnim.ResetTrigger("Attack");
         swordCollider.enabled = false;
         currentlyAttacking = false;
-        currentlyOnCooldown = false;
         swordTrail.enabled = false;
     }
 
@@ -55,10 +49,16 @@ public class WarriorAction : MonoBehaviour
     {
         //If the player presses the "Fire1" key, stop then start the WarriorAttack coroutine
         //Can only attack if attack isn't currently on cooldown
-        if (Input.GetButtonDown("Fire1") && !currentlyOnCooldown)
+        if (Input.GetButtonDown("Fire1") && !currentlyAttacking)
         {
             StopCoroutine("WarriorAttack");
-            StartCoroutine("WarriorAttack");
+            StartCoroutine(WarriorAttack("Attack1", 0.1f, 0.33f, 0.325f));
+        }
+
+        if (Input.GetButtonDown("Fire2") && !currentlyAttacking)
+        {
+            StopCoroutine("WarriorAttack");
+            StartCoroutine(WarriorAttack("Attack2", 0.25f, 0.915f, 0.84f));
         }
     }
 
@@ -67,37 +67,32 @@ public class WarriorAction : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
+            if (swordAnim.GetBool("Attack1"))
+                attack1Used = true;
+            if (swordAnim.GetBool("Attack2"))
+                attack2Used = true;
             enemyHit = other.gameObject.GetComponent<EnemyCharacter>();
             warriorScript.DealDamage(enemyHit);
         }
     }
 
     //Enable the sword's collider and play the sword swing animation
-    private IEnumerator WarriorAttack()
+    private IEnumerator WarriorAttack(string move, float attackTime, float fullAnimationTime, float cooldownTime)
     {
-        swordCollider.enabled = true;
-        swordAnim.SetTrigger("Attack");
-        swordTrail.enabled = true;
+        swordCollider.enabled = true;    //Enable collider
+        swordAnim.SetBool(move, true);   //Play animation
+        swordTrail.enabled = true;       //Enable weapon trail       
+        FindObjectOfType<AudioManager>().PlayRandom(possibleSwingSounds);  //Play random swing sound
+        currentlyAttacking = true;      //Set currentlyAttacking bool to true (for use in Warrior script)
 
-        //Play random swing sound
-        FindObjectOfType<AudioManager>().PlayRandom(possibleSwingSounds);
+        yield return new WaitForSeconds(attackTime); //Time until the attack portion ends
 
-        currentlyAttacking = true;
+        swordCollider.enabled = false;  //Disable collider
+        swordTrail.enabled = false;     //Disable weapon trail
 
-        StartCoroutine("AttackCooldown");
+        yield return new WaitForSeconds((fullAnimationTime - attackTime));
 
-        yield return new WaitForSeconds(0.10f);
-        swordCollider.enabled = false;
-        currentlyAttacking = false;
-        swordTrail.enabled = false;
-    }
-
-    //Stops player from attacking momentarily.
-    private IEnumerator AttackCooldown()
-    {
-        currentlyOnCooldown = true;
-        yield return new WaitForSeconds(0.325f);
-        currentlyOnCooldown = false;
-
+        swordAnim.SetBool(move, false);  //Stop the animation
+        currentlyAttacking = false;     //Set currentlyAttacking bool to false
     }
 }

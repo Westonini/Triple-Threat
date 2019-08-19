@@ -17,6 +17,21 @@ public class Guardian : PlayerCharacter //Inherits from PlayerCharacter
         GA = GetComponentInChildren<GuardianAction>();
     }
 
+    protected override void Update()
+    {
+        if (!GA.currentlyCharging)
+        {
+            MovementAnimationInput();
+            Aim();
+        }
+    }
+
+    protected override void FixedUpdate()
+    {
+        if (!GA.currentlyCharging)
+            Movement();
+    }
+
     //Guardians's walk speed gets changed within this override function.
     protected override void Movement()
     {
@@ -41,15 +56,20 @@ public class Guardian : PlayerCharacter //Inherits from PlayerCharacter
         EnemyCharacter enemyScript = component as EnemyCharacter;
 
         //Deal 0 damage but push enemies back.
+        //If the guardian isn't currently bashing, set knockback to 375
+        if (!enemyScript.isInvincible && !GA.currentlyBashing && !GA.currentlyCharging)
+        {
+            enemyScript.TakeDamage(0, transform.position, 375);
+        }
         //If the guardian is currently bashing, set knockback to 475
-        if (!enemyScript.isInvincible && GA.currentlyBashing)
+        else if (!enemyScript.isInvincible && GA.currentlyBashing)
         {
             enemyScript.TakeDamage(0, transform.position, 475);
         }
-        //If the guardian isn't currently bashing, set knockback to 375
-        else if (!enemyScript.isInvincible && !GA.currentlyBashing)
+        //If the guardian is currently charging, set knockback to 550
+        else if (!enemyScript.isInvincible && GA.currentlyCharging)
         {
-            enemyScript.TakeDamage(0, transform.position, 375);
+            enemyScript.TakeDamage(0, transform.position, 550);
         }
     }
 }

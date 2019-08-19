@@ -45,12 +45,21 @@ public class Warrior : PlayerCharacter //Inherits from PlayerCharacter
         //Set enemyScript to equal the component passed in as a parameter, taken from the EnemyCharacter script
         EnemyCharacter enemyScript = component as EnemyCharacter;
 
-        //Sword Sound Fx
-
         //Deal damage to enemy as long as the enemy isn't currently invincible
         if (!enemyScript.isInvincible)
         {
-            enemyScript.TakeDamage(2, transform.position, 300);
+            //If attack1 was used, which is the weaker quick attack..
+            if (WA.attack1Used)
+            {
+                enemyScript.TakeDamage(2, transform.position, 300);
+                WA.attack1Used = false;
+            }
+            //If attack2 was used, which is the stronger sweep attack..
+            if (WA.attack2Used)
+            {
+                enemyScript.TakeDamage(3, transform.position, 350);
+                WA.attack2Used = false;
+            }
         }
     }
 }
