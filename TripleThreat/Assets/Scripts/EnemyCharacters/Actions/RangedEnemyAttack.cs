@@ -21,6 +21,8 @@ public class RangedEnemyAttack : MonoBehaviour
     float castTime;
     float distanceFromPlayer;
     [HideInInspector] public bool playerWithinRange;
+    private LayerMask wallLayer;
+    [HideInInspector] public bool wallHit;
 
     bool currentlyDrawing;
 
@@ -34,17 +36,31 @@ public class RangedEnemyAttack : MonoBehaviour
 
         //Get castTime that was set in parent script.
         castTime = enemyScript.castTime;
+
+        //Get wall layer
+        wallLayer = LayerMask.GetMask("Wall");
     }
 
     void Update()
     {
+        //Calculates the distance between this character and the player character
         DistanceFromPlayer();
 
-        if (playerWithinRange && !currentlyDrawing)
+        //If the player's character is within range...
+        if (playerWithinRange)
         {
-            StartCoroutine("Fire");
-        }
+            //Check to see if there's a wall object in the way.
+            CheckForWall();
 
+            if (!wallHit && !currentlyDrawing) //If there's no wall object in the way, start the Fire coroutine
+            {
+                StartCoroutine("Fire");
+            }
+            else if (wallHit && currentlyDrawing) //If there's a wall in the way while the character is currentlyDrawing, stop the Fire coroutine
+            {
+                StopCharging();
+            }
+        }
     }
 
     void DistanceFromPlayer()
@@ -55,16 +71,31 @@ public class RangedEnemyAttack : MonoBehaviour
         //If this enemy and player are within (maxRangeFromPlayer) units of eachother, set playerWithinRange to true. Otherwise set it false and stop any current drawing.
         if (distanceFromPlayer <= maxRangeFromPlayer)
         {
-            playerWithinRange = true;
+            StartCoroutine(FocusOnTarget("playerWithinRange")); //Set playerWithinRange to true if the player has been within range for half a second.          
         }
         else
         {
-            playerWithinRange = false;
+            StopCoroutine("FocusOnTarget");
+            StopCharging();
+        }
+    }
 
-            StopCoroutine("Fire");
-            currentlyDrawing = false;
-            projectile.SetActive(false);
-            weaponAnim.SetBool("Charge", false);
+    void CheckForWall()
+    {
+        RaycastHit hit;
+
+        //Turn this on if you want to see the ray (only viewable in scene view with gizmos on)
+        //Debug.DrawRay(shootPosition.position, shootPosition.forward * distanceFromPlayer, Color.yellow);
+
+        //Check if this character is currently aiming at a wall
+        if (Physics.Raycast(shootPosition.position, shootPosition.forward, out hit, distanceFromPlayer, wallLayer))
+        {
+            wallHit = true;
+            StopCoroutine("FocusOnTarget");
+        }
+        else
+        {
+            StartCoroutine(FocusOnTarget("wallHit"));
         }
     }
 
@@ -110,5 +141,30 @@ public class RangedEnemyAttack : MonoBehaviour
 
         //Set the currentlyDrawing boolean to false
         currentlyDrawing = false;
+    }
+
+    //This checks playerWithinRange and wallHit for half a second longer just so that the movement and animations aren't janky and are more accurate.
+    IEnumerator FocusOnTarget(string boolCheck)
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        if (boolCheck == "playerWithinRange")
+        {
+            playerWithinRange = true;
+        }
+        else
+        {
+            wallHit = false;
+        }
+    }
+
+    void StopCharging()
+    {
+        playerWithinRange = false;
+
+        StopCoroutine("Fire");
+        currentlyDrawing = false;
+        projectile.SetActive(false);
+        weaponAnim.SetBool("Charge", false);
     }
 }

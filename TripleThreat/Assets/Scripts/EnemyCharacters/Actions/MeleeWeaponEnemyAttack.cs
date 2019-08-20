@@ -14,6 +14,7 @@ public class MeleeWeaponEnemyAttack : MonoBehaviour
     float distanceFromPlayer;
     [HideInInspector] public bool isCurrentlyAttacking;
     private bool playerWithinRange;
+    LayerMask wallLayer;
 
     public bool justBrokeShield;
 
@@ -34,6 +35,9 @@ public class MeleeWeaponEnemyAttack : MonoBehaviour
 
         //Get MeleeWeaponEnemy script from parent
         enemyScript = GetComponentInParent<MeleeWeaponEnemy>();
+
+        //Get wall layer
+        wallLayer = LayerMask.GetMask("Wall");
 
         //Added so that the animations don't bug.
         weaponAnim.keepAnimatorControllerStateOnDisable = true;
@@ -104,7 +108,19 @@ public class MeleeWeaponEnemyAttack : MonoBehaviour
 
         if (playerWithinRange && !isCurrentlyAttacking)
         {
-            StartCoroutine("Attack");
+            //Debug.DrawRay(enemyScript.gameObject.transform.position, (SwapCharacters.currentCharacter.transform.position - enemyScript.gameObject.transform.position) * distanceFromPlayer, Color.red);
+
+            //If the player is facing a wall, don't damage the enemy.
+            RaycastHit hit;
+            if (Physics.Raycast(enemyScript.gameObject.transform.position, (SwapCharacters.currentCharacter.transform.position - enemyScript.gameObject.transform.position), out hit, distanceFromPlayer, wallLayer))
+            {
+                //Don't attack.
+            }
+            else
+            {
+                //attack
+                StartCoroutine("Attack");               
+            }
         }
     }
 

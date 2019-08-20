@@ -51,14 +51,15 @@ public abstract class EnemyCharacter : Character //Inherits from Character
     {
         if (isTouchingGround)
         {
+            //Dust particles
+            animationsScript.ToggleDustParticles(true);
+
             //Walk/Idle animations
             //If enemy just got hit, stop walk animation while invincible.
             if (!isInvincible)
             {
                 animationsScript.ToggleWalkAnimation(true);
             }
-            //Dust particles
-            animationsScript.ToggleDustParticles(true);
         }
         else
         {

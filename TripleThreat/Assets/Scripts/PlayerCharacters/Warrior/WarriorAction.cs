@@ -15,6 +15,7 @@ public class WarriorAction : MonoBehaviour
     [HideInInspector] public bool currentlyAttacking, attack1Used, attack2Used;
 
     List<string> possibleSwingSounds = new List<string>();
+    LayerMask wallLayer;
 
     private void Start()
     {
@@ -31,6 +32,9 @@ public class WarriorAction : MonoBehaviour
 
         //Add swing sounds to the possibleSounds list.
         possibleSwingSounds.Add("Swing1"); possibleSwingSounds.Add("Swing2"); possibleSwingSounds.Add("Swing3"); possibleSwingSounds.Add("Swing4"); possibleSwingSounds.Add("Swing5"); possibleSwingSounds.Add("Swing6");
+
+        //Get wall layer
+        wallLayer = LayerMask.GetMask("Wall");
     }
 
     //Reset these things when the player swaps out of this character.
@@ -71,8 +75,20 @@ public class WarriorAction : MonoBehaviour
                 attack1Used = true;
             if (swordAnim.GetBool("Attack2"))
                 attack2Used = true;
-            enemyHit = other.gameObject.GetComponent<EnemyCharacter>();
-            warriorScript.DealDamage(enemyHit);
+
+
+            //If the player is facing a wall, don't damage the enemy.
+            RaycastHit hit;
+            if (Physics.Raycast(warriorScript.gameObject.transform.position, warriorScript.gameObject.transform.forward, out hit, 2, wallLayer))
+            {
+                //Don't deal damage.
+            }
+            else
+            {
+                //Deal damage
+                enemyHit = other.gameObject.GetComponent<EnemyCharacter>();
+                warriorScript.DealDamage(enemyHit);
+            }
         }
     }
 

@@ -5,8 +5,6 @@ using UnityEngine;
 //This script is attached to the enemy gameobject and is main script for the character.
 public class MeleeWeaponEnemy : EnemyCharacter
 {
-    private float speed;
-
     [Space]
     public float speedWhileAttacking;
 
@@ -28,11 +26,11 @@ public class MeleeWeaponEnemy : EnemyCharacter
         //If the player is within range set the walk speed to 0 to start charging. Otherwise set the walkspeed to whatever it's set at.
         if (attackScript.isCurrentlyAttacking)
         {
-            walkSpeed = speedWhileAttacking;
+            agent.speed = speedWhileAttacking;
         }
         else
         {
-            walkSpeed = defaultWalkSpeed;
+            agent.speed = agentDefaultSpeed;
         }
 
         base.Movement();

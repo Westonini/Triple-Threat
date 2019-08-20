@@ -30,16 +30,24 @@ public class RangedEnemy : EnemyCharacter //Inherits from EnemyCharacter
 
     protected override void Movement()
     {
-        //If the player is within range set the walk speed to 0 to start charging. Otherwise set the walkspeed to whatever it's set at.
+        //If the player is within range and a wall isn't in the way set the walk speed to 0 to start charging. Otherwise set the walkspeed to whatever it's set at.
         //When the enemy has 0 speed, stop the dust particles.
-        if (attackScript.playerWithinRange)
+        if (attackScript.playerWithinRange && !attackScript.wallHit && isTouchingGround)
         {
-            agent.speed = 0;
+            agent.isStopped = true;
+            //agent.speed = 0;
+            animationsScript.ToggleDustParticles(false);
+        }
+        else if (!isTouchingGround)
+        {
+            agent.isStopped = false;
+            agent.speed = 9;
             animationsScript.ToggleDustParticles(false);
         }
         else
         {
-            agent.speed = defaultWalkSpeed;
+            agent.isStopped = false;
+            agent.speed = agentDefaultSpeed;
             animationsScript.ToggleDustParticles(true);
         }
 
