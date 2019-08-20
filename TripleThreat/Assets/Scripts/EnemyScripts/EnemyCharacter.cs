@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 //This is the parent character class which all other enemy character classes inherit from
 public abstract class EnemyCharacter : Character //Inherits from Character
@@ -17,9 +18,18 @@ public abstract class EnemyCharacter : Character //Inherits from Character
     public delegate void EnemyDied();
     public event EnemyDied _enemyDied;                    //Event to be invoked when the enemy dies
 
+    protected NavMeshAgent agent;
+    protected float agentDefaultSpeed;
+
+    Collider characterCollider;
+
     protected override void Start()
     {
+        characterCollider = GetComponent<Collider>();
+        agent = GetComponent<NavMeshAgent>();
+        agentDefaultSpeed = agent.speed;
         downwardForce = 3;
+        isTouchingGround = true;
 
         base.Start();
     }
@@ -27,14 +37,10 @@ public abstract class EnemyCharacter : Character //Inherits from Character
     //Movement
     protected override void Movement()
     {
-        //Enemy Movement Speed
-        float step = walkSpeed * Time.deltaTime;
-
-        //Enemy Movement Towards Player
-        transform.position = Vector3.MoveTowards(transform.position, SwapCharacters.currentPlayerPosition.position, step);
+        agent.SetDestination(SwapCharacters.currentPlayerPosition.position);
 
         //Gravity
-        if (!isTouchingGround)
+        if (!isTouchingGround && health <= 0)
         {
             //Add downward force while not touching ground so that the character falls.
             rb.AddForce(Vector3.down * downwardForce, ForceMode.Acceleration);
@@ -72,6 +78,10 @@ public abstract class EnemyCharacter : Character //Inherits from Character
     //Takes in parameters "damageReceived" which is how much damage is coming in, and "hitFrom" which is the position the enemy is getting hitfrom to calculate the knockback direction
     public virtual void TakeDamage(int damageReceived, Vector3 hitFrom, int knockbackPower)
     {
+        EnableDisableNavMesh("Disable");
+        StopCoroutine("Invincibility");
+        rb.velocity = Vector3.zero;
+
         //Will be used to hold the value of damage to be dealt to the enemy
         int damageToDeal;
 
@@ -100,6 +110,8 @@ public abstract class EnemyCharacter : Character //Inherits from Character
 
         if (health <= 0 && !isDying)
         {
+            agent.enabled = false;
+
             if (_enemyDied != null)
                 _enemyDied.Invoke();
 
@@ -124,7 +136,11 @@ public abstract class EnemyCharacter : Character //Inherits from Character
         isTouchingGround = true;
 
         if (health > 0)
+        {
+            agent.speed = agentDefaultSpeed;
             base.OnGroundTouch();
+        }
+
     }
     //Happens when you initially leave the ground.
     public override void OnGroundLeave()
@@ -132,14 +148,43 @@ public abstract class EnemyCharacter : Character //Inherits from Character
         isTouchingGround = false;
 
         if (health > 0)
+        {
+            agent.speed = 9;
             base.OnGroundLeave();
+        }
     }
 
     //Short invincibility after getting hit
     private IEnumerator Invincibility()
     {
         isInvincible = true;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.2f); // Time before invincibility ends
         isInvincible = false;
+
+        yield return new WaitForSeconds(0.1f); // Time before knockback ends
+        if (isTouchingGround && health > 0)
+        {
+            EnableDisableNavMesh("Enable");
+        }
+    }
+
+    //Enables or disables the navmesh along with isKinematic and isTrigger
+    private void EnableDisableNavMesh(string choice)
+    {
+        if (choice == "Enable")
+        {
+            agent.nextPosition = transform.position;
+            agent.updatePosition = true;
+            agent.updateRotation = true;
+            rb.isKinematic = true;
+            characterCollider.isTrigger = true;
+        }
+        else
+        {
+            agent.updatePosition = false;
+            agent.updateRotation = false;
+            rb.isKinematic = false;
+            characterCollider.isTrigger = false;
+        }
     }
 }

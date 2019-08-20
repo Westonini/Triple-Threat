@@ -46,6 +46,13 @@ public abstract class PlayerCharacter : Character //Inherits from Character
         base.Start();
     }
 
+    //Adds Aim() to Update
+    protected override void Update()
+    {
+        MovementAnimationInput();
+        Aim();
+    }
+
     //Movement
     protected override void Movement()
     {

@@ -57,7 +57,9 @@ public class GuardianAction : MonoBehaviour
         StopCoroutine("SubtractShieldHealthCooldown");
         StopCoroutine("ShieldBashCooldown");
 
-        chargeTrails.SetActive(false); 
+        chargeTrails.SetActive(false);
+
+        guardianScript.rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
     }
 
     private void OnDestroy()
@@ -127,12 +129,14 @@ public class GuardianAction : MonoBehaviour
         sparkParticle.Play();           //Play a particle
         FindObjectOfType<AudioManager>().PlayRandom(possibleChargeSounds);   //Play random shield bash sound
 
+        guardianScript.rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ; //Freeze all rotation
         guardianScript.rb.AddRelativeForce(Vector3.forward * 1000, ForceMode.Acceleration);  //short charge
 
         yield return new WaitForSeconds(0.2f);
 
         chargeTrails.SetActive(false);  //Turn trails off
         currentlyCharging = false;      //Set currentlyCharging to false to allow Aim() and Movement() again.
+        guardianScript.rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ; //Reset to regular constraints
         chargeCooldownScript.StartChargeCooldown(); //Put charge on cooldown globally.
     }
 
@@ -209,7 +213,7 @@ public class GuardianAction : MonoBehaviour
     }
 
     //If the shield touches an enemy, pass their gameobject in as a parameter in DealDamage in order to deal knockback
-    private void OnCollisionEnter(Collision collision)
+    /*private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
@@ -242,6 +246,45 @@ public class GuardianAction : MonoBehaviour
 
             //If the enemy is a FistEnemy type, subtract a shield point when touching them.
             if (!shieldHealthInvincibility && collision.gameObject.GetComponent<FistEnemy>())
+            {
+                SubtractShieldHealth(1);
+            }
+        }
+    }*/
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            enemyHit = other.gameObject.GetComponent<EnemyCharacter>();
+            guardianScript.DealDamage(enemyHit);
+
+            //If the enemy is a FistEnemy type, subtract a shield point when touching them.
+            if (!shieldHealthInvincibility && other.gameObject.GetComponent<FistEnemy>())
+            {
+                SubtractShieldHealth(1);
+                return;
+            }
+
+            //Play random shield block sound when touching an Enemy (but not a FistEnemy)
+            FindObjectOfType<AudioManager>().PlayRandom(possibleBlockSounds);
+
+            //Hit particle when touching an Enemy (but not a FistEnemy)
+            if (!hitParticles.isEmitting)
+            {
+                hitParticles.Play();
+            }
+        }
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            enemyHit = other.gameObject.GetComponent<EnemyCharacter>();
+            guardianScript.DealDamage(enemyHit);
+
+            //If the enemy is a FistEnemy type, subtract a shield point when touching them.
+            if (!shieldHealthInvincibility && other.gameObject.GetComponent<FistEnemy>())
             {
                 SubtractShieldHealth(1);
             }

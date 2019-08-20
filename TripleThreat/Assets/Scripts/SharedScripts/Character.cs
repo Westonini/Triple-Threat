@@ -36,7 +36,6 @@ public abstract class Character : MonoBehaviour
     protected virtual void Update()
     {
         MovementAnimationInput();
-        Aim();
     }
 
     protected virtual void FixedUpdate()

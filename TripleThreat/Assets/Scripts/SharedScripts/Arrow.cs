@@ -35,8 +35,8 @@ public abstract class Arrow : MonoBehaviour
 
     protected virtual void OnTriggerEnter(Collider other)
     {
-        //If the arrow touches the ground, turn off its collider and renderer.
-        if (other.gameObject.layer == LayerMask.NameToLayer("Ground")) //Ground Layer
+        //If the arrow touches the ground or wall, turn off its collider and renderer.
+        if (other.gameObject.layer == LayerMask.NameToLayer("Ground") || other.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
             DisableArrow();
         }

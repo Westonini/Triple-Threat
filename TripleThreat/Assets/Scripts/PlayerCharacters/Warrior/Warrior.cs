@@ -51,13 +51,13 @@ public class Warrior : PlayerCharacter //Inherits from PlayerCharacter
             //If attack1 was used, which is the weaker quick attack..
             if (WA.attack1Used)
             {
-                enemyScript.TakeDamage(2, transform.position, 300);
+                enemyScript.TakeDamage(2, transform.position, 200);
                 WA.attack1Used = false;
             }
             //If attack2 was used, which is the stronger sweep attack..
             if (WA.attack2Used)
             {
-                enemyScript.TakeDamage(3, transform.position, 350);
+                enemyScript.TakeDamage(3, transform.position, 250);
                 WA.attack2Used = false;
             }
         }
