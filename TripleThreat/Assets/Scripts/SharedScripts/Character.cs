@@ -58,25 +58,9 @@ public abstract class Character : MonoBehaviour
         //To be overwritten within PlayerCharacter and EnemyCharacter
     }
 
-
-    //Ground Check
-    protected void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
-        {
-            OnGroundTouch();
-        }
-    }
-    protected void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
-        {
-            OnGroundLeave();
-        }
-    }
-
+    //Ground check happens in ground check script, which is in a child gameobject of this one.
     //Happens when you initially touch the ground.
-    protected virtual void OnGroundTouch()
+    public virtual void OnGroundTouch()
     {
         if (_characterLanded != null)
         {
@@ -84,7 +68,7 @@ public abstract class Character : MonoBehaviour
         }
     }
     //Happens when you initially leave the ground.
-    protected virtual void OnGroundLeave()
+    public virtual void OnGroundLeave()
     {
         if (_characterFalling != null)
         {

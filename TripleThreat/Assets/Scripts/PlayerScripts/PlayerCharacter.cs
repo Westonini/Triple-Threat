@@ -159,18 +159,20 @@ public abstract class PlayerCharacter : Character //Inherits from Character
     }
 
     //Happens when you initially touch the ground.
-    protected override void OnGroundTouch()
+    public override void OnGroundTouch()
     {
         isTouchingGround = true;
 
-        base.OnGroundTouch();
+        if (PlayerHealth.playerHealth > 0)
+            base.OnGroundTouch();
     }
     //Happens when you initially leave the ground.
-    protected override void OnGroundLeave()
+    public override void OnGroundLeave()
     {
         isTouchingGround = false;
 
-        base.OnGroundLeave();
+        if (PlayerHealth.playerHealth > 0)
+            base.OnGroundLeave();
     }
 
     //Short invincibility after getting hit
