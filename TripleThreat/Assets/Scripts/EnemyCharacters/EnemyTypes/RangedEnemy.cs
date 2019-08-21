@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 //This script is attached to the enemy gameobject and is main script for the character.
 public class RangedEnemy : EnemyCharacter //Inherits from EnemyCharacter
@@ -35,7 +36,7 @@ public class RangedEnemy : EnemyCharacter //Inherits from EnemyCharacter
         if (attackScript.playerWithinRange && !attackScript.wallHit && isTouchingGround)
         {
             agent.isStopped = true;
-            //agent.speed = 0;
+            agent.speed = 0;
             animationsScript.ToggleDustParticles(false);
         }
         else if (!isTouchingGround)
