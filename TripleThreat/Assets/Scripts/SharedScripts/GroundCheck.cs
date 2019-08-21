@@ -19,6 +19,7 @@ public class GroundCheck : MonoBehaviour
             characterScript.OnGroundTouch();
         }
     }
+
     protected void OnTriggerExit(Collider other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
