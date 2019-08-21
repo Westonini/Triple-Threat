@@ -58,6 +58,4 @@ public class CharacterLand : MonoBehaviour
         //Set fallingTimeElapsed to 0
         fallingTimeElapsed = 0;
     }
-
-
 }

@@ -28,7 +28,7 @@ public class SwapCharacters : MonoBehaviour
 
     SceneRestart SR;
 
-    void Start()
+    void Awake()
     {
         //Start the level with character1.
         character1.SetActive(true);

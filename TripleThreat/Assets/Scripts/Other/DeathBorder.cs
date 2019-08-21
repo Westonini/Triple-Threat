@@ -24,7 +24,7 @@ public class DeathBorder : MonoBehaviour
             //Instantiate smoke particles and set player health to 0.
             InstantiateParticles.InstantiateParticle(SwapCharacters.currentCharacter.transform, smokeParticles, 2f, 0.25f);
             PlayerCharacter playerScript = other.gameObject.GetComponent<PlayerCharacter>();
-            playerScript.TakeDamage(10, gameObject.transform.position);
+            playerScript.TakeDamage(10, gameObject.transform.position); //PlayerDeath will check if player is already inactive, in which case the scene will restart faster.
         }
 
         //if the player touches this object, call their TakeDamage() function and pass in 1000 damage.
