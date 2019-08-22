@@ -7,7 +7,14 @@ public class SetAsChildOfCurrentCharacter : MonoBehaviour
 {
     private void OnEnable()
     {
-        SwapCharacters._characterSwapped += SetAsChild;
+        SwapCharacters._finsihedCharacterSwap += SetAsChild;
+        SwapCharacters._startedCharacterSwap += RemoveParent;
+    }
+
+    private void OnDisable()
+    {
+        SwapCharacters._finsihedCharacterSwap -= SetAsChild;
+        SwapCharacters._startedCharacterSwap -= RemoveParent;
     }
 
     private void Start()
@@ -17,14 +24,20 @@ public class SetAsChildOfCurrentCharacter : MonoBehaviour
 
     public void SetAsChild()
     {
+        gameObject.transform.SetParent(SwapCharacters.currentCharacter.transform);
 
-        if (this != null)   //If this script isn't null, set this object as a child of the current character.
+        /*if (this != null)   //If this script isn't null, set this object as a child of the current character.
         {
             gameObject.transform.SetParent(SwapCharacters.currentCharacter.transform);
         }
         else               //Otherwise unsubscribe this.
         {
             SwapCharacters._characterSwapped -= SetAsChild;
-        }
+        }*/
+    }
+
+    public void RemoveParent()
+    {
+        gameObject.transform.SetParent(null);
     }
 }

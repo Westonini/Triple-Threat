@@ -11,17 +11,18 @@ public class CharacterLand : MonoBehaviour
 
     Character characterScript;
 
-
-    void Awake()
+    void Start()
     {
-        characterScript = GetComponent<Character>();
+        //If the ground check is tagged "PlayerGC", meaning it's a player, get the currentCharacter Character script.
+        //otherwise if it's not tagged "PlayerGC", meaning it's an enemy or NPC, get the Character script from the parent object.
+        characterScript = gameObject.tag == "PlayerGC" ? characterScript = SwapCharacters.currentCharacter.GetComponent<Character>() : characterScript = GetComponent<Character>();
 
         //Subscribe functions to events in the character script
         characterScript._characterFalling += StartFall;
         characterScript._characterLanded += Landed;
     }
 
-    private void OnDestroy()
+    void OnDestroy()
     {
         //Unsubscribe functions from events in the character script
         characterScript._characterFalling -= StartFall;

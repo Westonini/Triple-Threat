@@ -22,9 +22,13 @@ public class SwapCharacters : MonoBehaviour
     [Space]
     public GameObject bubbleParticle;
     public GameObject smokeParticles;
+    public GameObject spiritsParticles;
 
-    public delegate void CharacterSwapped();
-    public static event CharacterSwapped _characterSwapped;
+    public delegate void FinishCharacterSwap();
+    public static event FinishCharacterSwap _finsihedCharacterSwap;
+
+    public delegate void StartCharacterSwap();
+    public static event StartCharacterSwap _startedCharacterSwap;
 
     SceneRestart SR;
 
@@ -48,11 +52,11 @@ public class SwapCharacters : MonoBehaviour
     //Subscribe SwapCooldown to _characterSwapped
     private void OnEnable()
     {
-        _characterSwapped += StartSwapCooldown;
+        _finsihedCharacterSwap += StartSwapCooldown;
     }
     private void OnDisable()
     {
-        _characterSwapped -= StartSwapCooldown;
+        _finsihedCharacterSwap -= StartSwapCooldown;
     }
 
     //Calls the Swap function to swap between characters
@@ -95,6 +99,12 @@ public class SwapCharacters : MonoBehaviour
         //Sets the current position as the transform of the currently used character.
         currentPosition = currentCharacter.transform.position;
 
+        //Call the _startedCharacterSwap event.
+        if (_startedCharacterSwap != null)
+        {
+            _startedCharacterSwap.Invoke();
+        }
+
         //Disable all characters
         character1.SetActive(false);
         character2.SetActive(false);
@@ -118,10 +128,10 @@ public class SwapCharacters : MonoBehaviour
         //Play sound
         FindObjectOfType<AudioManager>().Play("Swap");
 
-        //Call the _characterSwapped event.
-        if (_characterSwapped != null)
+        //Call the _finsihedCharacterSwap event.
+        if (_finsihedCharacterSwap != null)
         {
-            _characterSwapped.Invoke();
+            _finsihedCharacterSwap.Invoke();
         }
     }
 

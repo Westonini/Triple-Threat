@@ -36,11 +36,11 @@ public class CurrentCharactersUI : MonoBehaviour
     //Subscribe SwapBrightenedImage to _characterSwapped
     private void OnEnable()
     {
-        SwapCharacters._characterSwapped += SwapBrightenedImage;
+        SwapCharacters._finsihedCharacterSwap += SwapBrightenedImage;
     }
     private void OnDisable()
     {
-        SwapCharacters._characterSwapped -= SwapBrightenedImage;
+        SwapCharacters._finsihedCharacterSwap -= SwapBrightenedImage;
     }
 
     void SwapBrightenedImage()

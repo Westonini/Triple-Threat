@@ -9,9 +9,9 @@ public class GroundCheck : MonoBehaviour
 
     void Start()
     {
-        //If the ground check is tagged "Player", meaning it's a player's ground check, get the currentCharacter Character script.
-        //otherwise if it's not tagged "Player", meaning it's an enemy or NPC, get the Character script from the parent object.
-        characterScript = gameObject.tag == "Player" ? characterScript = SwapCharacters.currentCharacter.GetComponent<Character>() : characterScript = GetComponentInParent<Character>();
+        //If the ground check is tagged "PlayerGC", meaning it's a player's ground check, get the currentCharacter Character script.
+        //otherwise if it's not tagged "PlayerGC", meaning it's an enemy or NPC, get the Character script from the parent object.
+        characterScript = gameObject.tag == "PlayerGC" ? characterScript = SwapCharacters.currentCharacter.GetComponent<Character>() : characterScript = GetComponentInParent<Character>();
     }
 
     //Ground Check
