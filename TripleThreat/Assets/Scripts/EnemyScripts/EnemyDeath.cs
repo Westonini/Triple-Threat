@@ -6,6 +6,10 @@ using UnityEngine;
 public class EnemyDeath : CharacterDeath //Inherits from Character death
 {
     EnemyCharacter enemyScript;
+    public GameObject dyingEnemies; //Dying enemies will be moved to be a child of this object.
+
+    public delegate void EnemyDead();
+    public static event EnemyDead _enemyDead;             //Event to be invoked when an enemy Dies.
 
     void Awake()
     {
@@ -33,8 +37,16 @@ public class EnemyDeath : CharacterDeath //Inherits from Character death
                 equipment.gameObject.SetActive(false);
             }
 
-        //Set the gameobject's layer to EnemyCorpse so that other enemies can't collide with it
+        //Dying enemies will be moved to be a child of dyingEnemies.
+        gameObject.transform.SetParent(dyingEnemies.transform);
+        //Set layer to EnemyCorpse so that player attacks won't hit the dead enemies.
         gameObject.layer = LayerMask.NameToLayer("EnemyCorpse");
+
+        //Call _enemyDead
+        if (_enemyDead != null)
+        {
+            _enemyDead();
+        }
 
         //Enable/disable things
         characterAnim.enabled = false;
