@@ -8,6 +8,9 @@ TagManager:
   - Equipment
   - PlayerMain
   - PlayerGC
+  - SpawnPoint
+  - AliveEnemies
+  - DyingEnemies
   layers:
   - Default
   - TransparentFX

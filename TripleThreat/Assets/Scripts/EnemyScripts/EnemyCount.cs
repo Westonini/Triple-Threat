@@ -5,8 +5,9 @@ using TMPro;
 
 public class EnemyCount : MonoBehaviour
 {
-    TextMeshProUGUI enemyCount;
-    public GameObject enemiesGameObject;
+    public TextMeshProUGUI enemyCount;
+    Transform aliveEnemiesGroup;
+    RoundManager roundManagerScript;
 
     //Subscribe/Unsubscribe to _enemyDead to call UpdateEnemyCountText() whenever an enemy dies.
     private void OnEnable()
@@ -20,16 +21,20 @@ public class EnemyCount : MonoBehaviour
 
     void Awake()
     {
-        //Get the TextMeshProUGUI component from the object this script is attached to
-        enemyCount = GetComponent<TextMeshProUGUI>();
+        //Get the alive enemies gameobject
+        aliveEnemiesGroup = GameObject.FindGameObjectWithTag("AliveEnemies").transform;
 
-        //Update the enemy count at start of scene load.
-        UpdateEnemyCountText();
+        //Get the RoundManager script
+        roundManagerScript = GetComponent<RoundManager>();
     }
 
     //Updates the EnemyCount text by checking how many children are within the enemiesGameObject. Specifically it checks those who are in the "Alive" gameobject within the "Enemies" gameobject.
-    void UpdateEnemyCountText()
+    public void UpdateEnemyCountText()
     {
-        enemyCount.text = enemiesGameObject.transform.childCount.ToString();
+        enemyCount.text = aliveEnemiesGroup.childCount.ToString();
+
+        //If there are 0 enemies left, call the RoundEnd function from the RoundManager script
+        if (aliveEnemiesGroup.childCount == 0)
+            roundManagerScript.RoundEnd();
     }
 }

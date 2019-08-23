@@ -6,7 +6,7 @@ using UnityEngine;
 public class EnemyDeath : CharacterDeath //Inherits from Character death
 {
     EnemyCharacter enemyScript;
-    public GameObject dyingEnemies; //Dying enemies will be moved to be a child of this object.
+    GameObject dyingEnemies; //Dying enemies will be moved to be a child of this object.
 
     public delegate void EnemyDead();
     public static event EnemyDead _enemyDead;             //Event to be invoked when an enemy Dies.
@@ -17,6 +17,7 @@ public class EnemyDeath : CharacterDeath //Inherits from Character death
         characterRB = GetComponent<Rigidbody>();
         characterAnim = GetComponent<Animator>();
         animationsScript = GetComponent<CharacterMovementAnimations>();
+        dyingEnemies = GameObject.FindGameObjectWithTag("DyingEnemies");
     }
 
     void OnEnable()
