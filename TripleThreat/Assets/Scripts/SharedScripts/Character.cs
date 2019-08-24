@@ -62,17 +62,15 @@ public abstract class Character : MonoBehaviour
     public virtual void OnGroundTouch()
     {
         if (_characterLanded != null)
-        {
-            _characterLanded.Invoke(); //Stops couroutine within CharacterLand
-        }
+            _characterLanded(); //Stops couroutine within CharacterLand
+
     }
     //Happens when you initially leave the ground.
     public virtual void OnGroundLeave()
     {
         if (_characterFalling != null)
-        {
-            _characterFalling.Invoke(); //Starts couroutine within CharacterLand
-        }
+            _characterFalling(); //Starts couroutine within CharacterLand
+
     }
 
     //Abstract function used to deal damage to a character. In the child classes it'll take in either a PlayerCharacter or EnemyCharacter script.

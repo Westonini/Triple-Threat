@@ -8,6 +8,7 @@ public class RoundManager : MonoBehaviour
 {
     EnemyCount enemyCountScript;
     static int roundCount;
+    [HideInInspector] public int enemiesToSpawn;
 
     public GameObject spawnPointHolder;
     public TextMeshProUGUI roundCountText;
@@ -15,6 +16,7 @@ public class RoundManager : MonoBehaviour
 
     List<Transform> spawnPoints = new List<Transform>();
     List<string> spawnChancePercentages = new List<string>();
+    List<GameObject> inactiveEnemies = new List<GameObject>();
 
     [Space]
     public Enemies[] enemies;
@@ -67,6 +69,16 @@ public class RoundManager : MonoBehaviour
         RoundStart();
     }
 
+    private void OnEnable()
+    {
+        //Everytime an enemy has died, call spawn enemies so that enemies in queue can replace the fallen ones.
+        EnemyDeath._enemyDead += SpawnOneEnemy;
+    }
+    private void OnDisable()
+    {
+        EnemyDeath._enemyDead -= SpawnOneEnemy;
+    }
+
     void RoundStart()
     {
         //Increase the roundCount by 1.
@@ -75,6 +87,9 @@ public class RoundManager : MonoBehaviour
         //Display text that says the round number
         StopCoroutine("ShowRoundStartText");
         StartCoroutine(ShowRoundStartText(5f, false));
+
+        //The amount of enemies to spawn per round.
+        enemiesToSpawn = 10 + (roundCount * 2);
 
         //Spawn enemies 2.5 seconds after the round starts
         Invoke("SpawnEnemies", 2.5f);
@@ -92,22 +107,33 @@ public class RoundManager : MonoBehaviour
 
     void SpawnEnemies()
     {
-        //ENEMY SPAWNING
-        //The amount of enemies to spawn per round.
-        int enemiesToSpawn = 10 + (roundCount * 2);
+        //Duplicate the spawnPoints list
+        List<Transform> spawnPointsDup = new List<Transform>(spawnPoints);
 
+        //ENEMY SPAWNING
         for (int i = 0; i < enemiesToSpawn; i++)
         {
-            //Get a random number for the spawn point between (0 - spawnPoints.Count + 1)
-            int randomSpawnPointNumber = Random.Range(0, spawnPoints.Count);
-            //Choose the spawn position based off the random number chosen
-            Transform spawnPos = spawnPoints[randomSpawnPointNumber];
+            //If all the spawn points have been used up and removed, reset it.
+            if (spawnPointsDup.Count == 0)
+            {
+                spawnPointsDup = new List<Transform>(spawnPoints);
+            }
 
+            //SPAWN POSITION
+            //Get a random number for the spawn point between (0 - spawnPoints.Count + 1)
+            int randomSpawnPointNumber = Random.Range(0, spawnPointsDup.Count);
+            //Choose the spawn position based off the random number chosen
+            Transform spawnPos = spawnPointsDup[randomSpawnPointNumber];
+            //Remove the spawn point from the duplicated list so that another enemy cannot spawn there.
+            spawnPointsDup.RemoveAt(randomSpawnPointNumber);
+
+            //ENEMY TO SPAWN
             //Get a random number to choose which enemy to spawn between (0 - 100)
             int randomEnemyNumber = Random.Range(0, 100);
             //Choose an enemy to spawn based off the random number chosen
             string enemyToSpawn = spawnChancePercentages[randomEnemyNumber];
 
+            //SPAWN THE ENEMY AT THE SPAWN POSITION
             //Look for the enemy name from the Enemies class and then spawn it at the random spawn point.
             foreach (Enemies enemy in enemies)
             {
@@ -117,6 +143,12 @@ public class RoundManager : MonoBehaviour
                     enemyInstance = Instantiate(enemy.enemyObject, spawnPos) as GameObject;
                     enemyInstance.name = enemy.enemyObject.name;
                     enemyInstance.transform.SetParent(aliveEnemiesGroup);
+
+                    if (aliveEnemiesGroup.childCount > 40) //If there are already 40+ enemies that have been instantiated, set this enemy inactive for now and add them to the inactiveEnemies list.
+                    {
+                        enemyInstance.SetActive(false);
+                        inactiveEnemies.Add(enemyInstance);
+                    }
                 }
             }
         }
@@ -124,6 +156,21 @@ public class RoundManager : MonoBehaviour
         //Update the enemy count text
         enemyCountScript.UpdateEnemyCountText();
     }
+
+    //Used to activate one inactive enemy once one active enemy dies.
+    void SpawnOneEnemy()
+    {
+        //If there are enemies who are inactive..
+        if (inactiveEnemies.Count > 0)
+        {
+            //Choose a random number between (0 - inactiveEnemies.Count)
+            int randomNumber = Random.Range(0, inactiveEnemies.Count);
+            //Activate the the randomly selected enemy and remove them from the inactiveEnemies list.
+            inactiveEnemies[randomNumber].SetActive(true);
+            inactiveEnemies.RemoveAt(randomNumber);
+        }
+    }
+
 
     IEnumerator ShowRoundStartText(float waitSeconds, bool roundComplete)
     {

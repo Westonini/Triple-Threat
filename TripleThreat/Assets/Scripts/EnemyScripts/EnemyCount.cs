@@ -28,9 +28,9 @@ public class EnemyCount : MonoBehaviour
         roundManagerScript = GetComponent<RoundManager>();
     }
 
-    //Updates the EnemyCount text by checking how many children are within the enemiesGameObject. Specifically it checks those who are in the "Alive" gameobject within the "Enemies" gameobject.
     public void UpdateEnemyCountText()
     {
+        //Updates the EnemyCount text by checking how many children are within the enemiesGameObject. Specifically it checks those who are in the "Alive" gameobject within the "Enemies" gameobject.
         enemyCount.text = aliveEnemiesGroup.childCount.ToString();
 
         //If there are 0 enemies left, call the RoundEnd function from the RoundManager script

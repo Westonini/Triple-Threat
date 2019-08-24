@@ -15,6 +15,9 @@ public abstract class EnemyCharacter : Character //Inherits from Character
     [HideInInspector] public bool isInvincible;           //Set to true if invincible, otherwise it'll be false
     protected bool isTouchingGround;                      //Boolean to check if enemy is touching ground
 
+    public delegate void EnemyTookDmg();
+    public event EnemyTookDmg _enemyTookDmg;              //Event to be invoked when the enemy gets damaged
+
     public delegate void EnemyDied();
     public event EnemyDied _enemyDied;                    //Event to be invoked when the enemy dies
 
@@ -107,8 +110,7 @@ public abstract class EnemyCharacter : Character //Inherits from Character
         float calculatedKnockbackResistance = ((knockbackPower * knockbackResistPercentage) / 100);
         float calculatedKnockback = knockbackPower - calculatedKnockbackResistance;
 
-        //Play sound fx
-
+        //Enemy Death
         if (health <= 0 && !isDying)
         {
             agent.enabled = false;
@@ -123,6 +125,9 @@ public abstract class EnemyCharacter : Character //Inherits from Character
 
             return;
         }
+
+        if (_enemyTookDmg != null)
+            _enemyTookDmg();
 
         //Short invincibility after getting hit
         StartCoroutine("Invincibility");

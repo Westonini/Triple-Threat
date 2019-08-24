@@ -25,15 +25,6 @@ public class SetAsChildOfCurrentCharacter : MonoBehaviour
     public void SetAsChild()
     {
         gameObject.transform.SetParent(SwapCharacters.currentCharacter.transform);
-
-        /*if (this != null)   //If this script isn't null, set this object as a child of the current character.
-        {
-            gameObject.transform.SetParent(SwapCharacters.currentCharacter.transform);
-        }
-        else               //Otherwise unsubscribe this.
-        {
-            SwapCharacters._characterSwapped -= SetAsChild;
-        }*/
     }
 
     public void RemoveParent()

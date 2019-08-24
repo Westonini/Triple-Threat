@@ -26,7 +26,7 @@ public class MeleeWeaponEnemyAttack : MonoBehaviour
 
     public string attackSound;
 
-    void Start()
+    private void Awake()
     {
         //Get the weapon's collider, animator, and trail.
         weaponCollider = GetComponent<Collider>();
@@ -35,17 +35,30 @@ public class MeleeWeaponEnemyAttack : MonoBehaviour
 
         //Get MeleeWeaponEnemy script from parent
         enemyScript = GetComponentInParent<MeleeWeaponEnemy>();
+    }
 
+    private void OnEnable()
+    {
+        //When the character is falling, toggle sparks off / when the character landed turn sparks back on
+        enemyScript._characterFalling += DraggedWeaponSparksToggleOff;
+        enemyScript._characterLanded += DraggedWeaponSparksToggleOn;
+    }
+    private void OnDestroy()
+    {
+        //Unsubscribe functions from the events
+        enemyScript._characterFalling -= DraggedWeaponSparksToggleOff;
+        enemyScript._characterLanded -= DraggedWeaponSparksToggleOn;
+    }
+
+    void Start()
+    {
         //Get wall layer
         wallLayer = LayerMask.GetMask("Wall");
 
         //Added so that the animations don't bug.
         weaponAnim.keepAnimatorControllerStateOnDisable = true;
-
-        //When the character is falling, toggle sparks off / when the character landed turn sparks back on
-        enemyScript._characterFalling += DraggedWeaponSparksToggleOff;
-        enemyScript._characterLanded += DraggedWeaponSparksToggleOn;
-
+        
+        //If draggedWeaponSparks aren't null, meaning this character drags their weapon, get dragSounds as well
         if (draggedWeaponSparks != null)
         {
             dragSounds = GetComponent<AudioSource>();
@@ -55,12 +68,6 @@ public class MeleeWeaponEnemyAttack : MonoBehaviour
     void Update()
     {
         DistanceFromPlayer();
-    }
-
-    private void OnDisable()
-    {
-        enemyScript._characterFalling -= DraggedWeaponSparksToggleOff;
-        enemyScript._characterLanded -= DraggedWeaponSparksToggleOn;
     }
 
     //If the weapon touched a player, set that players's gameobject to playerHit and  call DealDamage with playerHit as the parameter passed in.

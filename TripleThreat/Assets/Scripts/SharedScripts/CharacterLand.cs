@@ -22,13 +22,6 @@ public class CharacterLand : MonoBehaviour
         characterScript._characterLanded += Landed;
     }
 
-    void OnDestroy()
-    {
-        //Unsubscribe functions from events in the character script
-        characterScript._characterFalling -= StartFall;
-        characterScript._characterLanded -= Landed;
-    }
-
     void StartFall()
     {
         StartCoroutine("Falling");

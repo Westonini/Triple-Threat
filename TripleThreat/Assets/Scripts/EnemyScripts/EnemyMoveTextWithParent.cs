@@ -35,26 +35,38 @@ public class EnemyMoveTextWithParent : MonoBehaviour
 
         //Get the TextMeshProUGUI component from the instantiated object
         infoText = enemyTextAboveHeadInstance.GetComponent<TextMeshProUGUI>();
+
+        enemyScript._enemyTookDmg += UpdateEnemyHealthText;
+        enemyScript._enemyDied += DestroyText;
+
+        //Start the scene with the enemy's health updated.
+        UpdateEnemyHealthText();
     }
 
     void Update()
     {
-        //Set text transform to the transform of the object this script is attached to
-        Vector3 namePos = mainCam.WorldToScreenPoint(this.transform.position);
-        infoText.transform.position = namePos;
-
-        infoText.text = enemyName + "\n" + "HP: " + enemyScript.health + " / " + enemyMaxHealth;
-
-        //When the enemy is doing their death ragdoll, hide the text.
-        if (enemyScript.health <= 0)
+        if (enemyScript.health > 0)
         {
-            infoText.text = "";
+            //Set text transform to the transform of the object this script is attached to
+            Vector3 namePos = mainCam.WorldToScreenPoint(this.transform.position);
+            infoText.transform.position = namePos;
         }
     }
 
-    //When the enemy dies, destroy the text instance as well.
-    private void OnDisable()
+    //Updates the health text
+    private void UpdateEnemyHealthText()
     {
+        infoText.text = enemyName + "\n" + "HP: " + enemyScript.health + " / " + enemyMaxHealth;
+    }
+
+    //When the enemy dies, destroy the text instance as well.
+    private void DestroyText()
+    {
+        //When the enemy is doing their death ragdoll get rid of the text and instance.
+        infoText.text = "";
         Destroy(enemyTextAboveHeadInstance);
+
+        enemyScript._enemyTookDmg -= UpdateEnemyHealthText;
+        enemyScript._enemyDied -= DestroyText;
     }
 }
