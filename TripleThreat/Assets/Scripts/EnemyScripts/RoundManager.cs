@@ -10,11 +10,14 @@ public class RoundManager : MonoBehaviour
     static int roundCount;
     [HideInInspector] public int enemiesToSpawn;
 
-    public GameObject spawnPointHolder;
+    public GameObject enemySpawnPointHolder;
+    public GameObject playerSpawnPointHolder;
+    public Transform playerTransform;
     public TextMeshProUGUI roundCountText;
     Transform aliveEnemiesGroup;
 
-    List<Transform> spawnPoints = new List<Transform>();
+    List<Transform> enemySpawnPoints = new List<Transform>();
+    List<Transform> playerSpawnPoints = new List<Transform>();
     List<string> spawnChancePercentages = new List<string>();
     List<GameObject> inactiveEnemies = new List<GameObject>();
 
@@ -44,17 +47,13 @@ public class RoundManager : MonoBehaviour
         //Get the alive enemies gameobject
         aliveEnemiesGroup = GameObject.FindGameObjectWithTag("AliveEnemies").transform;
 
-        //Get the enemy spawn points and put them into a list.
-        foreach (Transform spawnPointGroup in spawnPointHolder.transform)
-        {
-            foreach (Transform point in spawnPointGroup)
-            {
-                if (point.gameObject.tag == "SpawnPoint")
-                {
-                    spawnPoints.Add(point);
-                }
-            }
-        }
+        //Get spawn point locations into a list for player and enemies
+        GetSpawnPoints(enemySpawnPointHolder, ref enemySpawnPoints); //Enemies
+        GetSpawnPoints(playerSpawnPointHolder, ref playerSpawnPoints); //Player
+
+        //Choose a random spawn location for the player at the start of the game.
+        int randomPlayerSpawnPos = Random.Range(0, playerSpawnPoints.Count);
+        playerTransform.position = playerSpawnPoints[randomPlayerSpawnPos].position;
 
         //For each enemy element that was made in the inspector..
         foreach (Enemies enemy in enemies)
@@ -108,7 +107,8 @@ public class RoundManager : MonoBehaviour
     void SpawnEnemies()
     {
         //Duplicate the spawnPoints list
-        List<Transform> spawnPointsDup = new List<Transform>(spawnPoints);
+        List<Transform> spawnPointsDup = new List<Transform>(enemySpawnPoints);
+        Transform spawnPos;
 
         //ENEMY SPAWNING
         for (int i = 0; i < enemiesToSpawn; i++)
@@ -116,16 +116,32 @@ public class RoundManager : MonoBehaviour
             //If all the spawn points have been used up and removed, reset it.
             if (spawnPointsDup.Count == 0)
             {
-                spawnPointsDup = new List<Transform>(spawnPoints);
+                spawnPointsDup = new List<Transform>(enemySpawnPoints);
             }
 
             //SPAWN POSITION
             //Get a random number for the spawn point between (0 - spawnPoints.Count + 1)
-            int randomSpawnPointNumber = Random.Range(0, spawnPointsDup.Count);
-            //Choose the spawn position based off the random number chosen
-            Transform spawnPos = spawnPointsDup[randomSpawnPointNumber];
-            //Remove the spawn point from the duplicated list so that another enemy cannot spawn there.
-            spawnPointsDup.RemoveAt(randomSpawnPointNumber);
+            while (true)
+            {
+                int randomSpawnPointNumber = Random.Range(0, spawnPointsDup.Count);
+                //Calculate the distance between the player character and the random spawn point chosen.
+                float distanceFromPlayer = Vector3.Distance(SwapCharacters.currentCharacter.transform.position, spawnPointsDup[randomSpawnPointNumber].position);
+
+                //If the spawn point selected was within a distance of 30 meters, choose a different point.
+                if (distanceFromPlayer <= 30)
+                {
+                    continue;
+                }
+                //Otherwise choose the point and break out of the loop.
+                else
+                {
+                    //Choose the spawn position based off the random number chosen
+                    spawnPos = spawnPointsDup[randomSpawnPointNumber];
+                    //Remove the spawn point from the duplicated list so that another enemy cannot spawn there.
+                    spawnPointsDup.RemoveAt(randomSpawnPointNumber);
+                    break;
+                }       
+            }
 
             //ENEMY TO SPAWN
             //Get a random number to choose which enemy to spawn between (0 - 100)
@@ -186,6 +202,21 @@ public class RoundManager : MonoBehaviour
             roundCountText.text = "ROUND\n" + "COMPLETE";
             yield return new WaitForSeconds(waitSeconds);
             roundCountText.text = "";
+        }
+    }
+
+    void GetSpawnPoints(GameObject spawnPointHolder, ref List<Transform> spawnPointList)
+    {
+        //Get the enemy spawn points and put them into a list.
+        foreach (Transform spawnPointGroup in spawnPointHolder.transform)
+        {
+            foreach (Transform point in spawnPointGroup)
+            {
+                if (point.gameObject.tag == "SpawnPoint")
+                {
+                    spawnPointList.Add(point);
+                }
+            }
         }
     }
 }

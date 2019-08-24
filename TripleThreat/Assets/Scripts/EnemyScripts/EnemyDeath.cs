@@ -43,6 +43,9 @@ public class EnemyDeath : CharacterDeath //Inherits from Character death
         //Set layer to EnemyCorpse so that player attacks won't hit the dead enemies.
         gameObject.layer = LayerMask.NameToLayer("EnemyCorpse");
 
+        //Add 1 to the enemiesKilled counter
+        EnemyCount.enemiesKilled += 1;
+
         //Call _enemyDead
         if (_enemyDead != null)
         {
