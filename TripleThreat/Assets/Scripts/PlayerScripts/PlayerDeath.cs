@@ -52,6 +52,7 @@ public class PlayerDeath : CharacterDeath //Inherits from CharacterDeath
 
         //Play sound
         FindObjectOfType<AudioManager>().Play("PlayerDeath");
+        FindObjectOfType<AudioManager>().Play("GameOver");
 
         //If the player character is active, instantiate blood particles every so often and end it with a smoke particle.
         if (SwapCharacters.currentCharacter.activeSelf)

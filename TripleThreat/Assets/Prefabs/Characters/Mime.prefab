@@ -9679,7 +9679,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHit: {fileID: 0}
   attackCooldownTime: 1.5
-  distanceAwayFromPlayerToAttack: 5.3
+  distanceAwayFromPlayerToAttack: 5.5
   attackTime: 0.8
   draggedWeaponSparks: {fileID: 3188765606902367178}
   isCurrentlyAttacking: 0

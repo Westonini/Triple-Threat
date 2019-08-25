@@ -143,6 +143,7 @@ public abstract class EnemyCharacter : Character //Inherits from Character
 
         if (health > 0)
         {
+            EnableDisableNavMesh("Enable");
             agent.speed = agentDefaultSpeed;
             base.OnGroundTouch();
         }

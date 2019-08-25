@@ -13,7 +13,7 @@ public class AudioManager : MonoBehaviour
 
 	public Sound[] sounds;
 
-	protected virtual void Awake()
+	void Awake()
 	{
         //Make this object DoNotDestroy
         if (instance != null)
@@ -32,7 +32,7 @@ public class AudioManager : MonoBehaviour
 			s.source = gameObject.AddComponent<AudioSource>();
             SetAudioSettings(s.source, s);
         }
-	}
+    }
 
     //Used to select a random audio clip from an array passed in.
     public void PlayRandom(List<string> sounds, Transform playAt = null)

@@ -1,0 +1,20 @@
+If I ever decide to continue this project, these are some things to implement. - 8/24/19
+
+Triple Threat ToDoList:
+
+Mechanics/Etc:
+- Add elements that spice up the game and make it more interesting.
+- Add a script that adds coins after you finish a game depending on how many rounds you completed and save them to a static int.
+- Hitting destructables like barrels, crates, and bushes have a chance to instantiate a heart which regains your health, power-ups, or a coin. 
+- Make a main menu which leads to character selection. Show character info within character selection
+- Add shop with 1 unlockable character
+
+
+Enemy Ideas:
+- Enemy that circles the player and throws ranged projectiles at them
+- Enemy who throw up a ball which explodes into small spiky balls
+- Enemy with sword and shield
+- Ranged enemy who teleports or backs up if you're too close to them
+
+
+

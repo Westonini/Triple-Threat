@@ -8,7 +8,11 @@ public class EnemyCount : MonoBehaviour
 {
     public TextMeshProUGUI enemyCount;
     public TextMeshProUGUI killCount;
+    public TextMeshProUGUI highestRoundCountText;
+    public TextMeshProUGUI highestKillCountText;
     public static int enemiesKilled;
+    static int highestRoundCount;
+    static int highestKillCount;
     Transform aliveEnemiesGroup;
     RoundManager roundManagerScript;
 
@@ -32,6 +36,10 @@ public class EnemyCount : MonoBehaviour
 
         //Reset the static int to 0 
         enemiesKilled = 0;
+
+        //Show the highest round/kill count at start of level.
+        highestRoundCountText.text = "Highest Round: " + highestRoundCount.ToString();
+        highestKillCountText.text = "Highest Kill Count: " + highestKillCount.ToString();
     }
 
     public void UpdateEnemyCountText()
@@ -45,5 +53,15 @@ public class EnemyCount : MonoBehaviour
         //If there are 0 enemies left, call the RoundEnd function from the RoundManager script
         if (aliveEnemiesGroup.childCount == 0)
             roundManagerScript.RoundEnd();
+
+        //If the current round count or kill count is higher than the highscore, replace the highscore with the current score.
+        if (highestRoundCount < RoundManager.roundCount)
+            highestRoundCount = RoundManager.roundCount;
+        if (highestKillCount < enemiesKilled)
+            highestKillCount = enemiesKilled;
+
+        //Update the high score texts.
+        highestRoundCountText.text = "Highest Round: " + highestRoundCount.ToString();
+        highestKillCountText.text = "Highest Kill Count: " + highestKillCount.ToString();
     }
 }

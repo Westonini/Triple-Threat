@@ -7,13 +7,16 @@ using TMPro;
 public class RoundManager : MonoBehaviour
 {
     EnemyCount enemyCountScript;
-    static int roundCount;
+    public static int roundCount;
+
     [HideInInspector] public int enemiesToSpawn;
 
     public GameObject enemySpawnPointHolder;
     public GameObject playerSpawnPointHolder;
     public Transform playerTransform;
     public TextMeshProUGUI roundCountText;
+
+    Animator roundCountAnimator;
     Transform aliveEnemiesGroup;
 
     List<Transform> enemySpawnPoints = new List<Transform>();
@@ -43,6 +46,8 @@ public class RoundManager : MonoBehaviour
     {
         //Reset at Start()
         roundCount = 0;
+
+        roundCountAnimator = roundCountText.gameObject.GetComponent<Animator>();
 
         //Get the alive enemies gameobject
         aliveEnemiesGroup = GameObject.FindGameObjectWithTag("AliveEnemies").transform;
@@ -109,6 +114,7 @@ public class RoundManager : MonoBehaviour
         //Duplicate the spawnPoints list
         List<Transform> spawnPointsDup = new List<Transform>(enemySpawnPoints);
         Transform spawnPos;
+        int attemptsToFindPoint = 0;
 
         //ENEMY SPAWNING
         for (int i = 0; i < enemiesToSpawn; i++)
@@ -123,6 +129,8 @@ public class RoundManager : MonoBehaviour
             //Get a random number for the spawn point between (0 - spawnPoints.Count + 1)
             while (true)
             {
+                attemptsToFindPoint++; //The times this loop has been continued. In other words, the amount of times it failed to get a far enough spawn point.
+
                 int randomSpawnPointNumber = Random.Range(0, spawnPointsDup.Count);
                 //Calculate the distance between the player character and the random spawn point chosen.
                 float distanceFromPlayer = Vector3.Distance(SwapCharacters.currentCharacter.transform.position, spawnPointsDup[randomSpawnPointNumber].position);
@@ -132,8 +140,8 @@ public class RoundManager : MonoBehaviour
                 {
                     continue;
                 }
-                //Otherwise choose the point and break out of the loop.
-                else
+                //Otherwise if the spawn point selected was outside 30 meters or there has been 100 attempts made to select a point, select the point and break out of the loop.
+                else if (distanceFromPlayer > 30 || attemptsToFindPoint == 100)
                 {
                     //Choose the spawn position based off the random number chosen
                     spawnPos = spawnPointsDup[randomSpawnPointNumber];
@@ -194,14 +202,18 @@ public class RoundManager : MonoBehaviour
         if (!roundComplete)
         {
             roundCountText.text = "ROUND\n" + roundCount.ToString();
+            roundCountAnimator.SetBool("Enlarge", true);
             yield return new WaitForSeconds(waitSeconds);
-            roundCountText.text = "";
+            roundCountAnimator.SetBool("Enlarge", false);
         }
         else
         {
             roundCountText.text = "ROUND\n" + "COMPLETE";
-            yield return new WaitForSeconds(waitSeconds);
-            roundCountText.text = "";
+            roundCountAnimator.SetBool("Enlarge", true);
+            yield return new WaitForSeconds(0.5f);
+            FindObjectOfType<AudioManager>().Play("Success");
+            yield return new WaitForSeconds(waitSeconds - 0.5f);
+            roundCountAnimator.SetBool("Enlarge", false);
         }
     }
 
