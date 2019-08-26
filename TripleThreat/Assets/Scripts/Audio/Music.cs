@@ -18,7 +18,7 @@ public class Music : MonoBehaviour
    IEnumerator MusicLoop()
     {
         FindObjectOfType<AudioManager>().Play("MusicIntro");
-        yield return new WaitForSeconds(66f);
+        yield return new WaitForSeconds(65.75f);
         FindObjectOfType<AudioManager>().Stop("MusicIntro");
         FindObjectOfType<AudioManager>().Play("MusicLoop");
     }
